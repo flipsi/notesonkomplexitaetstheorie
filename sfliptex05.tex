@@ -1,0 +1,289 @@
+% Author: Philipp Moers <soziflip+latex@gmail.com>
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[ngerman, english]{babel}
+% document: \selectlanguage{ngerman}
+
+
+\usepackage{hyphenat}
+
+\usepackage{xifthen}
+
+% Häkchen mit \checked
+\usepackage{wasysym} 
+
+% URLs
+% \usepackage[hyphens]{url}
+% hyperref loads url internally!
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+
+% Uhrzeit mit \currenttime
+\usepackage{datetime}
+
+\newcommand{\todo}[1]   {\textcolor{red}{TODO: #1}} 
+
+
+\usepackage{moreverb}
+
+
+
+%%%%%%%%%%%%%%% Font %%%%%%%%%%%%%%%
+
+
+% \renewcommand*{\familydefault}{\rmdefault}
+\renewcommand*{\familydefault}{\sfdefault}
+% \renewcommand*{\familydefault}{\ttdefault}
+
+
+% Achtung, eigener Font im Mathematik Abschnitt!
+
+
+
+%%%%%%%%%%%%%%% Unicode characters %%%%%%%%%%%%%%%
+
+\usepackage{newunicodechar}
+\usepackage{marvosym}
+
+% \newunicodechar{∈}{\in}
+\newunicodechar{∈}{$\in$}
+\newunicodechar{€}{$\EURdig$}
+
+
+
+
+
+%%%%%%%%%%%%%%% Farben %%%%%%%%%%%%%%%
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\definecolor{grau}{gray}{.90}
+% \definecolor{orange}{RGB}{255,127,0}
+\definecolor{myred}{HTML}{E78356}
+\definecolor{myorange}{HTML}{FCD078}
+\definecolor{mylightblue}{HTML}{A7CED1}
+\definecolor{mylightgreen}{HTML}{9DE66E}
+\definecolor{mylightpurple}{HTML}{FF9BF6}
+\definecolor{mark}{HTML}{FFDDCC}
+
+
+%%%%%%%%%%%%%%%	Tabellen %%%%%%%%%%%%%%%
+
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{multirow}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
+
+%%%%%%%%%%%%%%%	Layout etc. %%%%%%%%%%%%%%%
+
+% \usepackage{enumerate}
+% \usepackage{paralist} % compactenum
+
+%%% IN JEDEM ÜBUNGSBLATT %%%
+% \usepackage{sectsty}
+% % \allsectionsfont{\large\underline} % überschriftendesign
+% \sectionfont{\large\underline} % überschriftendesign
+% \subsectionfont{\normalsize}
+
+
+\usepackage{caption}
+\captionsetup{margin=10pt,font=small,labelfont=bf}
+
+\usepackage{courier}
+
+\usepackage{pgf} \pgfmathsetmacro{\dotradius}{0.05}
+
+\usepackage{geometry}
+
+\usepackage{rotating}
+
+\usepackage{setspace} \doublespacing
+
+\renewcommand{\baselinestretch}{1.25}\normalsize
+\renewcommand{\arraystretch}{1.0}
+
+
+%%%%%%%%%%%%%%%	Übungsblatt Header %%%%%%%%%%%%%%%
+
+% \newcommand{\header}[3]{\setlength{\parindent}{0pt}#1\hfill\today\\[12pt]\begin{huge}\textbf{#2}#3\end{huge}\\\rule{1\textwidth}{0.3pt}\\[9pt]}
+\newcommand{\header}[3]
+{\setlength{\parindent}{0pt}
+\hfill\today\\
+#1\\[18pt]
+\begin{large}\textbf{#2}\end{large}\\[9pt]
+\begin{huge}\textbf{#3}\end{huge}\\
+\rule{1\textwidth}{0.3pt}\\[6pt]}
+
+
+
+%%%%%%%%%%%%%%% Plots %%%%%%%%%%%%%%%
+
+% \usepackage{gnuplottex}
+
+
+
+
+%%%%%%%%%%%%%%%	Zeichnungen %%%%%%%%%%%%%%%
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.markings,arrows} 
+\usetikzlibrary{shapes,positioning,shadows,arrows,automata}
+\tikzstyle{mystate} = [state, minimum size = 1.5cm, node distance = 2.5cm]
+\tikzstyle{arrowlink} = [decoration={markings,mark=at position 0.1 with \arrow{triangle 60}}, postaction=decorate, color=black] 
+\tikzstyle{nippel} = [circle, fill = myorange, draw, font=\sffamily\bfseries, minimum size=1.5cm]
+\tikzstyle{bucket} = [rectangle, draw, font=\sffamily\bfseries, auto, thick, node distance = 1cm, minimum size=1cm]
+\tikzstyle{decision} = [diamond, draw, fill=mark, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=mark, text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex'] 
+\tikzstyle{bplus}=[rectangle split, rectangle split horizontal,rectangle split ignore empty parts,draw]
+
+
+% entity relationship diagram
+% \usepackage{tikz-er2}
+% \tikzstyle{every entity} = [top color=white, bottom color=myorange!30, draw=myorange!50!black!100, drop shadow]
+% % \tikzstyle{every weak entity} = [drop shadow={shadow xshift=.7ex, shadow yshift=-.7ex}]
+% \tikzstyle{every attribute} = [top color=white, bottom color=mylightblue!20, draw=mylightblue, node distance=1cm, drop shadow]
+% \tikzstyle{every relationship} = [top color=white, bottom color=myred!20, draw=myred!50!black!100, drop shadow]
+% % \tikzstyle{every isa} = [top color=white, bottom color=green!20, draw=green!50!black!100, drop shadow]
+
+
+%%%%%%%%%%%%%%% Programmcode %%%%%%%%%%%%%%%
+
+\usepackage{listings}
+
+% \usepackage{listingsutf8} % kannste vergessen, chars müssen in ein byte passen
+
+% replace special characters
+\lstset{
+  literate={ö}{{\"o}}1
+           {Ö}{{\"O}}1
+           {ä}{{\"a}}1
+           {Ä}{{\"A}}1
+           {ü}{{\"u}}1
+           {Ü}{{\"U}}1
+           {ß}{{\ss}}1
+}
+
+\usepackage{framed}
+\colorlet{shadecolor}{grau}
+\newcommand{\codeline}[1]			{\colorbox{grau}{\texttt{#1}}}
+% \newcommand{\codebox}[1]			{\begin{shaded}\texttt{#1}\end{shaded}}
+% \newcommand{\codebox}[1]			{\begin{lstlisting}{\texttt{#1}}\end{lstlisting}}
+\lstnewenvironment{codebox}[1][] 	{\lstset{		language = #1,
+													backgroundcolor = \color{grau},
+                                                    % basicstyle = \ttfamily,
+                                                    basicstyle = \scriptsize,
+                                                    % basicstyle = \tiny,
+                                                    numbers = left, % none
+                                                    numberstyle = \tiny,
+                                                    breaklines = true,
+                                                    breakatwhitespace = true,
+                                                    escapeinside = {@}{@},
+                                                    frame = single,
+                                                    tabsize = 2
+}}{}
+\newcommand{\codefile}[3] 		{\lstinputlisting[	language = #1,
+                                                    % extendedchars = true,
+                                                    % inputencoding = utf8/utf8,
+													backgroundcolor = \color{grau},
+                                                    basicstyle = \ttfamily,
+                                                    numbers = left, % none
+                                                    numberstyle = \tiny,
+                                                    breaklines = true,
+                                                    breakatwhitespace = true,
+                                                    frame = single,
+                                                    tabsize = 2,
+													% firstline=42
+													% lastline=50
+													#2]
+{#3}}
+
+
+% JAVASCRIPT SUPPORT
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%	Mathematik etc. %%%%%%%%%%%%%%%
+
+% \usepackage{MnSymbol}
+
+% conflict with wasysym package
+\let\iint\relax
+\let\iiint\relax
+
+% \usepackage{amsmath} % not needed with mathtools
+\usepackage{amssymb}
+
+\usepackage{mathtools}
+
+
+\usepackage{mathcomp}
+
+
+% cool mathmode font
+\usepackage{eulervm}
+% ... with global font
+\usepackage{mathpazo}
+
+
+% --- Einheiten: ---
+% (Syntax: \SI{wert}{einheit})
+% \usepackage{siunitx}
+% \sisetup
+% {
+%  	alsoload=binary,    % Binäre Einheiten (\bit, \byte)
+%   % alsoload=synchem,   % Chemische Einheiten (\mmHg, \molar, \torr, ...)
+%   % alsoload=astro,     % Astronomische Einheiten (\parsec, \lightyear)
+%   % alsoload=hep,       % Einheiten der Hochenergie-Physik (\clight, \eVperc)
+%   % alsoload=geophys,   % Einheiten der Geophysik (\gon)
+%   % alsoload=chemeng    % Einheiten der chem. Verfahrenstechnik (\gmol, \kgmol, ...)
+% 	unitsep=thin, valuesep=space
+% }
+
+% \newcommand{\lor}				{\ensuremath{\vee}}
+% \newcommand{\land}			{\ensuremath{\wedge}}
+\newcommand{\lxor}				{\ensuremath{\oplus}}
+
+\newcommand{\setunion} 			{\ensuremath{\cup}}
+\newcommand{\setintersection} 	{\ensuremath{\cap}}
+ 
+\newcommand{\R}					{\ensuremath{\mathbb{R}}}
+\newcommand{\N}					{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}					{\ensuremath{\mathbb{Z}}}
+
+\newcommand{\bigO}				{\ensuremath{\mathcal{O}}} 			% big-O notation/symbol
