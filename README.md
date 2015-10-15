@@ -1,13 +1,13 @@
 Notes on Komplexitätstheorie
 ============================
 
-# What?
+## What?
 
 I take notes during the lecture *Komplexitätstheorie* at Ludwigs-Maximilians-Universität München.
 
 When I don't, I eat chocolate.
 
 
-# Contact
+## Contact
 
 Speak to me in real life! Or mail to <soziflip@gmail.com>.
