@@ -4,5 +4,8 @@
 0-main.out
 0-main.synctex.gz
 0-main.toc
+conf.aux
+conf.fdb_latexmk
+conf.log
 notesonkomplexitaetstheorie.sublime-project
 notesonkomplexitaetstheorie.sublime-workspace

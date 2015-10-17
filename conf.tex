@@ -1,0 +1,53 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+\newcommand{\datum}[1]
+{
+    \begin{center}
+    \textcolor[HTML]{66CC66}
+    {
+        \rule{1\textwidth}{0.3pt}\\[6pt]
+        Vorlesung vom #1
+        \rule{1\textwidth}{0.3pt}\\[6pt]
+    }
+    \end{center}
+}
+
+
+% \newenvironment{definition}[1][]
+\newenvironment{definition}
+{
+    % \textbf{Definition: #1}
+
+    \underline{\textbf{Definition}}
+
+    % \begin{addmargin}[3][0]
+    % \newgeometry{left=3cm,bottom=0.1cm}
+    % \begin{quote}
+}
+{
+    % \end{quote}
+    % \restoregeometry
+    % \end{addmargin}
+}
+
+
+\newcommand{\definiere}[1]
+{
+    \textbf{#1}
+}
+
+
+
+\newenvironment{beispiel}
+{
+    \begin{quote}
+    \underline{\textbf{Beispiel}}
+    
+}
+{
+    \end{quote}
+}
