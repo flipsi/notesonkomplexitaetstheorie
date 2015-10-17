@@ -1,0 +1,77 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+
+\chapter{Turingmaschinen, Berechenbarkeit und Komplexität} % (fold)
+\label{cha:turingmaschinen_berechenbarkeit_und_komplexitaet}
+
+
+\datum{13.10.15}
+
+\section{Turingmaschinen}
+
+
+\begin{definition}
+        
+    Eine \definiere{Turingmaschine} $T$ mit $k$ Bändern ist ein 5-Tupel
+    $$ T = (Q, \Sigma, I, q_0, F) $$
+    \begin{itemize}
+        \item $Q$ ist eine endliche Menge von Zuständen
+        \item $\Sigma$ ist eine endliche Menge von Bandsymbolen, $\square \in \Sigma$
+        \item $I$ ist eine Menge von Quintupeln der Form $(q, s, s', m, q')$ mit $q, q' \in Q$ und $s, s' \in \Sigma^k$ und $m \in \{ L, R, S \}^k$ 
+        \item $q_0 \in Q$ Startzustand
+        \item $F \subseteq Q$ Endzustände
+    \end{itemize}
+
+    $\square$ ist das Leerzeichen oder \definiere{Blanksymbol}.
+
+    $T$ heißt \definiere{deterministisch} genau dann, wenn für jedes $q \in Q$ und $s \in \Sigma^k$ genau ein Quintupel der Form $(q, s, \_, \_, \_) \in I$ existiert. Sonst heißt $T$ \definiere{nichtdeterministisch}.
+
+    Eine Turingmaschine heißt \definiere{Akzeptormaschine} genau dann, wenn zwei Zustände $q_A, q_R \in F$ speziell markiert sind. $q_A$ signalisiert Akzeptanz, $q_R$ signalisiert Verwerfen der Eingabe.
+
+    Eine Turingmaschine heißt \definiere{Transducermaschine} genau dann, wenn ein zusätzliches Band ausgezeichnet ist (das Ausgabeband).
+
+\end{definition}
+
+
+
+\begin{beispiel}
+    Akzeptormaschine $T$ für Sprache $L = \{ 0^n 1^n | n \geq 0 \}$ wobei $\Sigma= \{0,1\}, Q = \{q_0, \dots q_4 \}$
+
+    $T$ wird deterministisch sein. $T = (Q, \Sigma, I, q_0, F), q_A = q_1, q_R = q_2, F = \{q_1, q_2\}, k=2$
+
+    \vspace{2pt}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+    \rowcolor{grau} $q$   & $s_1$     & $s_2$     & $s_1'$    & $s_2'$    & $m_1$ & $m_2$ & $q'$    \\\hline
+                    $q_0$ & $\square$ & $\square$ & $\square$ & $\square$ & $S$   & $S$   & $q_1$   \\\hline
+                    $q_0$ & $0$       & $\square$ & $0$       & $0$       & $R$   & $R$   & $q_3$   \\\hline
+                    $q_0$ & $1$       & $\square$ & $1$       & $\square$ & $S$   & $S$   & $q_2$   \\\hline
+                    $q_3$ & $\square$ & $\square$ & $\_$      & $\_$      & $\_$  & $\_$  & $q_2$   \\\hline
+                    $q_3$ & $0$       & $\square$ & $0$       & $0$       & $R$   & $R$   & $q_3$   \\\hline
+                    $q_3$ & $1$       & $\square$ & $1$       & $\square$ & $S$   & $L$   & $q_4$   \\\hline
+                    $q_4$ & $0$       & $0$       & $\_$      & $\_$      & $\_$  & $\_$  & $q_2$   \\\hline
+                    $q_4$ & $1$       & $0$       & $1$       & $0$       & $R$   & $L$   & $q_4$   \\\hline
+                    $q_4$ & $0$       & $\square$ & $\square$ & $\square$ & $S$   & $S$   & $q_1$   \\\hline
+                    $\_$  & $\_$      & $\_$      & $\_$      & $\_$      & $\_$  & $\_$  & $q_2$   \\\hline
+    \end{tabular}
+
+\end{beispiel}
+
+
+Die \definiere{globale Konfiguration} (oder der \definiere{Zustand}) einer Turingmaschine beinhaltet die Beschriftung aller Bänder, den internen Zustand ($\in Q$) und die Positionen aller $k$ Lese-/Schreibköpfe. Globale Konfigurationen können als endliche Wörter über einem geeigneten Alphabet (z.B. $\{0,1\}$) codiert werden.
+
+
+Eine Turingmaschine \definiere{akzeptiert} eine Eingabe genau dann, wenn eine Berechnungsfolge ausgehend von dieser Eingabe existiert und in einem Zustand aus $F$ endet.
+
+Eine Turingmaschine \definiere{akzeptiert} eine Sprache $L \subseteq \left( \Sigma \setminus \{\square\} \right)^\ast$ falls gilt: 
+$$ \text{Die Turingmaschine akzeptiert } w \Leftrightarrow w \in L $$
+
+Eine Turingmaschine \definiere{entscheidet} eine Sprache $L \subseteq \left( \Sigma \setminus \{\square\} \right)^\ast$ genau dann, wenn sie sie akzeptiert und eine/die Berechnung in $q_A$ endet.
+
+
+
+
+% chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end)
