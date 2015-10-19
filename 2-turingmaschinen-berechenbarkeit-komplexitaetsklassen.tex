@@ -4,12 +4,12 @@
 
 
 
+\datum{12.10.15}
 
 \chapter{Turingmaschinen, Berechenbarkeit und Komplexität} % (fold)
 \label{cha:turingmaschinen_berechenbarkeit_und_komplexitaet}
 
 
-\datum{12.10.15}
 
 \section{Turingmaschinen}
 
@@ -39,6 +39,8 @@
 
 
 \begin{beispiel}
+\label{nullenundeinsen}
+
     Akzeptormaschine $T$ für Sprache $L = \{ 0^n 1^n | n \geq 0 \}$ wobei $\Sigma= \{0,1\}, Q = \{q_0, \dots q_4 \}$
 
     $T$ wird deterministisch sein. $T = (Q, \Sigma, I, q_0, F), q_A = q_1, q_R = q_2, F = \{q_1, q_2\}, k=2$
@@ -72,6 +74,171 @@ $$ \text{Die Turingmaschine akzeptiert } w \Leftrightarrow w \in L $$
 Eine Turingmaschine \definiere{entscheidet} eine Sprache $L \subseteq \left( \Sigma \setminus \{\square\} \right)^\ast$ genau dann, wenn sie sie akzeptiert und eine/die Berechnung in $q_A$ endet.
 
 
+
+
+
+\datum{19.10.15}
+
+
+Zu \definiere{Mehrband-Turingmaschinen}:
+
+Bisher waren die Bänder beidseitig unendlich. Ab jetzt und im Buch sind sie nur noch einseitig unendlich.
+
+
+
+\begin{satz}
+    Eine Mehrband-Turingmaschine mit $k$ Bändern kann durch eine Einband-Turingmaschine simuliert werden.
+
+    Dies benötigt quadratischen Mehraufwand.
+\end{satz}
+
+\begin{beweis}
+    Die Beweisidee nutzt für das alte Alphabet $\Sigma$ das neue Alphabet $\Sigma^k \times \{0,1\}^k$, das die Zeichen auf den Bändern und, ob der Lese-/Schreibkopf an dieser Position steht, speichert.
+\end{beweis}
+
+
+
+\begin{definition}
+    Eine \definiere{universelle Turingmaschine} erhält als Eingabe $(M, x)$, wobei $M$ die Beschreibung einer Turingmaschine in geeignetem Binärformat und $x$ die Eingabe für $M$ ist.
+    Sie berechnet dann die Ausführung von $M$ auf $x$.
+\end{definition}
+
+
+
+
+
+\begin{definition}
+    Gegeben Turingmaschine und Eingabe $(M, x)$. Das Problem, zu entscheiden, ob $M$ angewendet auf $x$ hält oder nicht, heißt \definiere{Halteproblem}.
+\end{definition}
+
+\begin{satz}
+    Das Halteproblem ist unentscheidbar.
+\end{satz}
+
+\begin{beweis}
+    Angenommen, es gäbe eine Turingmaschine $M_{HALT}$, die das Halteproblem entscheidet.
+
+    Dann könnten wir auch eine neue Turingmaschine $M_D$ konstruieren:\\
+    Simuliere Eingabe $M$ auf $M$ selbst und schaue, ob sie hält. Falls ja, dann gehe in Endlosschleife. Falls nicht, halte an.
+
+    Für $M = M_D$ ergibt sich nun ein Widerspruch: Falls sie hält, hält sie nicht. Falls sie nicht hält, hält sie.
+\end{beweis}
+
+
+
+\begin{definition}
+    Die \definiere{Rechenzeit} definiert man wie folgt:
+
+    Gegeben eine Turingmaschine $M$ und Eingabe $x$. 
+
+    $TIME_M(x)$ ist die Dauer (Anzahl der Schritte) der Berechnung von $M$ auf $x$.
+\end{definition}
+
+% Im Beispiel \ref{nullenundeinsen} bla
+Im Beispiel der Maschine für $L = \{ 0^n 1^n | n \geq 0 \}$ ist $TIME_M(x) = |x| $ (Länge des Strings).
+
+
+
+
+\begin{satz}
+    Das \definiere{Speedup-Theorem} besagt, dass zu jeder Turingmaschine $M$ eine äquivalente Turingmaschine $M'$ konstruiert werden kann, sodass
+
+    $$ TIME_{M'}(x) \leq \frac{1}{k} * TIME_M(x) $$
+
+    wobei $k \in \N \setminus \{0\}$ fest gewählt ist.
+\end{satz}
+
+Zum Beispiel ist bei $k = 7$ die neue Turingmaschine siebenmal so schnell.
+
+\begin{beweis}
+    Gegeben $M$ mit Alphabet $\Sigma$.
+
+    Dann wird $M'$ mit Alphabet $\Sigma^k$ konstruiert. Ein Symbol von $M'$ repräsentiert $k$ aufeinanderfolgende Symbole von $M$, d.h. $M'$ kann $k$ Schritte von $M$ ein einem einzigen ausführen.
+\end{beweis}
+
+\textbf{Anmerkung:}
+
+Die Schritte werden in der Praxis also schon aufwändiger, die definierte Metrik $TIME$ erfasst das nur nicht. No Magic here.
+
+
+
+\begin{definition}
+    Sei $f: \N \rightarrow \N$. 
+
+    Dann definieren wir $DTIME(f)$ als Menge aller Entscheidungsprobleme (oder Berechnungsprobleme) $A$, zu denen eine \underline{deterministische} Turingmaschine $M$ existiert, sodass $M$ $A$ entscheidet und die Rechenzeit in $\bigO(f(n))$ liegt.
+
+    $$ DTIME(f) = \{  
+        A 
+        \ |\ 
+        \exists M: 
+            M \text{ entscheidet } A
+            \text{ und }
+            \forall x \in \Sigma^\ast: TIME_M(x) = \bigO(f(|x))
+    \}
+    $$
+\end{definition}
+
+\begin{satz}
+    Matrixmultiplikation liegt in $\bigO(n^3)$, also in $DTIME(\sqrt{n}^3)$, wenn die Länge der Matrix auf dem Band $n$ ist.
+    Sie liegt sogar in $\bigO(n^{2.78})$
+\end{satz}
+
+Offen ist die Frage, ob sie in $DTIME(\sqrt{n}^2)$ liegt.
+
+
+
+\begin{definition}
+    Eine Menge der Form $DTIME(f(n))$ heißt \definiere{deterministische Zeitkomplexitätsklasse}.
+    Analog heißt $NTIME(f(x))$ für nichtdeterministische Turingmaschinen \definiere{nichtdeterministische Zeitkomplexitätsklasse}.
+\end{definition}
+
+
+Wir betrachten zu gegebener Funktion $f: \N \Rightarrow \N$ durch Turingmaschine $M$ folgenden Algorithmus:
+
+Rechne $M$ auf Eingabe $M$ selbst für $f(M)$ Schritte. Falls $M$ sich bis dahin akzeptiert, verwerfe die Eingabe. Falls sie sich verwirft oder bis dahin nicht gehalten hat, akzeptiere die Eingabe.
+
+Das durch diesen Algorithmus beschriebene Problem 
+$$K_f = \{ M \ |\ M \text{ akzeptiert sich selbst nicht in höchstens } f(|M|) \text{ Schritten.} \}$$ 
+ist ``offensichtlich'' entscheidbar. Die Rechenzeit für diese Entscheidung muss aber im allgemeinen $f(|M|)$ übersteigen.
+    
+Wäre $M_f$ eine Turingmaschine, die $K_f$ entscheidet und außerdem $TIME_{M_f} \leq f(|x|)$ für alle $x$, dann führt die Anwendung von $M_f$ auf $M_f$ selbst zum Widerspruch (wie beim Halteproblem).
+
+$f$ muss dazu selbst in Zeit $\bigO(f(n))$ berechenbar und monoton steigend sein. Man nennt $f$ dann \definiere{zeitkonstruierbar}.
+
+Durch geschickte Ausnutzung dieses Arguments erhält man den \definiere{Zeit-Hierarchie-Satz}:
+
+\begin{satz}
+    Falls $f: \N \rightarrow \N$ zeitkonstruierbar ist, dann gilt:
+    $$ DTIME(f(n)) \subset DTIME(f(n)*\log^2(f(n))) $$
+    wobei $\subset$ eine echte Teilmengenbeziehung bezeichnet.
+\end{satz}
+
+\textbf{Anmerkung:}
+
+``Vernünftige'' Funktionen wie $2^n$, $\log(n)$, $\sqrt{n}$ etc. sind zeitkonstruierbar.
+
+
+
+
+\begin{satz}
+    Nach Borodin und Trakhtenbrot gilt das \definiere{Gap-Theorem}:
+
+    Für eine totale, berechenbare Funktion $g: \N \rightarrow \N$ mit $g(n) \geq n$ gibt es immer eine totale, berechenbare Funktion $f: \N \rightarrow \N$, sodass gilt:
+    $$ DTIME(f) = DTIME (g \circ f) $$
+
+    Es gibt also in der Hierarchie der Komplexitätsklassen beliebig große Lücken.
+\end{satz}
+
+
+\begin{definition}
+    \definiere{Wichtige Komplexitätsklassen:} 
+    $$ \ComplexityClassP = \bigcup_{k \geq 1} DTIME(n^k) $$
+    $$ \ComplexityClassE = \bigcup_{k \geq 1} DTIME(2^{kn}) $$
+    $$ \ComplexityClassEXP = \bigcup_{k \geq 1} DTIME(2^{n^k}) $$
+\end{definition}
+
+Nach dem \definiere{Zeit-Hierarchie-Satz} gilt:
+$$ \ComplexityClassP \subset \ComplexityClassE \subset \ComplexityClassEXP $$
 
 
 % chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end)
