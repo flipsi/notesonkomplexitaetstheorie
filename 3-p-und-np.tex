@@ -1,0 +1,124 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+
+\chapter{Turingmaschinen, Berechenbarkeit und Komplexität} % (fold)
+\label{cha:turingmaschinen_berechenbarkeit_und_komplexitaet}
+
+
+\datum{13.10.15}
+
+\section{Padding}
+
+Sei L \subseteq \sigma * eine Sprache
+
+(Blase: 2^?  ist die PAddingfunktion geht auch fuer andere P.fkt.
+padd(L) = {1^l O x | x \in L, l = 2^|x|}
+
+
+Es gilt L \in DTime (f(s^n)), dann ist
+padd(l) \in DTIME(f(n)) ... Blase: f zeitkonstant und insbesondere f(n) >=n
+
+Begruendung:  Sei T eine DTM fuer L und
+DTIME_T(x) <= \in xf(2^n)
+Die folgende Maschine T' entscheided padd(L) :
+Gegeben Eingabe y schreibe y + 1^lOx und pruefe ob l=2^|x|
+geht in Zeit \bigO(|y|)
+
+Aufwand c f(2^|x|)
+
+<= c f(|y|)
+
+Gesamtaufwand
+<= c f(|y|) + |y|
+= \bigO(f(|y|))
+falls f(n) >= n (zeitkonstruierbar)
+
+
+Umgegekrt gilt auch Wenn padd(l) \in DTIME(f(n))
+dann L\in DTIME(f(s^{n+1}))
+Sei T eine M. fuer padd(L)
+mit DTIME_T(y) <= c f(|y|)
+Wir bauen eine MAschine fuer L:
+Gege. Eingabe x.  Bilde y=1^2^{|x|} O x
+Aufwand \bigO(2^{|x|})
+Setze T auf y an.
+Aufwand: c f (|y|) = c f (2^{|x|} +|x| + 1)
+
+Gesamtaufwand
+O(f(2^{|x|+1}
+Folgerung
+P=NP \Rightarrow E=NE
+Begruendung: Sei P = NP
+und L \in NE und T eine Maschine mit Aufwand n^{kk}
+k fest, n = Laenge der Eingabe.
+
+L \in NTIME(n^{nk}) = NTIME((2^n)^k)
+Also padd(L) \in NTIME  (2^k)
+also padd(L) \in  NP und nach Annahme
+padd(L) \in P
+
+Also padd(L) \in DTIME(n^{k'})
+also L \in DTIME((2^{n+1})^{k'})
+= DTIME(2^{k'n + k') = DTIME(2^{k'n})
+  \subseteq E
+
+
+  Slogan: Gleichheit von Komplexitaetsklassen vererbt sich nach oben
+
+  Mit anderen PAddingfunktion zeigt man ebenso:
+  P = NP \Rightarrow EXP = NEXP
+  E = NE \Rightarrow EXP = NEXP
+
+  Kontrapositiv ausgedrueckt.
+
+  E\neq NE \Rightarrow P\neq NP ect.
+
+  Es koennte sein, dass P \neq NP aber doch E=NE
+
+  Slogan: Trennung von Komplexitätklassen vererbt sich durch Padding) von oben nach unten.
+
+  --------------------------------
+
+  Bemerkung zu P
+
+  \begin{enumerate}
+    
+  \item Wird gemeinhin gleichgesetzet mit ``effizient loesbar''.
+
+  \item Wachstumsverhalten
+
+  p Polynom. \Rightarrow es gibt  c>0 so dass gilt
+
+  P(2n) <= c p (n)
+
+  Input verdoppelt \Rightarrow Output ver c facht.
+  \item  Haeufig hat brute force Loesung ``stures Durchprobieren''
+  exponentiellen und eine echte algorithmesche Loesung hat polynomiellen Aufwand.
+
+
+
+  \end{enumerate}
+
+  
+
+
+  
+\begin{definition}
+        
+
+\end{definition}
+
+
+
+\begin{beispiel}
+
+
+\end{beispiel}
+
+
+
+% chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end)
