@@ -72,6 +72,75 @@ $$ \text{Die Turingmaschine akzeptiert } w \Leftrightarrow w \in L $$
 Eine Turingmaschine \definiere{entscheidet} eine Sprache $L \subseteq \left( \Sigma \setminus \{\square\} \right)^\ast$ genau dann, wenn sie sie akzeptiert und eine/die Berechnung in $q_A$ endet.
 
 
+\begin{definition}
+
+\definiere{Nichtdet Zeitkomplexitaet}
+Seit T eine nichtdet. TM, Fuer x \in \Sigma ist NTime_T(x)
+
+\begin{enumerate}
+\item definiert g.d.w. alles Berechnungen von T auf x halten
+\item Falls definiert  und x \inL(T) (d.h. es gibt eine akyeptierende Ber. von T auf x)
+  definiert als Laenge der kuerzesten akzeptierenden Berechnungen von T auf X.
+\item Falls ueberhaupt definiert x \notin L(T) so ist NTIME_{(x)} die Laenge der kuerzesten Berechnung
+\end{enumerate}
+
+\end{definition}
+
+\begin{definition}
+  Nichtdeterministische Komplexitaetsklassen NTIME(f(n)) = { L | esox T L(T)=L und NTIME_T(x) = O(f(|x|))}
+
+  Es gibt einen nichtdeterministischen Zeithierachiesatz.
 
 
-% chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end)
+  P=U DTIME(n^k), NP = U NTIME(n^k)
+  k>=1                k>=1
+
+  E = U DTIME(2^kn), NE= U NTIME(2^KN)
+  k>=1               k>=1
+
+  EXP = DTIME(2^n^k), NEXP= U NTIME(2^N^k)
+  k>=1                k>=1
+
+
+  Nichtdeterminismus kann durch exhaustive Suche deterministsch simuliert werden.
+  z.B. NP \subseteq EXP
+
+
+  Allgemein:
+  NTIME(f(n)) \subseteq DTIME(2^O(f(n))
+  ........\ --- Zeitkonstruierbar
+
+  Charakteriserung von NP durch ``polynoielle Verizibierbakeit''
+
+  L\subseteq \sigma * . L \in PV \Leftrightarrow
+
+  eine Spraceh L' \in P existiert so dass gilt
+
+  x\inL \Leftrightarrow  esex z ``Loesung'' mit |h|<=L'
+  wobei p ein Polynom ist.
+
+\end{definition}
+
+\begin{satz}
+  NP = PV
+  Beweisskizze:
+  ``S'' L \in NP . Sei T eine NTM fuer L mit Laufzeit p(n).
+
+  L' = {(x,y) | y codiert eine akyeptierende Berechnung von T auf x}
+
+  \begin{enumerate}
+  \item x \in L \Leftrightarrow  \E y |y| <= (p(|x|))^2 . (x,y,) \in L'
+
+  \item L' \in P
+
+  \end{enumerate}
+
+
+``\supseteq'' geg. L, L'\in P . Eine nicht det Turingmaschine T fuer L raet zunaechst y und prueft dann (x,y) \in L'
+  
+\end{satz}
+
+Exp im Gegensartz zu NP bzw. PV umfasst auch Probleme mit exp. groesen Loesungen bzw solchen wo die Verifikation einer Loesung einen exponentiellen Aufwand macht.
+
+
+% chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end) 
