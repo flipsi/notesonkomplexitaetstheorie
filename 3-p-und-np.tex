@@ -1,0 +1,140 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+
+\chapter{NP und P} % (fold)
+\label{cha:np_und_p}
+        
+
+\section{Padding}
+
+\begin{definition}
+    Sei $L \subseteq \Sigma^\ast$ eine Sprache.
+
+    % (Blase: 2^?  ist die Paddingfunktion geht auch für andere P.fkt.)
+    % TODO verstehen, anpassen, einkommentieren
+
+    $$ padd(L) = \{1^l O x | x \in L, l = 2^|x| \} $$
+\end{definition}
+
+
+\begin{satz}
+    
+    Es gilt: 
+    $ L \in DTIME(f(s^n)) $, dann ist
+    $$ padd(L) \in DTIME(f(n)) $$
+    Blase $f$ zeitkonstant und insbesondere $f(n) \geq n$
+
+\end{satz}
+
+\begin{beweis}
+    
+    Sei $T$ eine deterministische Turingmaschine für $L$ und
+    % TODO \leq \in ?
+    $DTIME_T(x) \leq \in x f(2^n)$
+
+    Die folgende Maschine $T'$ entscheided $padd(L)$:
+
+    Gegeben Eingabe $y$, schreibe $y + 1^l O x$ und prüfe ob $l = 2^{|x|}$
+    geht in Zeit $\bigO(|y|)$
+
+    Aufwand: 
+    $c f(2^{|x|}) \leq c * f(|y|)$
+
+    Gesamtaufwand:
+    $\leq c * f(|y|) + |y|
+    = \bigO(f(|y|))$
+
+    falls $f(n) \geq n$ (zeitkonstruierbar)
+\end{beweis}
+
+
+
+
+\begin{satz}
+    Umgekehrt gilt auch:
+
+    Wenn $padd(L) \in DTIME(f(n))$
+    dann $L \in DTIME(f(s^{n+1}))$
+\end{satz}
+
+\begin{beweis}
+    Sei $T$ eine Turingmaschine für $padd(L)$
+    mit $DTIME_T(y) \leq c f(|y|)$
+
+    Wir bauen eine Maschine für $L$:
+    Gegeben Eingabe $x$, bilde $y = 1^{2^{|x|}} O x $.
+
+    Aufwand: $\bigO(2^{|x|})$
+    Setze $T$ auf $y$ an.
+    Aufwand: $c * f(|y|) = c * f(2^{|x|} + |x| + 1)$
+
+    Gesamtaufwand:
+    $\bigO(f(2^{|x|+1}))$
+\end{beweis}
+
+
+
+
+\section{Was wenn P = NP}
+
+\begin{satz}
+    Folgerung:
+    $$\ComplexityClassP = \ComplexityClassNP \Rightarrow \ComplexityClassE = \ComplexityClassNE$$
+\end{satz}
+\begin{beweis}
+    Sei $P = NP$
+    und $L \in NE$ und $T$ eine Maschine mit Aufwand $n^{kk}$
+    wobei $k$ fest, $n$ Länge der Eingabe.
+    
+    $L \in NTIME(n^{nk}) = NTIME((2^n)^k)$
+    Also $padd(L) \in NTIME(2^k)$
+    also $padd(L) \in  NP$ und nach Annahme $padd(L) \in P$
+
+    Also $padd(L) \in DTIME(n^{k'})$
+    also $L \in DTIME((2^{n+1})^{k'})
+    = DTIME(2^{k'n + k'}) = DTIME(2^{k'n}) \subseteq E$
+\end{beweis}
+
+
+
+Slogan: Gleichheit von Komplexitätsklassen vererbt sich nach oben.
+
+Mit anderen Paddingfunktion zeigt man ebenso:
+
+$$ \ComplexityClassP = \ComplexityClassNP \Rightarrow \ComplexityClassEXP = \ComplexityClassNEXP $$
+$$ \ComplexityClassE = \ComplexityClassNE \Rightarrow \ComplexityClassEXP = \ComplexityClassNEXP $$
+
+Kontrapositiv ausgedrückt:
+
+$$ \ComplexityClassE \neq \ComplexityClassNE \Rightarrow \ComplexityClassP \neq \ComplexityClassNP $$ etc.
+
+
+Es koennte sein, dass $\ComplexityClassP \neq \ComplexityClassNP$ aber doch $\ComplexityClassE = \ComplexityClassNE$.
+
+Slogan: Trennung von Komplexitätklassen vererbt sich (durch Padding) von oben nach unten.
+
+
+
+
+\section{Sogenannte Effizienz}
+
+
+$\ComplexityClassP$ wird gemeinhin gleichgesetzt mit ``effizient loesbar''.
+    
+Wachstumsverhalten:
+
+  $p$ Polynom. $\Rightarrow$ 
+  $$ \exists c > 0:   p(2n) \leq c * p(n) $$
+
+  Bei Verdopplung des Inputs wird der Output also ver-$c$-facht.
+
+  Häufig hat eine Bruteforce-Lösung (``stures Durchprobieren'')
+  exponentiellen und eine echte algorithmische Lösung hat polynomiellen Aufwand.
+
+
+
+% chapter np_und_p (end)

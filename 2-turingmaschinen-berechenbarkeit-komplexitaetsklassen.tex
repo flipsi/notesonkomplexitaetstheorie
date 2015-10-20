@@ -77,7 +77,15 @@ Eine Turingmaschine \definiere{entscheidet} eine Sprache $L \subseteq \left( \Si
 
 
 
-\datum{19.10.15}
+
+
+
+
+
+
+
+
+\datum{15.10.15}
 
 
 Zu \definiere{Mehrband-Turingmaschinen}:
@@ -106,6 +114,8 @@ Bisher waren die Bänder beidseitig unendlich. Ab jetzt und im Buch sind sie nur
 
 
 
+\section{Halteproblem}
+
 
 \begin{definition}
     Gegeben Turingmaschine und Eingabe $(M, x)$. Das Problem, zu entscheiden, ob $M$ angewendet auf $x$ hält oder nicht, heißt \definiere{Halteproblem}.
@@ -124,6 +134,10 @@ Bisher waren die Bänder beidseitig unendlich. Ab jetzt und im Buch sind sie nur
     Für $M = M_D$ ergibt sich nun ein Widerspruch: Falls sie hält, hält sie nicht. Falls sie nicht hält, hält sie.
 \end{beweis}
 
+
+
+
+\section{Rechenzeit}
 
 
 \begin{definition}
@@ -187,6 +201,9 @@ Offen ist die Frage, ob sie in $DTIME(\sqrt{n}^2)$ liegt.
 
 
 
+\section{Komplexitätsklassen}
+
+
 \begin{definition}
     Eine Menge der Form $DTIME(f(n))$ heißt \definiere{deterministische Zeitkomplexitätsklasse}.
     Analog heißt $NTIME(f(x))$ für nichtdeterministische Turingmaschinen \definiere{nichtdeterministische Zeitkomplexitätsklasse}.
@@ -239,6 +256,116 @@ Durch geschickte Ausnutzung dieses Arguments erhält man den \definiere{Zeit-Hie
 
 Nach dem \definiere{Zeit-Hierarchie-Satz} gilt:
 $$ \ComplexityClassP \subset \ComplexityClassE \subset \ComplexityClassEXP $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+\datum{19.10.15}
+
+\begin{definition}
+
+    \definiere{Nichtdeterministische Zeitkomplexität}
+    Sei $T$ eine nichtdeterministische Turingmaschine. 
+
+    Für $x \in \Sigma$ ist $NTIME_T(x)$
+    \begin{enumerate}
+        \item definiert genau dann, wenn alle Berechnungen von $T$ auf $x$ halten
+        \item Falls definiert und $x \in L(T)$ (d.h. es gibt eine akzeptierende Berechnung von $T$ auf $x$) definiert als Länge der kürzesten akzeptierenden Berechnungen von $T$ auf $x$.
+        \item Falls überhaupt definiert $x \notin L(T)$ so ist $NTIME_{(x)}$ die Länge der kürzesten Berechnung.
+    \end{enumerate}
+
+\end{definition}
+
+
+\begin{definition}
+    % TODO esox ? was ist das?
+    % TODO verstehen
+    Nichtdeterministische Komplexitätsklassen 
+    $$ NTIME(f(n)) = \{ L | esox T L(T)=L \text{ und } NTIME_T(x) = \bigO(f(|x|)) \} $$
+
+    Es gibt einen nichtdeterministischen Zeithierachiesatz.
+
+    % P=U DTIME(n^k), NP = U NTIME(n^k)
+    % k>=1                k>=1
+
+    % E = U DTIME(2^kn), NE= U NTIME(2^KN)
+    % k>=1               k>=1
+
+    % EXP = DTIME(2^n^k), NEXP= U NTIME(2^N^k)
+    % k>=1                k>=1
+
+    $$ \ComplexityClassNP   = \bigcup_{k \geq 1} NTIME(n^k) $$
+    $$ \ComplexityClassNE   = \bigcup_{k \geq 1} NTIME(2^{kn}) $$
+    $$ \ComplexityClassNEXP = \bigcup_{k \geq 1} NTIME(2^{n^k}) $$
+
+\end{definition}
+
+
+Nichtdeterminismus kann durch erschöpfende Suche deterministsch simuliert werden.
+z.B. $\ComplexityClassNP \subseteq \ComplexityClassEXP$
+
+
+Allgemein:
+$$NTIME(f(n)) \subseteq DTIME(2^{\bigO(f(n)})$$
+
+(zeitkonstruierbar)
+% ........\ --- Zeitkonstruierbar
+
+
+\section{polynomielle Verifizierbarkeit}
+
+
+\begin{definition}
+    
+    Charakterisierung von $\ComplexityClassNP$ durch \definiere{polynomielle Verifizierbarkeit} $PV$.
+
+    % TODO esex? lange unverständliche definition
+    $$ L \subseteq \Sigma^\ast . L \in PV \text{ genau dann, wenn } $$
+    $$ \exists L' \in P \text { sodass gilt } x \in L \Leftrightarrow  esex z \text{ ``Loesung'' mit } |h| \leq L' $$
+    $$ \text{ wobei } p \text{ ein Polynom ist } $$
+
+\end{definition}
+
+
+\begin{satz}
+    $$ \ComplexityClassNP = PV $$
+\end{satz}
+\begin{beweis}
+    ``$\subseteq$'':
+
+    $L \in \ComplexityClassNP$ . Sei $T$ eine nichtdeterministische Turingmaschine für $L$ mit Laufzeit $p(n)$.
+
+    $$ L' = \{(x,y) | y \text{ codiert eine akzeptierende Berechnung von } T \text{ auf } x \} $$
+
+    \begin{enumerate}
+        % TODO . (x,y,) ??? dafuq clemens
+        \item $x \in L \Leftrightarrow  \exists y: |y| \leq (p(|x|))^2 . (x,y,) \in L'$
+        \item $L' \in \ComplexityClassP$
+    \end{enumerate}
+
+
+    ``$\supseteq$'':
+
+     Gegeben $L, L' \in P$. 
+
+     Eine nichtdeterministische Turingmaschine $T$ für $L$ rät zunächst $y$ und prüft dann $(x,y) \in L'$
+\end{beweis}
+  
+
+$\ComplexityClassEXP$ im Gegensartz zu $\ComplexityClassNP$ bzw. $PV$ umfasst auch Probleme mit exponentiell großen Lösungen bzw solchen wo die Verifikation einer Lösung einen exponentiellen Aufwand macht.
+
+
+
+
 
 
 % chapter turingmaschinen_berechenbarkeit_und_komplexitaet (end)
