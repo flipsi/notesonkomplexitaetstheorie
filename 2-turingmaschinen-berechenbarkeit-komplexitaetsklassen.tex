@@ -290,7 +290,7 @@ $$ \ComplexityClassP \subset \ComplexityClassE \subset \ComplexityClassEXP $$
     % TODO esox ? was ist das?
     % TODO verstehen
     Nichtdeterministische Komplexitätsklassen 
-    $$ NTIME(f(n)) = \{ L | esox T L(T)=L \text{ und } NTIME_T(x) = \bigO(f(|x|)) \} $$
+    $$ NTIME(f(n)) = \{ L | \exists T \text{ mit } L(T)=L \text{ und } NTIME_T(x) = \bigO(f(|x|)) \} $$
 
     Es gibt einen nichtdeterministischen Zeithierachiesatz.
 
@@ -328,9 +328,9 @@ $$NTIME(f(n)) \subseteq DTIME(2^{\bigO(f(n)})$$
     
     Charakterisierung von $\ComplexityClassNP$ durch \definiere{polynomielle Verifizierbarkeit} $PV$.
 
-    % TODO esex? lange unverständliche definition
+    % TODO z h p? da stimmt doch was nicht
     $$ L \subseteq \Sigma^\ast . L \in PV \text{ genau dann, wenn } $$
-    $$ \exists L' \in P \text { sodass gilt } x \in L \Leftrightarrow  esex z \text{ ``Loesung'' mit } |h| \leq L' $$
+    $$ \exists L' \in P \text { sodass gilt } x \in L \Leftrightarrow  \exists z \text{ ``Loesung'' mit } |h| \leq L' $$
     $$ \text{ wobei } p \text{ ein Polynom ist } $$
 
 \end{definition}
