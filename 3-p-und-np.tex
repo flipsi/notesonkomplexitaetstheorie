@@ -137,4 +137,262 @@ Wachstumsverhalten:
 
 
 
+
+
+
+
+
+
+
+
+\datum{09.11.15}
+
+
+\section{Polynomialzeitreduktionen}
+
+
+
+\begin{definition}
+
+    $f : \Sigma^\ast \rightarrow \Sigma^\ast $
+    beziehungweise für Binärkodierung
+    $f : \N \rightarrow \N $
+
+    ist in \definiere{$\ComplexityClassFP$} (eine \definiere{in Polynomialzeit berechenbare Funktion}) genau dann, wenn eine polynomialzeitbeschränkte (deterministische) Transducer-Maschine existiert, die $f$ berechnet.
+
+\end{definition}
+
+
+Gegeben Input $x \in \Sigma^\ast$, dann hält die Maschine nach $\leq p(|x|)$ Schritten mit Ergebnis $f(x)$, wobei $p$ ein Polynom ist.
+
+\begin{beispiel}
+    
+    \textbf{Musterbeispiele:}
+
+    \begin{itemize}
+        \item Alle Polynome sind in $\ComplexityClassFP$, zum Beispiel $f(x) = x^3 + 10x^2 + x$
+        \item Charakteristische Funktionen aller Probleme in $\ComplexityClassP$ sind in $\ComplexityClassFP$.
+        \item Matrixmultiplikation ist in $\ComplexityClassFP$.
+    \end{itemize}
+
+    \textbf{Gegenbeispiele:}
+
+    \begin{itemize}
+        \item $f(x) = 2^x$ ist nicht in $\ComplexityClassFP$, denn $|2^x| = x + 1 \geq 2^{|x| + 1} +  1 = \Omega(2^{|x|})$
+        \item Charakteristische Funktionen von Problemen in $\ComplexityClassEXP \setminus \ComplexityClassP$  sind nicht in $\ComplexityClassFP$.
+    \end{itemize}
+
+    \textbf{Wahrscheinliches Gegenbeispiel:}
+
+    $f(n) = \text{größter Teiler von } n \text{ außer } n \text{ selbst.}$
+    Algorithmus: Alle Zahlen von 1 bis $n$ durchlaufen und testen, immer merken, wenn größerer Teiler gefunden.\\
+    Laufzeit: $\Omega(n) = \Omega(2^{|n|})$ (Länge der Eingabe statt Zahl selbst)
+
+\end{beispiel}
+
+
+
+
+\begin{satz}
+    $\ComplexityClassFP$ ist unter Komposition (Hintereinanderausführung) abgeschlossen.\\
+\end{satz}
+\begin{beweis}
+    
+    Seien $ f: \Sigma^\ast \rightarrow \Sigma^\ast, g : \Sigma^\ast \rightarrow \Sigma^\ast \in \ComplexityClassFP $
+
+    Wir definieren $h(x) = g(f(x))$
+
+    Programm für $h$: $y = f(x);\ z = g(y);\ return z;$\\
+    Gesamtaufwand: $O(p_f(|x|) + p_g(p_f(|x|))$, wobei $p_f$ und $p_g$ Polynome sind, die die Laufzeit für Algorithmen für $f$ bzw. $g$ beschränken.
+\end{beweis}
+
+
+
+
+\begin{definition}
+
+    \definiere{Polynomielle Reduzierbarkeit}
+
+    Seien $L_1, L_2a \subseteq \Sigma^\ast$.
+
+    Wir sagen $L_1$ ist polynomiell auf $L_2$ reduzierbar (\definiere{$\ComplexityClassFP$-reduzierbar}) genau dann, wenn $f \in \ComplexityClassFP$ existiert, sodass $x \in L_1 \Leftrightarrow f(x) \in L_2$.
+
+    Aus Algorithmus für $L_2$ erhält man einen für $L_1$, indem man $f(x)$ berechnet und prüft, ob das Ergebnis in $L_2$ liegt.
+
+    In Zeichen: $L_1 \leq_p L_2$ oder $L_1 \leq L_2$, auch $f: L_1 \leq L_2$
+
+\end{definition}
+
+
+\begin{beispiel}
+    
+    3COL = $\{ G = (V,E)\ |\ G \text{ kann mit 3 Farben gefärbt werden, d.h. } \exists c: V \rightarrow \{r,g,b\} \text{ sodass } \forall (u, u') \in E: c(v) \neq c(u') \}$
+
+    SAT = $\{ \phi\ |\ \phi \text{ aussagenlogische Formel die erfüllbar ist} \}$
+
+
+    Behauptung: 3COL $\leq$ SAT
+
+
+
+    % $f((V,E)) = (\bigwedge \bigvee         x_{v,y}  )      \land      \bigwedge   \bigwedge    \bigwedge      x_{v,c} \rightarrow \neg x_{v,c'}$
+    %             v \in V    y \in r,g,b                               v \in V      c \in r,g,b    c' \in r,g,b
+    %                                                                                               c \neq c'
+
+    %             $ \land    \bigwedge        \bigwedge         x_{v,y} \rightarrow \neg x_{v', y}$
+    %                        (v,v') \in E     y \in {r,g,b}
+
+
+    $$f((V,E)) = \left(     \bigwedge_{v \in V} \bigvee_{y \in \{r,g,b\}}    x_{v,y}    \right)         \land     $$ 
+
+    $$ \left(     \bigwedge_{v \in V} \bigwedge_{c \in \{r,g,b\}} \bigwedge_{c' \in \{r,g,b\}}      x_{v,c} \rightarrow \neg x_{v,c'} \right)       \land     $$
+
+    $$ \left(     \bigwedge_{(v,v') \in E} \bigwedge_{y \in \{r,g,b\}}    x_{v,y} \rightarrow \neg x_{v', y} \right) $$
+                                
+
+
+    Offensichtlich ist $f \in \ComplexityClassFP$ und $G \in \text{ 3COL } \Leftrightarrow f(G) \in \text{ SAT }$,\\ also 3COL $\leq$ SAT.
+
+\end{beispiel}
+
+
+
+\begin{beispiel}
+    
+    KNFSAT := wie SAT, aber auf konjunktive Normalform eingeschränkt.
+
+    Es gilt trivialerweise KNFSAT $\leq$ SAT, aber auch SAT $\leq$ KNFSAT (Durch Einführung von Abkürzungen von Teilformeln).
+
+\end{beispiel}
+
+\begin{beispiel}
+    
+    3SAT := KNFSAT eingeschränkt auf Klauseln mit 3 Literalen.
+
+    Es gilt KNFSAT $\leq$ 3SAT.
+
+    Man kennt keine Reduktion von 3SAT auf 2SAT.
+
+\end{beispiel}
+
+
+\begin{beispiel}
+    
+    NODE-COVER := $\{ G = (V,E), n\ |\ \exists U \subseteq V: |U| \leq n \text{ und } \forall (v,v') \in E: v \in U \lor v' \in U \}$
+
+    Es gilt NODE-COVER $\leq$ KNFSAT.
+
+    und - was schwieriger zu zeigen ist - KNFSAT $\leq$ NODE-COVER:
+
+    Gegeben: KNF $\phi$ mit $m$ Variablen $x_1 \dots x_m$ und $k$ Klauseln $C_1 \dots C_k$ wobei $C_j = l_{j,1} \lor \dots \lor l_{j,k}$\\
+    Falls 3SAT, so sind alle $k_j = 3$.\\
+    Die $l_{j,i}$ sind Literale, d.h. negierte oder nicht-negierte Variablen.
+
+    Wir konstruieren Graphen $G = (V,E)$ wie folgt:
+    \begin{itemize}
+        \item Für jede Variable $x_t$ zwei Knoten $x_t, \neg x_t$
+        \item Für jede Klausel $C_j$ $k_j$ Knoten $(l_{j,1}) \dots (l_{j,k})$,\\ Insgesamt $2m \Sigma_{j=1}^k k_j$ Knoten
+        \item Kanten: 
+        \begin{itemize}
+            \item $(x_t, \neg x_t)$
+            \item Vollständiger Graph für $l_{j,1} \text{ bis } l_{j,k}$
+            \item $(x_t, l_{j,i})$ bzw. $(\neg x_t, l_{j,i})$, falls $l_{j,i} = x_t$ bzw. $l_{j,i} = \neg x_t$
+        \end{itemize}
+    \end{itemize}
+
+\end{beispiel}
+
+
+
+
+
+\section{NP-Härte und NP-Vollständigkeit}
+
+
+\begin{definition}
+    
+    $L \subseteq \Sigma^\ast$ ist \definiere{$\ComplexityClassNP$-hart} ($\ComplexityClassNP$-schwer, $\ComplexityClassNP$-schwierig) genau dann, wenn 
+
+    $$ \forall L' \in \ComplexityClassNP: L' \leq_p L $$
+
+\end{definition}
+
+
+\begin{satz}
+    HALT (Halteproblem) ist NP-hart.
+\end{satz}
+\begin{beweis}
+    Gegeben: $L' \in \ComplexityClassNP$. Baue deterministische Turingmaschine $M$, sodass $M(x)$ hält genau dann, wenn $x \in L'$ Brute-force Suche, Laufzeit exponentiell.\\
+    $x \in L' \Leftrightarrow (M, x) \in \text{ HALT } $\\
+    also ist $f(x) = (M,x)$ eine Reduktion von $L'$ auf HALT $f: L' \leq \text{ HALT }$.
+\end{beweis}
+
+
+
+\begin{definition}
+
+    $L \subseteq \Sigma^\ast$ ist \definiere{NP-vollständig} genau dann, wenn $L$ NP-hart ist und $L \in \ComplexityClassNP$.
+
+\end{definition}
+
+
+\begin{satz}
+    HALT $\notin \ComplexityClassNP$.
+\end{satz}
+
+
+
+\begin{satz}
+    \definiere{Satz von Cook}
+
+    SAT ist NP-vollständig.
+\end{satz}
+
+\begin{beweis}
+    
+    SAT $\in \ComplexityClassNP$: trivial.
+
+    Sei $L \in \ComplexityClassNP$ gegeben und o.B.d.A $M$ eine nichtdeterministische Turingmaschine für $L$ mit einem Band $M = (\Sigma, Q, q_0, F, I)$ und $p$ ein Polynom, das die Laufzeit von $M$ beschränkt.
+    Gegeben weiterhin $x = x_1 \dots x_n$ Input.
+
+    Gesucht: aussagenlogische Formel $\phi = f(x)$, sodass $\phi$ erfüllbar ist genau dann, wenn $M$ akzeptiert $x$. $q$ muss aus $x$ in polynomieller Zeit berechenbar sein, d.h. $f \in \ComplexityClassFP$.
+
+    $M$ akzeptiert $x$ genau dann, wenn eine akzeptierende Berechnung von $M$ auf $x$ existiert. Solch eine Berechnung hat höchstens $p(n)$ Schritte und o.B.d.A genau $p(n)$ Schritte. Die Bandbeschriftung zu jedem dieser $p(n)$ Schritte besteht aus höchstens $p(n)$ Symbolen und o.B.d.A genau $p(n)$ Symbolen.
+
+    Die Formel $\phi$ verwendet die Variablen 
+    \begin{itemize}
+        \item $Q_t^i$: Zur Zeit $t$ ist $M$ im Zustand $i$.
+        \item $P_{s,t}^i$: Zur Zeit $t$ enthält Bandposition $s$ das $i.$ Symbol.
+        \item $S_{s,t}$: Zur Zeit $t$ ist der Kopf in Position $s$.
+    \end{itemize}
+
+    $$ q = A \land B \land C \land D \land E \land F $$
+
+    \textit{Details im Buch\dots}
+
+\end{beweis}
+
+
+3SAT, NODE-COVER sind auch NP-vollständig.
+
+Allgemein gilt: $L$ NP-vollständig und $L' \in \ComplexityClassNP, L \leq L'$ 
+so folgt $L'$ NP-vollständig.
+
+
+\textbf{Anmerkung:}
+$\leq$ ist transitiv, da $\ComplexityClassFP$ unter Komposition abgeschlossen ist.
+
+\textbf{Anmerkung:}
+3COL, TRAVELINGSALESMAN, SUBSETSUM etc. sind auch NP-vollständig.
+
+
+
+
+
+
+
+
+
+
+
 % chapter np_und_p (end)
