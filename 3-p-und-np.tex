@@ -395,4 +395,129 @@ $\leq$ ist transitiv, da $\ComplexityClassFP$ unter Komposition abgeschlossen is
 
 
 
+
+\datum{12.11.15}
+
+
+\section{Etwas zwischen P und NP}
+
+
+
+\begin{satz}
+    
+    \definiere{Satz von Ladner}
+
+    Falls $\ComplexityClassP \neq \ComplexityClassNP$, dann
+
+    $$ \exists A \in \ComplexityClassNP \setminus \ComplexityClassP: A \text{ nicht NP-vollständig.} $$
+
+    $A$ liegt also ``echt'' zwischen $\ComplexityClassP$ und NP-vollständig.
+
+    
+\end{satz}
+
+
+
+\begin{definition}
+
+    \definiere{Diagonalisierung}
+    
+    Um zu zeigen, dass eine Sprache $A$ nicht in einer Klasse $\mathcal{C}$ ist, beziehungweise um solch ein $A$ zu konstruieren, kann man eine effektive (FP) Aufzählung von Turingmaschine $(M_i)_i$ verwenden, sodass $\mathcal{C} = \{ L(M_i)\ |\ i \geq 0 \}$  und dann dafür sorgen, beziehungweise zeigen, dass $\forall i: A \neq L(M_i)$ beziehungweise $\forall i: A \triangle L(M_i) \neq 0$.\\
+    Das heißt $\forall i \exists x: \left(x \in A \land x \notin L(M_i) \right) \lor \left( x \notin A \land x \in L(M_i) \right)$
+
+\end{definition}
+
+
+\begin{lemma}
+    
+    Es existiert eine FP-Funktion $i \mapsto M_i$, sodass $DTIME_{M_i}(x) \leq (|x| + 2)^2$ und $P = \{ L(M_i)\ |\ i \geq 0 \}$.
+
+\end{lemma}
+
+\begin{lemma}
+    
+    Es existiert eine FP-Funktion $i \mapsto f_i$ wobei $f_i$ eine Übersetzermaschine ist und $FP = \{ f_i\ |\ i \geq 0 \}$ und $DTIME_{f_i}(x) \leq (|x| + 2)^i$. Insbesondere $|f_i(x)| \leq (|x| + 2)^i$.
+
+\end{lemma}
+
+Es ist klar, dass $A \in \ComplexityClassNP$ aber $A \notin \ComplexityClassP$ und $A$ nicht NP-vollständig, wenn
+\begin{itemize}
+    \item $A \in NP$
+    \item $\forall i \exists x: x \in A \triangle L(M_i)$
+    \item $\forall i \exists x: x \in SAT \land f_i(x) \notin A \text{ oder } x \notin SAT \land f_i(x) \in A$
+\end{itemize}
+
+Das heißt $f_i$ ist keine Reduktion von $SAT$ auf $A$.
+
+
+
+
+
+Wir konstruieren $A$ in der folgenden Form:
+
+$$ A = \{  x \ |\   x \in SAT  \land   f(|x|) \text{ gerade.}  \} $$
+
+$f$ wird sogleich rekursiv definiert derart, dass dieses $A$ die Bedingungen 1, 2 und 3 erfüllt.
+
+Man sollte also versuchen sicherzustellen, dass 
+
+\begin{itemize}
+    \item 
+    $f(n) in ZEit p(n)$ berechenbar für Polynom $p$ (Bedingung 1).
+
+    \item 
+    Für alle $i$ existiert $x$ mit \\
+    $x \in SAT$ und $f(|x|)$ gerade und $x \notin L(M_i)$\\
+    oder\\
+    ($ x \notin SAT$ oder $f(|x|)$ ungerade ) und $x \in L(M_i)$\\
+
+    \item 
+    Für alle $i$ existiert $x$, sodass
+    $x \in SAT$ und ($f(|f_i(x)|)$ ungerade oder $f_i(x) \notin SAT$\\
+    oder\\
+    $x \notin SAT$ und $f(|f_i(x)|)$ gerade und $f_i(x) \in SAT$\\
+
+\end{itemize}
+
+
+$f$ wird jetzt rekursiv definiert.\\
+Wir schreiben $A_f = \{ x \ |\   x \in SAT  \land  f_(|x| \text{ gerade.}  \}$
+
+\begin{equation*}
+\begin{split}
+f(n+1) = 
+    IF    &\ \ (2 + \log \log n)^{f(n)} \geq \log n \\
+    THEN  &\ \ f(n) \\
+    ELIF  &\ \ \exists x: |x| \leq \log \log n \text{ und } x \in L(M_i) \land x \notin A_f \text{ oder } x \notin L(M_i) \land x \in A_f \\
+    THEN  &\ \ f(n) + 1 \text{ ebe } f(n) \\
+    ELIF  &\ \ \exists x: |x| \leq \log \log n \\
+    THEN  &\ \ f(n) + 1
+\end{split}
+\end{equation*}
+
+Um $f(n+1)$ zu berechnen wird rekursiv nur auf Werte $f(m)$ mit $m \leq n$ zugegriffen, also ist $f$ eine totale Funktion.
+
+Es genügt, ein Polynom $p(n)$ zu finden, sodass in Zeit $p(n)$ der Wert $f(n+1)$ aus $f(0), f(1), \dots f(n)$ bestimmt werden kann.\\
+Die Laufzeit für $f(n)$ ist nämlich dann $\bigO(\Sigma_{m < n} p(m)) = poly(n)$.
+
+
+Klar ist, dass $A = A_f \neq L(M_i)$ falls $f(n) = 2i+1$ für ein $n$, denn dann war $f(n') = 2i$ für ein $n' < n$ und $f(n'+1) = 2i+1$ also die Suche in Fall 2 erfolgreich.
+
+Ebenso ist $f_i$ keine Reduktion: $SAT \leq A_f$ falls $f(n) = (2i+1)+1$ für ein $n$.
+
+Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.h. dass jeder Fall irgendwann erfolgreich abgeschlossen wird.
+
+% Für festes $d$ wächst $(2 + \log n)^d$ langsamer als $n$, also wächst auch $ $ blabla
+
+\textit{Details dazu auf der Website.}
+
+
+
+
+
+
+
+
+
+
 % chapter np_und_p (end)
