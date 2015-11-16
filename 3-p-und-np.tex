@@ -202,7 +202,7 @@ Gegeben Input $x \in \Sigma^\ast$, dann hält die Maschine nach $\leq p(|x|)$ Sc
 
     Wir definieren $h(x) = g(f(x))$
 
-    Programm für $h$: $y = f(x);\ z = g(y);\ return z;$\\
+    Programm für $h$: $y = f(x);\ z = g(y);\ return\ z;$\\
     Gesamtaufwand: $O(p_f(|x|) + p_g(p_f(|x|))$, wobei $p_f$ und $p_g$ Polynome sind, die die Laufzeit für Algorithmen für $f$ bzw. $g$ beschränken.
 \end{beweis}
 
@@ -520,7 +520,7 @@ Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.h. dass jeder Fall irge
 
 
 
-\datum{09.11.15}
+\datum{16.11.15}
 
 
 \section{Orakel-Turingmaschinen}
