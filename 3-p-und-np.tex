@@ -520,4 +520,140 @@ Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.h. dass jeder Fall irge
 
 
 
+\datum{09.11.15}
+
+
+\section{Orakel-Turingmaschinen}
+
+
+Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisierung''\footnote{zum Beispiel benutzt für $\ComplexityClassNP \subseteq \ComplexityClassEXP$} und ``Simulation''\footnote{zum Beispiel benutzt für $\ComplexityClassP \subset \ComplexityClassEXP$ (Ladner)} nicht helfen, um $\ComplexityClassP = \ComplexityClassNP$ zu entscheiden.
+
+
+
+\begin{definition}
+    
+    Eine \definiere{Orakel-Turingmaschine} $T$ hat ein zusätzliches Band (Orakelband) und drei zusätzliche Zustände $q_Q$ (Frage), $q_{yes} q_{no}$ (Antwort).
+
+    Ist $A \subseteq \Sigma^\ast$, dann definiert man Berechnungen $T^A(x)$ von $T$ auf $x$ mit Orakel $A$ wie folgt:
+    \begin{itemize}
+        \item Wie üblich mit der zusätzlichen Regel:\\
+            Falls $T$ in $q_Q$ so wird $T$ in Zustand $q_{yes}$, $q_{no}$ versetzt und zwar in einem Schritt, je nach dem, ob die aktuelle Beschriftung $z \in \Sigma^\ast$ des Orakelbands (``Anfrage''/``Query'') in $A$ ist ($q_{yes}$) oder nicht ($q_{no}$).
+    \end{itemize}
+    Man schreibt $L^A(T)$ oder $L(T^A)$ für die von $T$ akzeptierte Sprache, falls Anfragen gemäß $A$ beantwortet werden.
+
+\end{definition}
+
+
+
+
+\begin{beispiel}
+    
+    Sei $STCONN = \{ (G, s, t) \ |\  \exists \text{ Pfad von } s \text{ nach } t \ \ \in G \} $
+
+    Feststellen, ob ein Graph $G$ einen nichttrivialen Zyklus enthält. Zähle alle Paare $(u,v)$ auf und frage jeweils $(G, u, v)$ und $(G, v, u)$ ab.
+
+    Damit ist eine Maschine $T$ beschrieben, sodass $CYCLE = L^{STCONN}(T)$.\\
+    Die Laufzeit von $T$ ist $|G|^2$ (insbesondere polynomiell). Es ist also $CYCLE \in P^{STCONN}$.\\
+    Nachdem nun $STCONN \in \ComplexityClassP$ folgt $CYCLE \in \ComplexityClassP$.
+
+\end{beispiel}
+
+
+\begin{definition}
+
+    Sei $A \subseteq \Sigma^\ast$.
+
+    Man definiert $\ComplexityClassP^A$ als die Menge aller Sprachen $L$ sodass eine deterministische Turingmaschine $T$ existiert mit $L = L^A(T)$ und $DTIME(T^A(x)) \leq p(|x|)$ für eine Polynom $p$.
+
+    Analog $\ComplexityClassNP^A$.
+    
+\end{definition}
+
+\textbf{Beobachtung:}
+$A \in \ComplexityClassP \Rightarrow \ComplexityClassP^A = \ComplexityClassP \land \ComplexityClassNP^A = \ComplexityClassNP$.
+
+    
+\begin{beispiel}
+    
+    $SAT \in \ComplexityClassP^{SAT}$
+
+    $NODE-COVER \in \ComplexityClassP^{SAT}$
+
+    $\ComplexityClassNP \in \ComplexityClassP^{SAT}$
+
+
+    $ TAUT = \{ \phi \ |\  \phi \text{ allgemeingültig} \} \in \ComplexityClassP^{\ComplexityClassNP}$
+
+
+    $ IMPL = \{ (\phi, \psi) \ |\  \phi \text{ allgemeingültig} \Rightarrow \psi \text{ allgemeingültig} \} \in \ComplexityClassP^{\ComplexityClassNP} $
+
+
+    $ CIRCUIT-MIN = \{  (\text{Schaltkreis } C,  A) \ | \ 
+            \text{Schaltkreis } C' \text{ der Größe } \leq k \text{ und } C \equiv C' \}  \in \ComplexityClassNP^{SAT}$
+
+\end{beispiel}
+
+
+
+Wr zeigen jetzt die folgenden zwei Sätze, aufgrund derer kein Beweis für $\ComplexityClassP = \ComplexityClassNP$ oder $\ComplexityClassP \neq \ComplexityClassNP$ existieren kann, welcher in Gegenwart von Orakeln auch funktioniert:
+
+\begin{satz}
+    
+    $$ \exists A \in \Sigma^\ast: \ComplexityClassP^A = \ComplexityClassNP^A $$
+
+\end{satz}
+
+\begin{beweis}
+    
+    $A = \{ ( T, x, 0^k )  \ |\  
+        \text{ deterministische Turingmaschine } T \text{ akzeptiert } x \text{ und benutt dabei } \leq k \text{ Bandzellen}  \}
+    $
+
+    $A$ ist offensichtlich entscheidbar.
+
+    Sei $T$ eine nichtdeterministische Orakel-Turingmaschine und $p(n)$ ein Polynom, das die Laufzeit von $T$ beschränkt und somit auch die Größe aller Orakelanfragen.\\
+    Wir müssen eine deterministische polynomiell zeitbeschränkte Turingmaschine $T'$ mit Orakel $A$ bauen, sodass $L^A(T') = L^A(T)$.
+
+    Zunächst konstruieren wir eine deterministische Turingmaschine $T_{HILF}$, die ohne Orakelbenutzung die Sprache $L^A(T)$ entscheidet, indem alle Orakelanfragen ``mit Bordmitteln'' (also selbst) beantwortet werden unter Verwendung der Entscheidbarkeit von $A$.
+
+    Vollständige Berechnungssequenzen einer Berechnung, deren Bandplatz $\leq k$ ist und $t$ Schritte lang ist, benötigen Platz $\bigO(k*t)$.\\
+    Orakelanfragen einer Berechnung von $T$ auf $x$ (Eingabe) haben die Form $(S, y, 0^k)$ wobei $|S|, |y|, k \leq p(|x|)$.\\
+    Wir verwenden also jetzt 3 Hilfsbänder, eines für die nichtdeterministische Berechnung von $T$ auf $x$, die wir der Reihe nach alle simulieren, eines für Orakelanfragen, eines für die Beantwortung der Orakelanfragen.\\
+    Diese Maschine ist deterministisch und benötigt auf ihren Bändern höchstens $q(|x|)$ Platz, wobei $q$ ein von $p$ abgeleitetes Polynom ist (in etwa $q(n) = \bigO(p(n)^2$).\\
+
+    Die eigentlichte Maschine $T'$ arbeitet jetzt wie folgt:\\
+    Gegeben Eingabe $x$, schreibe $(T_{HILF}, x, O^{q(|x|)})$ auf das Orakelband. Falls $q_{yes}$, dann akzeptiere. Falls $q_{nein}$, dann verwerfe.
+
+\end{beweis}
+
+
+\begin{satz}
+    
+    $$ \exists B \in \Sigma^\ast: \ComplexityClassP^B \neq \ComplexityClassNP^B $$
+
+\end{satz}
+
+\begin{beweis}
+    
+    Falls $B \subseteq \Sigma^\ast$, 
+    definiere $L_B = \{  0^k \ |\   \exists x \in \Sigma^\ast: |x| = k \land x \in B  \} $ \\
+    Offensichtlich ist $L_B \in \ComplexityClassNP^B$, egal was $B$ ist.
+
+    Es gilt jetzt, $B$ so zu wählen, dass für jede polynomiell zeitbeschränkte deterministische Orakel-Turingmaschine gitl: $L_B \neq L^B(T)$.
+
+    Sei $i \mapsto T_i$ eine effektive Aufzählung von Orakel-Turingmaschinen, sodass $DTIME(T_i^x(x)) \leq |x|^i + i$ (alternativ $(|x| + 2)^i$ wie letztes Mal).\\
+    Für alle deterministischen Orakel-Turingmaschinen $S$ und alle Orakel $x$ muss $i$ existieren, sodass $L(S^x) = L(T_i^x)$. $T_i$ ist die durch $i$ beschriebene Orakel-Turingmaschine künstlich auf Laufzeit $n^i + i$ beschränkt. Jetzt muss also für jedes $i$ ein $n_i$ existieren, sodass $T_i^B(0^{n_i})$ akzeptiert und $B$ enthält kein Wort der Länge $n_i$ (dann ist nämlich $0^{n_i} \notin L_B$), oder aber $T_i^B(0^{n_i})$ verwirft und $B$ enthält ein Wort $x_i$ mit $|x_i| = n_i$, denn dann ist $0^{n_i} \in L_B$.\\
+    Dann ist in der Tat $L_B \notin \ComplexityClassP^B$.
+
+    \textbf{Beobachtung:}
+    Wenn $T_i^X(x)$ nach $t$ Schritten hält und $U$ aus Wörtern $y$ mit $|y| > t$ besteht, dann gilt 
+    $T_i^{X \cup U}(x) \text{ akzeptiert }  \Leftrightarrow  \ T_i^X(x) \text{ akzeptiert}$.
+
+    % TODO beweis fertig machen
+    
+\end{beweis}
+
+
+
+
 % chapter np_und_p (end)
