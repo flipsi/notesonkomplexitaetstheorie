@@ -649,9 +649,167 @@ Wr zeigen jetzt die folgenden zwei Sätze, aufgrund derer kein Beweis für $\Com
     Wenn $T_i^X(x)$ nach $t$ Schritten hält und $U$ aus Wörtern $y$ mit $|y| > t$ besteht, dann gilt 
     $T_i^{X \cup U}(x) \text{ akzeptiert }  \Leftrightarrow  \ T_i^X(x) \text{ akzeptiert}$.
 
-    % TODO beweis fertig machen
+
+\datum{19.11.15}
+
     
+    Wir definieren rekursiv $n_i \in \N, B(i) \subseteq \Sigma^\ast, \Sigma = \{0,1\}, n_0 = 0, B(0) = \emptyset$
+    \\
+    Falls $B(0), \dots, B(i-1)$ schon definiert, definiere $n_i, B(i)$ so, dass gilt $\exists x: |x| = n_i \in B(i) \Leftrightarrow T_i^{B(i)}(0^{n_i} \text{ akzeptiert nicht}$.
+    \\
+    Außerdem sollte $T_i(0^{n_i})$ keine Elemente von $B(j) j>i$ anfragen.
+    \\
+    $B = \bigcup_{i \geq 0} B(i)$
+
+    Es gilt dann $T_i^B(0^{n_i}) \text{ akzeptiert nicht } \Leftrightarrow T_i^{B(i)}(0^{n_i}) \text{ akzeptiert nicht } \Leftrightarrow 0^{n_i} \in L_{B(i)} \Leftrightarrow 0^{n_i} \in L_b$ (Falls wir zusätzlich dafür sorgen, dass $B(j)$ mit $j \geq i$ keine Elemente der Länge $n_i$ enthält.)
+
+    Allgemein:
+    $ B(i) =
+    \begin{cases}
+        B(i-1)              & , falls \dots     \\
+        B(i-1) \cup \{x\}   & , falls \dots     \\
+    \end{cases}
+    $
+
+    $n_i B(i) \in n_{i-1}(i-1)$
+    $n_i$ sodass
+    \begin{itemize}
+        \item $n_i > n_{i-1}^{i-1} + i-1$ (Größer als die Laufzeit von $T_{i-1}(0^{n_{i-1}})$ und $T_j(0^{n_j})$ für $j < i$.)
+        \item $2^{n_i} > n_i^i + i$ (da $2^x$ schneller wächst als $x^i+i$.)
+    \end{itemize}
+    Es gibt also mehr Wörter $x$ mit $|x| = n_i$ als die Laufzeit von $T_{i}(0^{n_i})$.
+
+    Halbkonkrete Ausführung dieser Aufzählung für die ersten drei Schritte:
+    \\
+    $n_0 = 0, B(0) = \emptyset, n_1 > 0^0 + 0, 2^{n_1} > n_1 + 1$
+    \\
+    Rechne $T_1^{B(0)}(000)$. Wir nehmen an, dass nicht akzeptiert wird. Also $B(1) = B(0) = \emptyset$
+    \\
+    $n_2 > n_1^1 = 4, 2^{n_2} > n_2^2 + 2, \leadsto n_2 = 5$
+    Rechne $T_2^{B(1)}(00000)$. Wir nehmen an, dass akzeptiert wird. Diese Rechnung dauerte $\leq 5^2 + 2 = 27$ Schritte. Es gibt 32 Wörter der Länge 5. Sei $x$ eines, das nicht abgefragt wurde. $x = 10110$. $B(2) = B(1) \cup \{10110\} = \{10110\}$
+    \\
+    $n_3 > 27, 2^{n_3} > n_3^3 + 3, \leadsto n_3 = 28$
+    Rechne $T_3^{B(2)}(0^{28})$. Wir nehmen an, dass nicht akzeptiert wird. Also $B(1) = B(0) = \emptyset$
+    \\
+    \dots
+
+    Invariante $B \cap \{ x \ |\  |x| \leq n_i \}  = B(i)$
+    \\
+    Rechenzeit von $T_i(0^{n_i}) < n_{i+1}$ ($> n_i^i + i$)
+
+    $B$ unterscheidet sich von $B(i-1)$ nur durch Wörter die von $T_i^{B(i-1)}(0^{n_i})$ nicht angefragt werden. Entweder, da sie länger sind als die Rechenzeit oder von der Länge $n_i$ sind, aber so gewählt wurden, dass sie nicht gefragt werden.
+
+    $T_i^B(0^{n_i}) \text{ akzeptiert } \\\Leftrightarrow 
+    T_i^{B(i-1)}(0^{n_i}) \text{ akzeptiert } \\\Leftrightarrow 
+    \neg \exists x \in B(i): |x| = n_i \\\Leftrightarrow 
+    0^{n_i} \notin L_B
+    $
+
+    Das heißt $L(T_i^B) \neq L_B$
+
+    $L_B \notin \ComplexityClassP^B$
+
 \end{beweis}
+
+
+
+
+
+\section{Polynomielle Hierarchie}
+
+\begin{definition}
+    
+    $co\text{--}\phi = \{ L \subseteq \Sigma^\ast \ |\ \Sigma^\ast \setminus L \in \phi  \}$
+
+\end{definition}
+
+$co\text{--}\ComplexityClassP = \ComplexityClassP$
+
+$co\text{--}\ComplexityClassNP$ ist nicht offensichtlich gleich $\ComplexityClassNP$ wegen der unsymmetrischen Akzeptanzbedingung bei Nichtdeterminismus.
+
+
+\begin{definition}
+    
+    Die \definiere{polynielle Hierarchie} (PH):
+
+    $\Delta_0^\ComplexityClassP = \ComplexityClassP$
+
+    $\Sigma_0^\ComplexityClassP = \Pi_0^\ComplexityClassP = \ComplexityClassP$
+
+
+    
+    $\Sigma_1^\ComplexityClassP = \ComplexityClassNP$
+
+    $\Pi^\ComplexityClassP = co\text{--}\ComplexityClassNP$
+
+    Das soll andeuten, dass von der PH die Rede ist. Es hat nicht mit einem Exponenten oder Orakel zu tun.
+
+\end{definition}
+
+
+    
+
+% \begin{beispiel}
+
+%     $TAUT = \{ \psi \ |\  \psi \text{ allgemeingültig} \} \in co\text{--}\ComplexityClassNP$
+
+%     $\Sigma^\ast \setminus TAUT = \{ \psi \ |\  \psi \text{ keine syntaktisch richtige Formel } \lor \} \in co\text{--}\ComplexityClassNP$
+
+%     da war die tafel schon gewischt. naja.
+
+% \end{beispiel}
+
+
+\begin{definition}
+    
+    \definiere{relativierte Quantoren}
+
+
+    Notation: $\exists_n x . A(x) \equiv \exists x \in \Sigma^\ast . |x| \leq n \land A(x)$
+
+    Ebenso: $\forall_n x . A(x) \equiv \forall x \in \Sigma^\ast . |x| \leq n \Rightarrow A(x)$
+
+    Außerdem: $\neg \exists_n x . A(x) \Leftrightarrow \forall_n x . \neg A(x)$
+
+    und: $\neg \forall_n x . A(x) \Leftrightarrow \exists_n x . \neg A(x)$
+
+\end{definition}
+
+% Aus der Definition von $\ComplexityClassNP$ folgt
+
+% man ich bin zu langsam und checken tu ichs auch nicht
+
+
+\begin{definition}
+    
+    Die weitere \definiere{polynielle Hierarchie} (PH):
+
+    $\Sigma_2^\ComplexityClassP = \ComplexityClassNP^{SAT} = \ComplexityClassNP^{\ComplexityClassNP}$
+
+    $\Pi_2^\ComplexityClassP = co\text{--}\ComplexityClassNP^{SAT} = co\text{--}\ComplexityClassNP^{\ComplexityClassNP}$
+
+    $\Delta_2^\ComplexityClassP = \ComplexityClassP^{SAT} = \ComplexityClassP^{\ComplexityClassNP}$
+
+    $\Sigma_{n+1}^\ComplexityClassP = \ComplexityClassNP^{\Sigma_n^\ComplexityClassP}$
+
+    $\Pi_{n+1}^\ComplexityClassP = co\text{--}\ComplexityClassNP^{\Sigma_n^\ComplexityClassP}$
+
+    $\Delta_{n+1}^\ComplexityClassP = \ComplexityClassP^{\Sigma_n^\ComplexityClassP}$
+
+    \textit{Anmerkung:}\\
+    $\ComplexityClassNP^\phi = \bigcup_{X \in \phi} \ComplexityClassNP^X$
+
+
+\end{definition}
+
+
+
+Falls $\ComplexityClassP = \ComplexityClassNP$, so folgt $\Sigma_n^\ComplexityClassP = \ComplexityClassP$.
+
+Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\ComplexityClassP$ für ein bestimmtes $n$, dann auch $\Sigma_{n'}^\ComplexityClassP = \Sigma_n^\ComplexityClassP$ für alle $n' \geq n$. Man sagt dann PH kollabiere auf der $n$. Stufe.
+
+
+
 
 
 
