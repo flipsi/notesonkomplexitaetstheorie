@@ -812,6 +812,143 @@ Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\Complexit
 
 
 
+\datum{23.11.15}
+
+
+\begin{satz}
+    
+    $L \in \Sigma_2^\ComplexityClassP \Leftrightarrow \\
+    \exists L' \in \ComplexityClassP, \text{ Polynom } p:
+    x \in L \Leftrightarrow \exists_{p(|x|)} y . \forall_{p(|x|)} z . (x,y,z) \in L'$
+
+\end{satz}
+
+\begin{beweis}
+    
+    \begin{itemize}
+
+        \item ``$\Leftarrow$'':
+
+            Seien $L' \in \ComplexityClassP$, $p$ Polynom vorgegeben.\\
+
+            Gesucht: nichtdeterministische Polynomialzeit-Orakel-Turingmaschine $M$ sodass $M$ mit geeignetem $\ComplexityClassNP$-Orakel die Sprache $L$ entscheide.
+
+            $L'' = \{ (x,y) \ |\  \exists_{p(|x|)} z . (x,y,z) \notin L' \} $
+
+            $L'' \in \ComplexityClassNP$ (Rate $z$ und prüfe $(x,y,z) \notin L'$)
+
+            $x \in L \Leftrightarrow \exists_{p(|x|)} y . (x,y) \notin L'' $
+
+            Die Maschine $M$ rät also $y$ und prüft $(x,y) \notin L''$ mit Orakel für $L''$.
+
+        \item ``$\Rightarrow$'':
+
+            Sei $M$ eine nichtdeterministische durch $p(n)$ laufzeitbeschränkte Turingmaschine mit Orakel $X \in \ComplexityClassNP$, z.B. $X = SAT$, $L = L(M)$
+
+            Es ist $x \in L = L(M)$ genau dann, wenn \\
+            $\exists \text{ Lauf } y \text{ von } M \text{ auf }: 
+            M \text{ akzeptiert } x \land |y| \leq q(|x|)$ \\
+            wobei $q$ ein Polynom ist mit $q(n) = \bigO(p(n)^2)$
+
+            Um zu prüfen, ob $y$ tatsächlich ein LAuf ist und noch dazu akzeptierend, muss neben allem möglichen, was in polynomieller Zeit geht, z.B. 
+            \begin{itemize}
+                \item Folgefkonfigurationen jeweils gemäß der Maschinentafel ($\delta_M$) aus Vorgängerkonfigurationen enthalten,
+                \item Am Anfang Startzustand, am Ende akzeptierender Zustand,
+                \item Input okay in Startkonfiguration kopiert,
+            \end{itemize}
+            auch geprüft werden, dass alle Orakelanfragen richtig beantwortet wurden.
+
+            \dots 
+
+            und
+
+            $\exists \eta . \eta_i$ erfüllt die $i.$ \underline{positiv} beantwortete Orakelanfrage $q_i \in SAT$.
+
+            und
+
+            $\forall \rho . \rho_j$ erfüllt die $j.$ \underline{negativ} beantwortete Orakelanfrage $\rho_j \in SAT$ \underline{nicht}.
+
+            Es gibt also ein Polynom $q(n)$ sodass $x \in L(M) \Leftrightarrow \exists_{q(|x|)} y . L_1(x,y) \land \exists_{p(|x|)} \eta . L_2(y,\eta) \land \forall_{q(|x|)} \rho . L_3(y, \rho)$ \\
+            wobei $L_1, L_2, L_3 \in \ComplexityClassP$
+
+            \begin{itemize}
+                \item 
+                    $L_1(x,y) \Longleftrightarrow y \text{ ist akzeptierender Lauf von } M \text{ auf } x \text{ bis auf Orakelanfragen}$
+
+                \item 
+                    $L_2(y,\eta) \Longleftrightarrow  \text{ Die in } y \text{ positiv beantworteten Orakelanfragen sind } \rho_1 \dots \rho_k, \eta =| y_1 \dots y_k \text{ und } \eta_i \vDash \psi_i \text{ für } i = 1 \dots k$
+
+                \item 
+                    $L_3(y, \rho) \Longleftrightarrow \text{ Die in } y \text{ negativ beantworteten Orakelanfragen sind } \psi_1 \dots \psi_k, \rho = \rho_1 \dots \rho_k \text{ und } \rho \mp \psi_i \text{ für } i = 1 \dots k$
+
+            \end{itemize}
+
+    \end{itemize}
+
+\end{beweis}
+
+
+
+\begin{korollar}
+    
+    $L \in \Pi_2^\ComplexityClassP \Longleftrightarrow \\
+    \exists \text{ Polynom } p \land L' \in \ComplexityClassP: x \in \Leftrightarrow \forall_{p(|x|)} y . \exists_{p(|x|)} z . (x,y,z) \in L'$ 
+
+\end{korollar}
+
+
+\begin{satz}
+    
+    Ist $L \in \Sigma_n^\ComplexityClassP$, so existiert ein Polynom $p(n)$ und $L' \in \ComplexityClassP$ sodass\\
+     $x \in L \Leftrightarrow y_1 \forall_{p(|x|)} y_2 \exists_{p(|x|)} y_3 \dots   Q_{p(|x|)} y_n . (x, y_1, \dots y_n) \in L'$\\
+    $n$ gerade: $Q = \forall$\\
+    $n$ ungerade: $Q = \exists$
+
+\end{satz}
+
+Beweis durch Induktion über $n$.
+
+
+
+
+
+
+
+
+
+
+
+\begin{satz}
+
+    \definiere{Satz von Kamp-Lipton}
+
+    Falls $SAT$ polynomiell große Schaltkreise hat, so kollabiert die PH auf der zweiten Stufe.\\
+    Das heißt $\forall n \geq 2 : \Sigma_n^\ComplexityClassP = \Sigma_2^\ComplexityClassP$.
+
+
+    Dass $SAT$ ``polynomielle Schaltkreise hat'' soll heißen: Es gibt ein Polynom $p(n)$ und für jedes $n \in \N$ einen boolschen Schaltkreis $C_n$ mit $n$ Inputs und Größe $\leq p(n)$ ($|C_n| \leq p(n)$).\\
+    Für alle aussagenlogische Formeln $\phi$ mit $|\phi| = n$ gilt $\phi \in SAT \Leftrightarrow C(\phi) = TRUE$, $C(\phi)$ die Bitkodierung von $\phi$ an die $n$ Inputs von $C$ anlegen.
+    
+\end{satz}
+
+Kurznotation: $SAT \in \ComplexityClassP / poly$
+
+Der Satz von Kamp-Lipton sagt also $SAT \in \ComplexityClassP / poly \Rightarrow \text{ PH } = \Sigma_2^\ComplexityClassP$
+
+Hilfsmittel: ``Selbstreduzierbarkeit von SAT''\\
+Ein Schaltkreis $C_n$ wie oben beschrieben kann so umgebaut werden in einem Schaltkreis $D_n$ polynomielle Größe, dass bei Antwort TRUE eine erfüllende Belegung zurückgeliefert wird.
+
+Das heißt $D_n$ hat $n$ Ausgänge, die eine Belegung kodieren sollen. Spezifiere 
+\begin{itemize}
+    \item 
+        $\phi \in SAT . D_n(\phi) (\eta, TRUE)$ mit $\eta \vDash \phi$
+    \item 
+        $\phi \notin SAT . D_n(\phi) (\_, FALSE)$
+\end{itemize}
+$D_n$ ruft $C_n$ insgesamt $m \leq n$ mal auf, wobei $m$ die Zahl der Variablen plus eins ist.
+
+
+
 
 
 % chapter np_und_p (end)
