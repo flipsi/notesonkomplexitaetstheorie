@@ -1,0 +1,193 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+\chapter{Platzkomplexität} % (fold)
+\label{cha:platzkomplexitaet}
+    
+
+
+
+\section{Platzkonstruierbare Funktionen}
+
+
+\begin{definition}
+    
+    Eine Funktion $s(n)$ heißt \definiere{platzkonstruierbar} genau dann, wenn eine deterministische Turingmaschine existiert, die bei Eingabe $0^n$ genau $s(n)$ Bandfelder beschreibt und dann hält.
+
+\end{definition}
+
+\begin{beispiel}
+
+    Alle Polynome mit Koeffizienten $\in \Q^+$, die Wurzelfunktion, die Logarithmus-Funktion, die Potzenfunktion usw. sind platzkonstruierbar.
+    
+\end{beispiel}
+
+
+
+
+\section{Platzverbrauch einer Turingmaschine}
+
+\begin{definition}
+
+    Der \definiere{Platzverbrauch einer Turingmaschine} (deterministisch oder nichtdeterministisch) bei Eingabe $x$ ist 
+
+    \begin{itemize}
+
+        \item \textbf{erste Definition}\\ 
+        die Größe des beschriebenen Teils aller Bänder am Ende der Berechnung. (Mit dieser Definition ist der Platzverbrauch stets $\geq |x|$).
+
+        \item \textbf{zweite Definition}\\ 
+        die Endgröße aller anderen Bänder, wobei das Eingabeband nicht überschrieben werden darf.
+
+    \end{itemize}
+
+    Die zweite Definition ist Standard,w enn sublineare Platzschranken betrachtet werden, zum Beispiel $\log(n)$. Oberhalb von $\bigO(n)$ sind die beiden Definitionen äquivalent.
+    
+
+
+    Notation: $DSPACE_M (x)$ und $NSPACE_M (x)$
+
+    $DSPACE_M (s(n)) = \{   L  \ |\   \exists DTM M : L = L(M) \land DSPACE_M(x) = \bigO(s(|x|)) \}$
+
+    $NSPACE_M (s(n)) = \{   L  \ |\   \exists DTM M : L = L(M) \land NSPACE_M(x) = \bigO(s(|x|)) \}$
+
+    $PSPACE = \bigcup_{k \geq 0} DSPACE(n^k) $ (polynomieller Platz)
+
+    $LINSPACE = DSPACE(n)$
+
+    $LOGSPACE = DSPACE(\log n)$ (auch als $L$ bezeichnet)
+
+    $NLOGSPACE = NSPACE(\log n)$ (auch als $NL$ bezeichnet)
+
+
+\end{definition}
+
+
+\begin{beispiel}
+    
+    STCONN (Erreichbarkeit in gerichteten Graphen) ist $\in NLOGSPACE$ (rate Pfad) und $\in LINSPACE$ (Tiefensuche/Breitensuche)
+
+\end{beispiel}
+
+
+Es gibt eine triviale, aber wissenswerte Beziehung zwischen Zeit- und Platzkomplexität:
+
+% $$ NSPACE(s(n)) \subseteq DTIME (2^{\bigO(s(n))}) $$      % not sure
+$$ DSPACE(s(n)) \subseteq DTIME (2^{\bigO(s(n))}) $$
+
+% Alle Berechnungsfolgen können aufgezählt werden.
+Hat die Berechnung nach $2^{c*s(n)}$ Schritten nicht geendet, so kann abgebrochen werden wegen Wiederholung einer globalen Konfiguration. (Tatsächlicher Platzverbrauch $\leq c * s(n)$)
+
+
+
+$$ DTIME(t(n)) \subseteq DSPACE (t(n)) $$
+
+Mehr Platz als Laufzeit kann nicht angefordert werden.
+
+
+
+
+
+\begin{satz}
+
+    Für deterministische Einband-Turingmaschinen $T$ gilt:
+
+    $DTIME_T(x) = \bigO(t(|x|) \Longrightarrow  L(T) \in DSPACE(\sqrt{t(n)})$
+
+    
+\end{satz}
+
+Für Mehrband-Turingmaschinen gibt es einen ähnliches Satz, bei dem der Platz allerdings etwas größer ist. Dass er für Einband-Turingmaschinen so gut ist, ist gewissermaßen kurios.
+
+
+
+
+
+\section{Platzhierarchiesatz}
+
+\begin{satz}
+    
+    ``Echt mehr Platz hilft auch mehr.''
+
+    \textit{Für genaue Aussage und Beweis siehe z.B. Papadimitrion}
+\end{satz}
+
+Wichtige Konsequenz:
+
+$$ LOGSPACE \subset PSPACE $$
+
+$$ LOGSPACE \subseteq NLOGSPACE \subseteq \ComplexityClassP \subseteq \ComplexityClassNP \subseteq PH \subseteq PSPACE $$
+
+Von jeder dieser Inklusionen ist unbekannt, ob sie echt sind. Mindestens eine muss aber echt sein.
+
+
+
+\begin{satz}
+    
+    \definiere{Satz von Savitch}
+
+    Für eine platzkonstruierbare Funktion $s(n) \geq \log(n)$ ist \\
+    $ NSPACE(s(n)) \subseteq DSPACE(s(n)^2)$
+
+    (Vergleiche
+    $ NTIME(t(n)) \subseteq DTIME(2^{\bigO(t(n))})$
+    )
+
+\end{satz}
+
+\begin{beweis}
+    
+    Sei eine nichtdeterministische Turingmaschine $T$ gegeben mit Platzbedarf $S = c * s(|x|)$ bei Eingabe $x$. Wir betrachten eine Kodierung der globalen Konfigurationen von $T(x)$ durch Wörter der Länge $S$ und o.B.d.A gebe es exakt eine akzeptierende Endkonfiguration $s_{ACC}$. (Alle Bänder am Ende löschen, d.h. mit $0$ überschreiben.)
+
+    $
+    x \in L(T) 
+        \Longleftrightarrow 
+    s_{ACC} \text{ von } s_{INI} \text{ aus in } \leq 2^S \text{ Schritten erreichbar}
+    $
+
+    Hier steht $s_{INI}$ für die Startkonfiguration bei Eingabe $x$. $2^S$ ist die Gesamtzahl der Konfigurationen.
+
+    Das heißt $s_{ACC}$ ist von $s_{INI}$ aus im Graphen der Konfigurationen erreichbar (Spezialfall von STCONN).
+
+\end{beweis}
+
+
+\textbf{Notation:}
+
+$s \rightarrow_T s'$: $s'$ ist 1-Schritt-Folgekonfiguration von $s$ in $T$ und kann in $LOGSPACE$ entschieden werden.
+
+$REACH(s, s')$: $s \rightarrow^\ast s'$ ($s'$ ist von $s$ erreichbar)
+
+$REACH(s, s', i)$: $s \rightarrow^{\leq 2^i} s'$ ($s'$ ist von $s$ in weniger als $2^i$ Schritten erreichbar)
+
+
+$ x \in L(T) \Longleftrightarrow REACH(s_{INI}, s_{ACC}, S)$
+
+Es gilt 
+$$REACH(s, s', 0) \Longleftrightarrow s = s' \lor s \rightarrow_T s'$$
+\hspace{4cm}($2^0 = 1$)
+$$REACH(s, s', i+1) \Longleftrightarrow \exists \check{s} : REACH(s, \check{s}, i) \land REACH(\check{s}, s', i)$$ 
+\hspace{4cm}($2^{i+1} = 2 * 2^i$)\\
+Dies liefert eine rekursive Implementierung von $REACH(s,s',i)$ \\
+\hspace{4cm}($\exists \check{s} \leadsto \text { for } \check{s} \in \text{ globale Konfigurationen}$)
+
+
+Der Rekursionsstack hat Tiefe $S$ (Toplevel-Aufruf $REACH(s_{INI}, s_{ACC}, S)$).
+\\
+Jeder Activationrecord hat Größe $\bigO(S)$ genauer gesagt $2 S$ für die beiden Parameter $s, s', \log(S)$ für die Parameter $i$. Wenn gewünscht noch ein weiteres $S$ für die for-Schleife.
+
+
+Die Gesamtgröße des Stacks ist beschränkt durch $S * \bigO(S) = \bigO(S^2)$.
+
+
+Historisch wurde zunächst gezeigt, dass STCONN in $DSPACE(\log(n)^2)$ liegt. Der Satz von Savitch kann auch hieraus abgeleitet werden.
+
+
+
+
+
+
+% chapter platzkomplexitaet (end)
