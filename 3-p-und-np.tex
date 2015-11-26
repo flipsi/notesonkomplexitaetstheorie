@@ -532,7 +532,7 @@ Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisier
 
 \begin{definition}
     
-    Eine \definiere{Orakel-Turingmaschine} $T$ hat ein zusätzliches Band (Orakelband) und drei zusätzliche Zustände $q_Q$ (Frage), $q_{yes} q_{no}$ (Antwort).
+    Eine \definiere{Orakel-Turingmaschine} $T$ hat ein zusätzliches Band (Orakelband) und drei zusätzliche Zustände $q_Q$ (Frage), $q_{yes}$, $q_{no}$ (Antwort).
 
     Ist $A \subseteq \Sigma^\ast$, dann definiert man Berechnungen $T^A(x)$ von $T$ auf $x$ mit Orakel $A$ wie folgt:
     \begin{itemize}
@@ -553,7 +553,7 @@ Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisier
     Feststellen, ob ein Graph $G$ einen nichttrivialen Zyklus enthält. Zähle alle Paare $(u,v)$ auf und frage jeweils $(G, u, v)$ und $(G, v, u)$ ab.
 
     Damit ist eine Maschine $T$ beschrieben, sodass $CYCLE = L^{STCONN}(T)$.\\
-    Die Laufzeit von $T$ ist $|G|^2$ (insbesondere polynomiell). Es ist also $CYCLE \in P^{STCONN}$.\\
+    Die Laufzeit von $T$ ist $|G|^2$ (insbesondere polynomiell). Es ist also $CYCLE \in P^{STCONN}$. (Definition unten)\\
     Nachdem nun $STCONN \in \ComplexityClassP$ folgt $CYCLE \in \ComplexityClassP$.
 
 \end{beispiel}
@@ -563,7 +563,7 @@ Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisier
 
     Sei $A \subseteq \Sigma^\ast$.
 
-    Man definiert $\ComplexityClassP^A$ als die Menge aller Sprachen $L$ sodass eine deterministische Turingmaschine $T$ existiert mit $L = L^A(T)$ und $DTIME(T^A(x)) \leq p(|x|)$ für eine Polynom $p$.
+    Man definiert $\ComplexityClassP^A$ als die Menge aller Sprachen $L$ sodass eine deterministische Turingmaschine $T$ existiert mit $L = L^A(T)$ und $DTIME(T^A(x)) \leq p(|x|)$ für ein Polynom $p$.
 
     Analog $\ComplexityClassNP^A$.
     
@@ -946,6 +946,25 @@ Das heißt $D_n$ hat $n$ Ausgänge, die eine Belegung kodieren sollen. Spezifier
         $\phi \notin SAT . D_n(\phi) (\_, FALSE)$
 \end{itemize}
 $D_n$ ruft $C_n$ insgesamt $m \leq n$ mal auf, wobei $m$ die Zahl der Variablen plus eins ist.
+
+% Wir zeigen jetzt unter Zuhilfenahme von $(D_n)_n$, dass $\Pi_2^\ComplexityClassP = \Sigma_2^\ComplexityClassP $:
+% \begin{itemize}
+
+%     \item ``$\subseteq$'':
+
+%         Sei $L \in \Pi_2^\ComplexityClassP_2$ und (nach Satz) $\forall_{p(|x|)} y . \exists_{p(|x|)} z . (x,y,z) \in L'$ ($p$ Polynom, $L' \in \ComplexityClassP$)
+
+%         $x \in L \Longleftrightarrow \exists_{q(|x|)}  D . D \text{ ist selbstverifizierender SAT-Tester so wie } (D_n)_n, $ \\
+%         und\\
+%         $\forall_{p(|x|)} y . D(``\exists_{p(|x|)} z . (x,y,z) \in L' '')  =  (\_, TRUE)$\\
+%         $\Leftrightarrow$\\
+%         % $\forall_{poly} \phi \forall_{poly} \eta . D(\phi) = (\_, FALSE) \land \eta \mp \phi \\
+%         % \lor $\
+%         blablabla
+
+
+
+% \end{itemize}
 
 
 
