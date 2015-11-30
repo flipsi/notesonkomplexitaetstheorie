@@ -4,6 +4,8 @@
 
 
 
+\datum{26.11.15}
+
 \chapter{Platzkomplexität} % (fold)
 \label{cha:platzkomplexitaet}
     
@@ -125,6 +127,12 @@ Von jeder dieser Inklusionen ist unbekannt, ob sie echt sind. Mindestens eine mu
 
 
 
+
+
+
+\section{Zusammenhänge von Platzkomplexitätsklassen}
+
+
 \begin{satz}
     
     \definiere{Satz von Savitch}
@@ -184,6 +192,137 @@ Die Gesamtgröße des Stacks ist beschränkt durch $S * \bigO(S) = \bigO(S^2)$.
 
 
 Historisch wurde zunächst gezeigt, dass STCONN in $DSPACE(\log(n)^2)$ liegt. Der Satz von Savitch kann auch hieraus abgeleitet werden.
+
+
+
+
+
+
+
+
+
+\datum{30.11.15}
+
+
+
+
+\begin{satz}
+
+    \definiere{Satz von Immerman-Szelepcsényi}
+
+    Sei $s(n) \geq \log(n)$.
+
+    Dann ist $NSPACE(s(n)) = co\text{--}NSPACE(s(n))$
+
+    Wichtiger Spezialfall: $co\text{--}STCONN \in NSPACE(\log(n)) = NL = NLOGSPACE$
+    \\
+    Die allgemeine Behauptung kann aus diesem Spezialfall leicht gefolgert werden (durch den Graph der globalen Konfiguration).
+
+
+\end{satz}
+
+\begin{beweis}
+
+    Es sei eine nichtdeterministische Turingmaschine $T$ vorgelegt und $NSPACE_T(x) \leq c * s(|x|)$. Wir müssen eine nichtdeterministische Turingmaschine $T'$ konstruieren, sodass $NSPACE_{T'}(x) = \bigO(s(|x|))$ und $x \in L(T') \Leftrightarrow x \notin L(T)$.
+    \\
+    Es existiert akzeptierende Berechnung von $T'$ auf x genau dann, wenn alle Berechnungen von $T$ auf $x$ verwerfen.
+
+    Sei $x$ fixiert und o.B.d.A $\Sigma = \{0,1\}$.
+    \\
+    Schreibe $S_{INI}$ für die globale Startkonfiguration von $T$ auf $x$
+    und $S_{ACC}$ für die (o.B.d.A. einzige) akzeptierende globale Konfiguration.
+    Weiter sei $S = c' *  s(|x|)$ so gewählt, dass alle globalen Konfigurationen durch $0/1$-Strings der Länge $S$ kodiert werden.
+    \\
+    $s \rightarrow_T s'$ bedeute, dass $s'$ in einem Schritt aus $s$ hervorgehen kann (Das kann in Platz $\log(S)$ entschieden werden).
+    \\
+    $T'$ soll nun $x$ akzeptieren genau dann, wenn kein Pfad (der Länge $2^S$) von $s_{INI}$ zu $s_{ACC}$ existiert.
+    (Anzahl der globalen Konfigurationen ist kleiner als $2^S$. Ein einziger Pfad braucht, wenn er voll ausgeschrieben wird, schon Platz $S * 2^S \notin \bigO(s(|x|))$.)
+
+    \textbf{Vorbemerkung:}\\
+    Nehmen wir an, dass die Anzahl $N$ der von $s_{INI}$ aus erreichbaren globalen Konfigurationen bekannt ist bzw. berechnet werden kann.
+
+    Wir zählen der Reihe nach alle globalen Konfigurationen auf (geht mit Platz $\bigO(S)$) und raten für jede von denen einen Pfad von $S_{INI}$ dorthin. Durch Mitführen eines Zählers haben wir am Ende der Aufzählung die Anzahl derjenigen Knoten, für die das gelungen ist.
+
+    \begin{codebox}[javascript]
+function A(...) {
+    cnt = 0;
+    for (s in globalConfigs) {
+        pfad = guessPath();
+        if (pfad.endsAt(s))
+            cnt++;
+        if (s = s_acc)
+            return "reject";
+    }
+    if (cnt == N)
+        return "accept";
+    else
+        return "reject";
+}
+
+function guessPath() {
+    s = s_ini;
+    for (i = 1; i <= 2^S; i++) {
+        sX = guessNonDet({0,1}^S);
+        if (s2 -> sX) {
+            s2 = sX;
+        } else {
+            return "reject";
+        }
+        b = guessNonDet({0,1});
+        if (b) {
+            break;
+        }
+    }
+}
+    \end{codebox}
+
+    Falls $N$ die Anzahl der von $s_{INI}$ aus erreichbaren globalen Konfigurationen ist, so \underline{kann} A akzeptieren genau dann, wenn $s_{ACC}$ von $s_{INI}$ unerreichbar ist. 
+    \\
+    Begründung ``$\Rightarrow$'': Falls A akzeptiert, dann ist $s_{ACC}$ tatsächlich unerreichbar, weil alle $N$ erreichbaren Konfigurationen in der for-Schleife als solche erkannt wurden und $s_{ACC}$ nicht unter ihnen war.
+    \\
+    Begründung ``$\Leftarrow$'': Falls $s_{ACC}$ unerreichbar ist, so kann A akzeptieren, indem bei jedem der von $s_{INI}$ aus erreichbaren s tatsächlich ein entsprechender Pfad geraten wird.
+
+
+    Grobe Struktur des Algorithmus für $T'$:
+    \begin{codebox}[javascript]
+N = 1;
+for (i = 1 ... 2^S) {
+    // Invariante: Anzahl der von s_ini aus in weniger als i-1 Schritten erreichbaren Konfigurationen ist gleich N
+    updateN();
+}
+A();
+    \end{codebox}
+    Der Block \codeline{updateN()} wird selbst Nichtdeterminismus enthalten, in dem Sinne, dass die gesamte Berechnung verwerfend abgebrochen werden kann. Passiert das nicht, dann ist $N$ korrekt aktualisiert und bei passender Wahl der nichtdeterministischen Entscheidungen, passiert das auch.
+
+    \begin{codebox}[javascript]
+function updateN() {
+    cnt = 0;
+    for (s in globalConfigs) {
+        reachable = false;
+        cnt2 = 0;
+        // alle N Stück die von s_ini aus in weniger als i-1 Schritten erreichbar sind, aufzählen
+        for (sCheck in globalConfigs) {
+            pfad = guessPath(); 
+            if (pfad.endsAt(sCheck)) {
+                cnt2++;
+                if (sCheck == s || sCheck -> s)
+                    reachable = true;
+            }
+        }
+        if (cnt2 != N)
+            return "reject";
+        else if (reachable)
+            cnt++;
+    }
+    N = cnt;
+}
+    \end{codebox}
+
+    Am Ende von \codeline{updateN} hat entweder N den korrekten Wert oder es wurde verworfen.
+    Es ist möglich, die nichtdeterministischen Entscheidungen so zu treffen, dass der korrekte Wert geliefert wird, sodass nicht verworfen wird.
+
+
+\end{beweis}
 
 
 
