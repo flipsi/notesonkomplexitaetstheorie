@@ -329,4 +329,151 @@ function updateN() {
 
 
 
+
+
+
+
+\datum{03.12.15}
+
+
+
+\section{Noch ein Satz von Cook}
+
+
+\begin{definition}
+
+    $NSPACE(s(n)) + STACK$
+
+    Intuitiv ist das alles, was mit $\bigO(s(n))$ platzbeschränkten Arbeitsbändern und einem unbeschränkten Stack berechnet werden kann.
+
+    Eine mögliche Formalisierung: Turingmaschine mit Stack hat zusätzlich ein Stackalphabet $\Gamma$ und ein besonderes Symbol $A \in \Gamma$. Jedes ``Quintupel'' enthält eine zusätzliche Komponente, die Stack-Aktion, eine der folgenden drei:
+    \begin{itemize}
+        \item IDLE (Keller bleibt unverändert)
+        \item POP (oberstes Kellersymbol wird entfernt)
+        \item PUSH ($x \in \Gamma$ auf den Keller legen)
+    \end{itemize}
+    Außerdem ist das jeweils oberste Kellersymbol lesbar.
+    \\
+    % TODO sqcup soll A enthalten
+    % http://tex.stackexchange.com/questions/125438/place-symbol-inside-of-bigsqcup
+    Die Maschine wird mit Kellerinhalt $\sqcup \overline{A}$ gestartet und hält per Definition, wenn der Keller leer wird, d.h. wenn $A$ gePOPt wird.
+
+    Formal:
+    \\
+    $\delta = Q \times (\Sigma^k \times \Gamma) \times Q \times \Sigma^k \times S$
+    \\
+    wobei $S$ die Menge der Stack-Aktionen ist.
+
+
+\end{definition}
+
+
+\begin{beispiel}
+    
+    Der Beweis des Satzes von Savitch zeigt, dass STCONN $\in DSPACE(\log(n) + STACK)$ und $NSPACE(s(n)) \subseteq DSPACE(s(n) + STACK)$ ist.
+
+
+
+\end{beispiel}
+
+
+
+\begin{satz}
+    
+    $s(n) \geq \log(n) \Longrightarrow NSPACE(s(n)) + STACK = DTIME(2^{\bigO(s(n))})$
+
+\end{satz}
+
+\begin{beweis}
+
+    \begin{itemize}
+
+        \item ``$\subseteq$'':
+
+        Sei $T$ eine zunächst deterministische durch $s(n)$ platzbeschränkte Turingmaschine mit Stack.
+        \\
+        Wir fixieren eine Kodierung der ``Bandkonfigurationen'' von $T$. Diese Bandkonfigurationen beinhalten den Zustand und gesamten Inhalt aller Arbeitsbändern und Kopfpositionen. Bei Eingabe der Größe $n$ haben die so kodierten Bandkonfigurationen die Größe $\bigO(s(n))$, also konkret $c * s(n)$ für ein festes $c$.
+        \\
+        Sei nun eine Eingabe fixiert. $B$ sei die Menge der Bandkonfigurationen der Größe $c * s(|x|)$ und $\Gamma$ das Stackalphabet.
+        \\
+        Wir definieren die partielle Funktion $f: B \times \Gamma \longrightarrow B: f(b, x) = b'$
+        \\
+        % TODO sqcup soll x enthalten
+        $b'$ ist die Bandkonfiguration, die erreicht wird, wenn man $T$ in $b$ und mit Kellerinhalt $\sqcup x$ startet und so lange rechnet, bis $X$ zum ersten Mal gePOPt wird. 
+
+
+        \textbf{Bemerkung:}\\
+        $x \in L(T) \Longleftrightarrow f(b_{INI}, A) = b'$ und $b'$ akzeptierende Endkonfiguration ist. O.B.d.A ist $b'$ eindeutig.
+
+        \textbf{Bemerkung:}\\
+        Streng genommen sollte man schreiben $f_x(b, X)$ oder $f(x, b, X)$, da die Eingabe $x$ in die Definition von $f$ einfließt.
+
+        $f$ gestattet folgende rekursive Definition: 
+
+        $f(b, X) = 
+        \begin{cases}
+        b'                  & , \text{POP}     \\
+        f(b', X)            & , \text{IDLE}   \\
+        f(f(b', Y), X)      & , \text{PUSH(Y)}
+        \end{cases}
+        $
+
+        wobei $b'$ die auf $(b,X)$ unmittelbar folgende Bandkonfiguration ist.
+
+        Statt nun $f(b_{INI}, A)$ durch Rewriting auszuwerten, was letztendlich der Berechnung von $T$ entspräche, tabulieren wir die gesamten $f$-Werte systematisch mit dynamischer Programmierung. Die Anzahl der Bandkonfigurationen ist $2^{c*s(|x|)}$. Damit gibt es ingesamt $\bigO(2^{c*s(|x|)})$, o.B.d.A $2^{c*s(|x|)})$ viele $f$-Aufrufe. Eine Wertetabelle für $f$ kann also in Zeit $2^{\bigO(s(|x|))}$ komplett ausgefüllt werden.
+        \\
+        Gesamtrechenzeit: $\bigO((2^{c*s(|x|)})^2) = 2^{\bigO(s(|x|))}$ 
+
+        
+        Wenn die Maschine nichtdeterministisch ist, dann nehmen wir statt $f$ die Funktion $F: B \times \Gamma \times B \longrightarrow bool:\\
+        F = 
+        \begin{cases}
+         true        & \text{falls es Berechnung von } b \text{ nach } b' \text{ gibt, an deren Ende } X \text{ erstmals gePOPt wird}       \\
+         false       & \text{sonst}     \\
+        \end{cases}
+        $
+
+        $F$ kann ganz genauso mit dynamischer Programmierung ausgewertet werden.
+
+
+
+        Sei umgekehrt $T$ eine deterministische Turingmaschine mit Zeitschranke $2^{c*s(n)}$.
+        \\
+        Die Kopfpositionen aller Köpfe könenn durch String der Länge $\bigO(s(n))$ kodiert werden (Binärkodierung der numerischen Positionen).
+        $a$ mit $|a| = c' * s(n)$ kodiere diese Positionen. 
+        \\
+        Ebenso können Zeitpunkte in der Berechnung durch String dieser Länge kodiert werden.
+
+        Wir definieren bei fester Eingabe $x$ folgende rekursive Funktionen: 
+        \begin{itemize}
+            \item 
+            $band(t, a) \in \Sigma^k$ als Bandinhalt zur Zeit $t$ an den Positionen $a$.
+            \\
+            $band(0,   a) = \text{ Inhalt der initialisierten Bänder an den geforderten Positionen }$
+            $band(t+1, a) = \dots zustand(t) \dots band(t,a) \dots kopf(t)$
+
+            \item 
+            $zustand(t) \in Q$
+            \\
+            $zustand(0) = q_0$
+
+            \item 
+            $kopf(t)    = \text{ Positionen aller Köpfe zur Zeit } t$
+            \\
+            $kopf(t+1)  = \dots kopf(t) \dots band(t,a) \dots zustand(t) $
+
+        \end{itemize}
+
+        Die klassische rekursive Auswertung dieser Funktionen beziehungsweise des Toplevel-Aufrufs $zustand(2^{c*s(|x|)}) \in \{ q_{ACC}, q_{REG} \} $ kann auf einer $DSPACE(s(n)) + STACK$ Maschine simuliert werden.
+
+        % TODO der beweis ist noch nicht fertig oder
+
+\end{itemize}    
+
+    
+\end{beweis}
+
+
+
+
 % chapter platzkomplexitaet (end)
