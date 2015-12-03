@@ -298,3 +298,47 @@
 \newcommand{\ComplexityClassNE}        {\ensuremath{NE}}      % complexity class
 \newcommand{\ComplexityClassNEXP}      {\ensuremath{NEXP}}      % complexity class
 \newcommand{\ComplexityClassFP}        {\ensuremath{FP}}      % complexity class
+
+
+% symbol inside cup
+% http://tex.stackexchange.com/questions/125438/place-symbol-inside-of-bigsqcup
+\makeatletter % \moverlay by D. Arsenau
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\bighsqcup}{\charfusion[\mathop]{\bigsqcup}{\innerh}}
+\newcommand{\innerh}{\mathchoice
+  {h}
+  {\scriptstyle h}
+  {\scriptscriptstyle h}
+  {\scriptscriptstyle h}
+}
+
+\newcommand{\bigxsqcup}{\charfusion[\mathop]{\bigsqcup}{\innerx}}
+\newcommand{\innerx}{\mathchoice
+  {x}
+  {\scriptstyle x}
+  {\scriptscriptstyle x}
+  {\scriptscriptstyle x}
+}
+
+\newcommand{\bigAoverlinesqcup}{\charfusion[\mathop]{\bigsqcup}{\innerAoverline}}
+\newcommand{\innerAoverline}{\mathchoice
+  {\overline{A}}
+  {\scriptstyle \overline{A}}
+  {\scriptscriptstyle \overline{A}}
+  {\scriptscriptstyle \overline{A}}
+}
+
+
+
+
+
