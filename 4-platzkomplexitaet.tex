@@ -470,7 +470,175 @@ function updateN() {
     
 \end{beweis}
 
+\datum{7.12.2015}
+\definiere{In logarithmischem Platz berechenbare Funktion}
+Eine Funktion $f: \Sigma* \Rightarrow \Sigma*$ ist in logarithmischem
+Platz berechebar, wenn es eine DTM gibt, die bei Eingabe x den
+Funktionswert $f(x)$ auf ein gesondertes Ausgabeband schreibt.
+
+Das Ausgabeband darf nicht gelesen werden, das Eingabebnad (wie immer
+bei Space) nicht beschrieben werden.
+
+Die Arbeitsbänder sind $\bigO(log|x|)$ platzbeschränkt.
+
+Äquichvalente Chrakterisierung: Maschine schreibt das n-te Symbol auf
+ein besonderes Band (oder signalisiert es durch Einnehmen eines
+bestimmtne Zustandes), wenn n in Binärkodierung auf ein besonderes
+Band geschreiben wird.
+
+\textbf{Bemerkung}
+$2^{c*log(n)}=n^c$
+$ f \in FP \Rightarrow |f(x)| = \bigO(n^c)$ für ein c,
+d.h. polynomiell beschränkt und auch $DTIME_T(x) \in \bigO(n^c)$
+bei passenden T, welches f berechnet.
+
+\textbf{Bemerkung $FL \subseteq FP$}
+\begin{satz}
+FC ist unter KOmposition abgeschlossen.
+$f,g \in FL \Rightarrow g \times f \in FL$
+\end{satz}
+
+Gegeben Maschienen $T_f$ und $T_g$ im zweiten Format (n-tes Symbold on
+$f(x)$ wird bei Eingabe von x und n ``on demand'' berechnet.
+
+Maschine $T_{g \times f}$ für $g \times f $ wird ebenfalls im
+2. Format konstruiert. Sie simuliert auf der äußeren Ebene die
+Maschine $T_g$.  Jede Leseanfrage der Einfabe wird in eine Berechnung
+von $T_f$ auf x an der entsprechnen Ausgabeposition übersetzt.
+
+\definiere{NL-hart, P-hart, NL-vollständig, P-vollständig}
+\begin{itemize}
+\item X ist NL-hart, wenn für jedes $X'\in NL$ gilt $X' \leq_L X$
+\item X ist P-hart, wenn für jedes $X'\in P$ gilt $X' \leq_L X$
+\item X ist NL- bzw P-vollständig, wenn X ist NL-/P-hart und $X\in NL/P$
+\end{itemize}
+Hierbei bedeuted $X' \leq_L X$, dass $f\in FL$ existiert, mit $x \in X' \Leftrightarrow f(x) \in X$
+NB: $X' \leq_L X \Rightarrow x\leq_P X, bzw. X\leq X'$
+
+\begin{satz}Das Problem STCONN (Erreichbarkeit im gerichteten Graphen) ist NL-vollständig.
+\end{satz}
+
+\begin{beweis}
+$STCON \in NL$ \checkmark
+
+\paragraph{NL-hart} Sei T irgendeine NL-Maschiene. $x \in ((T) E)$
+es exestirt ein PFad von $a_{INI}$ nach $a_{ACC}$ im Graphen, dessen
+Knoten die globale Konfig. von T bei Eingabe x sind $a_{INI}$ die
+Startkonfiguration und $a_{ACC}$ die (oBdA eindeutige)akzeptierende Eindkonfiguration ist. Die Übersetzung von x in dem Graphen kann offensichtlich durch eine ``Fl-Maschine'' im 1. Format geschehen.
+\end{beweis}
+
+\definiere{Hornklausel}
+Eine Klausel (Disjunktion von Literalen) mit höchstens einem positiven
+Literal heißt Hornklausel. Hornklauseln können logische äquivalent in
+den Formaten:
 
 
+%das v ist hier gemeint
+\begin{itemize}
+\item $P_1, P_2, \dots P_k \rightarrow q$ 
+\item d. h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k \lor q$
 
-% chapter platzkomplexitaet (end)
+\item oder $P_1, P_2, \dots P_k \rightarrow \bot$
+\item d.h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k$
+\end{itemize}
+geschrieben werden.
+
+Das Problem Horn.
+\paragraph{Gegeben}
+Eine Menge von Hornklauseln H.
+\paragraph{Gefragt}
+Ist H unerfüllbar?
+
+%-----
+
+Eine Hornklausel der Form $\rightarrow q$ k = 0 heißt Faktum.
+Eine Hornklausel der Form $\rightarrow \bot$ k = 0 heißt Goal.
+
+In der Rgel entfällt H genau ein ``Goal'', $p\rightarrow \bot$
+H ist dann unerfüllbar, $Leftrightarrow$ p aus den übrigen Klausen hergeleitet werden kann. $H \vdash p$ hierbei ist die Herleitbarkeit wie folgt definiert.
+\begin{itemize}
+\item $\rightarrow q \in H$ dann $H+g$ alle Fankten sind herleitbar
+\item $P_1, P_2, \dots P_k \rightarrow q \in H$ und
+$H+P_1, H+P_2, \dots H+P_k$ dann auch $H+g$
+\end{itemize}
+
+NB: eine Horn-Klausel Menge ohne Goals ist immer erfüllbar.
+
+NB: Eine Hornklauselmenge mit mehreren Goals ist unerfüllbar
+$\Leftrightarrow$ mindestens ein Goal herleibar ist.
+
+\begin{satz}
+$Horn \in P$ Wir benutzen eine dynamsiche Menge S, die am Ende alle
+herleitbaren Variablen enthalten soll. $S:=\emptyset$
+\end{satz}
+
+%Pseudocodes
+\begin{codebox}[javascript]
+while(!done)
+  s' =  s
+  for p_1, \dots, p_k  \rightarrow q \in H
+    if{p1, \dots, p_k} \seteq S' then
+      S' := S' \u {q}
+    done := S' = S''; S := S' 
+return ``es existiert P \rightarrow \bot \in H mit q \subseteq S''
+\end{codebox}
+
+Dieses Vorgehen läuft in polynomieller Zeit, da die Zahl der
+Durchläufe durch die Zahl der Variablen beschränkt ist, aber nicht
+offensichtlich in log. Platz, da die dynamische Menge lineren Platz
+benötigt.
+
+\begin{beispiel}
+\begin{itemize}
+\item $ \rightarrow A $
+\item $ A \rightarrow B $
+\item $ F\rightarrow F $
+\item $ B,C \rightarrow D $
+\item $ A,B \rightarrow C $
+\item $ A,D \rightarrow E $
+\item $ E\rightarrow \bot $
+\end{itemize}
+$S:\emptyset ,{A},{A,B},{A,B,C},{A,B,C,D},{A,B,C,D,E}$
+\end{beispiel}
+
+\begin{satz}
+Horn ist P-Vollständig.
+\end{satz}
+
+\begin{beweis}
+Genauo wie Satz Cock(Sat ist NP-vollständig), im Fall einer
+deterministschen Maschine entstheen bei der Übersetzung nur
+Horn-Klauseln.
+\paragraph{Details}
+Sei DTM T gegeben, Eingabe x $DTIME_T(x) \subseteq p(|x|)$
+\paragraph{Variablen}
+\begin{description}
+\item[zust(t,g)] Zustand zu Zeit t ist g
+\item[band(t,i,x)] Bandinhalt zur Zeit t an position i ist
+\item[kopf(t,i)] Kopf an Pos i zur Zeit t
+\end{description}
+
+Klauseln z.B.
+\begin{itemize}
+\item $band(t,i,x), Kopf(t,i') \rightarrow band(t+1, i,x)$
+\item $band(t,i,x), Kopf(t,i), Zust(t,q) \rightarrow band(t+1, i, x')$
+\item $band(t,i,x), kopf(t,i)$
+\item $Zustand(t,q) \rightarrow Zustand(t+1, g')\dots$
+\end{itemize}
+falls jeweils S(g,x) = (g', x', m)
+
+Eingabe x wird akzeptiert $\Leftrightarrow$ Zustand(P|x|), $q_{ACC}$)
+herleibar ist um Goal $Zustand(P(|x|), q_{ACC}) \rightarrow \bot$
+hinzunehmen.  Die Übersetzung von T, x in diese Klauselmenge kann mit
+FL-Maschine durchgeführt werden. Also $L(T) \leq_{L}$ HORN.
+\end{beweis}
+
+Das bereits genannte offne Problem $NL \subsetneq P$ NL echt in P enthalten?
+kann also umformuliert werden, innn die Frage, ob $HORN \in NL$
+
+\paragraph{Markieren von Klauseln}
+Auf ein Fakt darf jederzeit eine Marke gelegt werden. Liegen auf allen
+Prämissen $p_1, p_2, \dots, p_k$ einer Klausel
+$p_1, p_2, \dots, p_k \rightarrow$ schon Marken,
+dann darf q mit einer Marke beheftet werden.
+chapter platzkomplexitaet (end)
