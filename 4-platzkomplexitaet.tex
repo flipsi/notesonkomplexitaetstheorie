@@ -461,7 +461,10 @@ function updateN() {
 
         \end{itemize}
 
-        Die klassische rekursive Auswertung dieser Funktionen beziehungsweise des Toplevel-Aufrufs $zustand(2^{c*s(|x|)}) \in \{ q_{ACC}, q_{REG} \} $ kann auf einer $DSPACE(s(n)) + STACK$ Maschine simuliert werden.
+        Die klassische rekursive Auswertung dieser Funktionen
+        beziehungsweise des Toplevel-Aufrufs
+        $zustand(2^{c*s(|x|)}) \in \{ q_{ACC}, q_{REG} \} $ kann auf
+        einer $DSPACE(s(n)) + STACK$ Maschine simuliert werden.
 
         % TODO der beweis ist noch nicht fertig oder
 
@@ -471,15 +474,17 @@ function updateN() {
 \end{beweis}
 
 \datum{7.12.2015}
-\definiere{In logarithmischem Platz berechenbare Funktion}
-Eine Funktion $f: \Sigma* \Rightarrow \Sigma*$ ist in logarithmischem
-Platz berechebar, wenn es eine DTM gibt, die bei Eingabe x den
-Funktionswert $f(x)$ auf ein gesondertes Ausgabeband schreibt.
+Eine Funktion $f: \Sigma* \Rightarrow \Sigma*$ ist in FL und
+heißt \definiere{in logarithmischem Platz berechenbar}, wenn es eine
+deterministische Turingmaschine gibt die bei Eingabe x:
 
-Das Ausgabeband darf nicht gelesen werden, das Eingabebnad (wie immer
-bei Space) nicht beschrieben werden.
-
-Die Arbeitsbänder sind $\bigO(log|x|)$ platzbeschränkt.
+\begin{itemize}
+\item Den Funktionswert $f(x)$ auf ein gesondertes Ausgabeband schreibt.
+\item Das Ausgabeband nicht mehr ließt.
+\item Das Eingabebnad (wie immer
+bei Space) nicht mehr beschreibt.
+\item $\bigO(log|x|)$ Platzbeschränkte Arbeitsbänder besitzt.
+\end{itemize}
 
 Äquichvalente Chrakterisierung: Maschine schreibt das n-te Symbol auf
 ein besonderes Band (oder signalisiert es durch Einnehmen eines
