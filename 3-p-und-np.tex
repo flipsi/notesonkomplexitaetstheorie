@@ -501,7 +501,7 @@ Es genügt, ein Polynom $p(n)$ zu finden, sodass in Zeit $p(n)$ der Wert $f(n+1)
 Die Laufzeit für $f(n)$ ist nämlich dann $\bigO(\Sigma_{m < n} p(m)) = poly(n)$.
 
 
-Offensichtlic ist $A = A_f \neq L(M_i)$, falls $f(n) = 2i+1$ für ein $n$, denn dann war $f(n') = 2i$ für ein $n' < n$ und $f(n'+1) = 2i+1$ also die Suche in Fall 2 erfolgreich.
+Offensichtlich ist $A = A_f \neq L(M_i)$, falls $f(n) = 2i+1$ für ein $n$, denn dann war $f(n') = 2i$ für ein $n' < n$ und $f(n'+1) = 2i+1$ also die Suche in Fall 2 erfolgreich.
 
 Ebenso ist $f_i$ keine Reduktion: $SAT \leq A_f$, falls $f(n) = (2i+1)+1$ für ein $n$.
 
@@ -833,7 +833,11 @@ Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\Complexit
     
     \begin{itemize}
 
-        \item $\Leftarrow$:
+        % wie
+        %       \item ``$\subseteq$'':
+        % mit quotes finde ich schöner
+        
+        \item ``$\Leftarrow$'':
 
             Seien $L' \in \ComplexityClassP$, $p$ Polynom vorgegeben.\\
 
@@ -847,7 +851,7 @@ Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\Complexit
 
             Die Maschine $M$ rät also $y$ und prüft $(x,y) \notin L''$ mit Orakel für $L''$.
 
-        \item $\Rightarrow$:
+        \item ``$\Rightarrow$'':
 
             Sei $M$ eine nichtdeterministische durch $p(n)$ laufzeitbeschränkte Turingmaschine mit Orakel $X \in \ComplexityClassNP$, z.B. $X = SAT$, $L = L(M)$
 
