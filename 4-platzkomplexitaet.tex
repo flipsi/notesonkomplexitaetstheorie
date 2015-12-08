@@ -148,7 +148,7 @@ Von jeder dieser Inklusionen ist unbekannt, ob sie echt sind. Mindestens eine mu
 
 \begin{beweis}
     
-    Sei eine nichtdeterministische Turingmaschine $T$ gegeben mit Platzbedarf $S = c * s(|x|)$ bei Eingabe $x$. Wir betrachten eine Kodierung der globalen Konfigurationen von $T(x)$ durch Wörter der Länge $S$ und o.B.d.A gebe es exakt eine akzeptierende Endkonfiguration $s_{ACC}$. (Alle Bänder am Ende löschen, d.h. mit $0$ überschreiben.)
+    Sei eine nichtdeterministische Turingmaschine $T$ gegeben mit Platzbedarf $S = c * s(|x|)$ bei Eingabe $x$. Wir betrachten eine Kodierung der globalen Konfigurationen von $T(x)$ durch Wörter der Länge $S$ und o.\,B.\,d.\,A. gebe es exakt eine akzeptierende Endkonfiguration $s_{ACC}$. (Alle Bänder am Ende löschen, d.h. mit $0$ überschreiben.)
 
     $
     x \in L(T) 
@@ -227,10 +227,10 @@ Historisch wurde zunächst gezeigt, dass STCONN in $DSPACE(\log(n)^2)$ liegt. De
     \\
     Es existiert akzeptierende Berechnung von $T'$ auf x genau dann, wenn alle Berechnungen von $T$ auf $x$ verwerfen.
 
-    Sei $x$ fixiert und o.B.d.A $\Sigma = \{0,1\}$.
+    Sei $x$ fixiert und o.\,B.\,d.\,A. $\Sigma = \{0,1\}$.
     \\
     Schreibe $S_{INI}$ für die globale Startkonfiguration von $T$ auf $x$
-    und $S_{ACC}$ für die (o.B.d.A. einzige) akzeptierende globale Konfiguration.
+    und $S_{ACC}$ für die (o.\,B.\,d.\,A.. einzige) akzeptierende globale Konfiguration.
     Weiter sei $S = c' *  s(|x|)$ so gewählt, dass alle globalen Konfigurationen durch $0/1$-Strings der Länge $S$ kodiert werden.
     \\
     $s \rightarrow_T s'$ bedeute, dass $s'$ in einem Schritt aus $s$ hervorgehen kann (Das kann in Platz $\log(S)$ entschieden werden).
@@ -400,7 +400,7 @@ function updateN() {
 
 
         \textbf{Bemerkung:}\\
-        $x \in L(T) \Longleftrightarrow f(b_{INI}, A) = b'$ und $b'$ akzeptierende Endkonfiguration ist. O.B.d.A ist $b'$ eindeutig.
+        $x \in L(T) \Longleftrightarrow f(b_{INI}, A) = b'$ und $b'$ akzeptierende Endkonfiguration ist. o.\,B.\,d.\,A. ist $b'$ eindeutig.
 
         \textbf{Bemerkung:}\\
         Streng genommen sollte man schreiben $f_x(b, X)$ oder $f(x, b, X)$, da die Eingabe $x$ in die Definition von $f$ einfließt.
@@ -417,7 +417,7 @@ function updateN() {
 
         wobei $b'$ die auf $(b,X)$ unmittelbar folgende Bandkonfiguration ist.
 
-        Statt nun $f(b_{INI}, A)$ durch Rewriting auszuwerten, was letztendlich der Berechnung von $T$ entspräche, tabulieren wir die gesamten $f$-Werte systematisch mit dynamischer Programmierung. Die Anzahl der Bandkonfigurationen ist $2^{c*s(|x|)}$. Damit gibt es ingesamt $\bigO(2^{c*s(|x|)})$, o.B.d.A $2^{c*s(|x|)})$ viele $f$-Aufrufe. Eine Wertetabelle für $f$ kann also in Zeit $2^{\bigO(s(|x|))}$ komplett ausgefüllt werden.
+        Statt nun $f(b_{INI}, A)$ durch Rewriting auszuwerten, was letztendlich der Berechnung von $T$ entspräche, tabulieren wir die gesamten $f$-Werte systematisch mit dynamischer Programmierung. Die Anzahl der Bandkonfigurationen ist $2^{c*s(|x|)}$. Damit gibt es ingesamt $\bigO(2^{c*s(|x|)})$, o.\,B.\,d.\,A. $2^{c*s(|x|)})$ viele $f$-Aufrufe. Eine Wertetabelle für $f$ kann also in Zeit $2^{\bigO(s(|x|))}$ komplett ausgefüllt werden.
         \\
         Gesamtrechenzeit: $\bigO((2^{c*s(|x|)})^2) = 2^{\bigO(s(|x|))}$ 
 
@@ -473,109 +473,146 @@ function updateN() {
     
 \end{beweis}
 
+
+
+
+
+
+
+
+
+
 \datum{7.12.2015}
-Eine Funktion $f: \Sigma* \Rightarrow \Sigma*$ ist in FL und
+
+
+\section{Logarithmischer Platz}
+
+
+Eine Funktion $f: \Sigma^\ast \Rightarrow \Sigma^\ast$ ist in $FL$ und
 heißt \definiere{in logarithmischem Platz berechenbar}, wenn es eine
-deterministische Turingmaschine gibt die bei Eingabe x:
+deterministische Turingmaschine gibt die bei Eingabe $x$:
 
 \begin{itemize}
 \item Den Funktionswert $f(x)$ auf ein gesondertes Ausgabeband schreibt.
 \item Das Ausgabeband nicht mehr ließt.
-\item Das Eingabebnad (wie immer
+\item Das Eingabeband (wie immer
 bei Space) nicht mehr beschreibt.
-\item $\bigO(log|x|)$ Platzbeschränkte Arbeitsbänder besitzt.
+\item $\bigO(log|x|)$ platzbeschränkte Arbeitsbänder besitzt.
 \end{itemize}
 
-Äquichvalente Chrakterisierung: Maschine schreibt das n-te Symbol auf
+\textbf{Äquivalente Charakterisierung:}
+Maschine schreibt das $n$-te Symbol auf
 ein besonderes Band (oder signalisiert es durch Einnehmen eines
-bestimmtne Zustandes), wenn n in Binärkodierung auf ein besonderes
-Band geschreiben wird.
+bestimmten Zustandes), wenn $n$ in Binärkodierung auf ein besonderes
+Band geschrieben wird.
 
-\textbf{Bemerkung}
+\textbf{Bemerkung}\\
 \begin{itemize}
 \item $2^{c*log(n)}=n^c$
 \item $f \in FP \Rightarrow |f(x)| = \bigO(n^c)$
-für ein c, d.h. polynomiell beschränkt und auch $DTIME_T(x) \in \bigO(n^c)$
-bei passenden T, welches f berechnet.
+für ein $c$, d.\,h. polynomiell beschränkt und auch $DTIME_T(x) \in \bigO(n^c)$
+bei passenden $T$, welches $f$ berechnet.
 \end{itemize}
 
-\textbf{Bemerkung $FL \subseteq FP$}
+\textbf{Bemerkung}\\ 
+$FL \subseteq FP$
 \begin{satz}
-FL ist unter Komposition abgeschlossen.
-$f,g \in FL \Rightarrow g \times f \in FL$
+    $FL$ ist unter Komposition abgeschlossen.
+    $f,g \in FL \Rightarrow g \times f \in FL$
 \end{satz}
 
-Gegeben Maschienen $T_f$ und $T_g$ im zweiten Format (n-tes Symbold on
-$f(x)$ wird bei Eingabe von x und n ``on demand'' berechnet.
+Gegeben Turingmaschinen $T_f$ und $T_g$ im zweiten Format ($n$-tes Symbol von
+$f(x)$ wird bei Eingabe von $x$ und $n$ ``on demand'' berechnet.
 
-Maschine $T_{g \times f}$ für $g \times f $ wird ebenfalls im
+Turingmaschine $T_{g \times f}$ für $g \times f $ wird ebenfalls im
 2. Format konstruiert. Sie simuliert auf der äußeren Ebene die
-Maschine $T_g$.  Jede Leseanfrage der Einfabe wird in eine Berechnung
-von $T_f$ auf x an der entsprechnen Ausgabeposition übersetzt.
+Maschine $T_g$.  Jede Leseanfrage der Eingabe wird in eine Berechnung
+von $T_f$ auf $x$ an der entsprechenden Ausgabeposition übersetzt.
 
-\definiere{NL-hart, P-hart, NL-vollständig, P-vollständig}
+
+
+
+
+\section{Mehr Härte und Vollständigkeit}
+
+% \definiere{NL-hart, P-hart, NL-vollständig, P-vollständig}
 \begin{itemize}
-\item X ist NL-hart, wenn für jedes $X'\in NL$ gilt $X' \leq_L X$
-\item X ist P-hart, wenn für jedes $X'\in P$ gilt $X' \leq_L X$
-\item X ist NL- bzw P-vollständig, wenn X ist NL-/P-hart und $X\in NL/P$
+\item $X$ ist \definiere{NL-hart}, wenn für jedes $X'\in NL$ gilt $X' \leq_L X$
+\item $X$ ist \definiere{P-hart}, wenn für jedes $X'\in P$ gilt $X' \leq_L X$
+\item $X$ ist \definiere{NL- bzw. P-vollständig}, wenn $X$ NL-hart bzw. P-hart ist und $X\in NL$ bzw. $X\in P$
 \end{itemize}
-Hierbei bedeuted $X' \leq_L X$, dass $f\in FL$ existiert, mit $x \in X' \Leftrightarrow f(x) \in X$
-NB: $X' \leq_L X \Rightarrow x\leq_P X, bzw. X\leq X'$
 
-\begin{satz}Das Problem STCONN (Erreichbarkeit im gerichteten Graphen) ist NL-vollständig.
+Hierbei bedeutet $X' \leq_L X$, dass $f \in FL$ existiert, mit $x \in X' \Leftrightarrow f(x) \in X$
+
+\textbf{Bemerkung:}\\
+$X' \leq_L X \Rightarrow x \leq_P X, \text{ bzw. } X \leq X'$
+
+\begin{satz}
+    Das Problem STCONN (Erreichbarkeit im gerichteten Graphen) ist NL-vollständig.
 \end{satz}
 
 \begin{beweis}
-$STCON \in NL$ \checkmark
+    $STCON \in NL$ \checkmark
 
-\paragraph{NL-hart} Sei T irgendeine NL-Maschiene. $x \in ((T) E)$
-es exestirt ein PFad von $a_{INI}$ nach $a_{ACC}$ im Graphen, dessen
-Knoten die globale Konfig. von T bei Eingabe x sind $a_{INI}$ die
-Startkonfiguration und $a_{ACC}$ die (oBdA eindeutige)akzeptierende Eindkonfiguration ist. Die Übersetzung von x in dem Graphen kann offensichtlich durch eine ``Fl-Maschine'' im 1. Format geschehen.
+    \textbf{NL-hart:} Sei $T$ eine NL-Maschine. $x \in ((T) E)$
+    es existiert ein Pfad von $a_{INI}$ nach $a_{ACC}$ im Graphen, dessen
+    Knoten die globale Konfiguration von $T$ bei Eingabe $x$ sind, $a_{INI}$ die
+    Startkonfiguration und $a_{ACC}$ die (o.\,B.\,d.\,A. eindeutige) akzeptierende Endkonfiguration ist. Die Übersetzung von $x$ in dem Graphen kann offensichtlich durch eine ``Fl-Maschine'' im 1. Format geschehen.
 \end{beweis}
 
-\definiere{Hornklausel}
-Eine Klausel (Disjunktion von Literalen) mit höchstens einem positiven
-Literal heißt Hornklausel. Hornklauseln können logische äquivalent in
-den Formaten:
 
 
-%das v ist hier gemeint
-\begin{itemize}
-\item $P_1, P_2, \dots P_k \rightarrow q$ 
-\item d. h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k \lor q$
 
-\item oder $P_1, P_2, \dots P_k \rightarrow \bot$
-\item d.h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k$
-\end{itemize}
-geschrieben werden.
 
-Das Problem Horn.
-\paragraph{Gegeben}
-Eine Menge von Hornklauseln H.
-\paragraph{Gefragt}
-Ist H unerfüllbar?
+\section{Horn}
+
+
+\begin{definition}
+    Eine Klausel (Disjunktion von Literalen) mit höchstens einem positiven
+    Literal heißt \definiere{Hornklausel}. Hornklauseln können logische äquivalent in
+    den Formaten:
+    %das v ist hier gemeint
+    \begin{itemize}
+    \item $P_1, P_2, \dots P_k \rightarrow q$ 
+    \item d.\,h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k \lor q$
+    \item oder $P_1, P_2, \dots P_k \rightarrow \bot$
+    \item d.\,h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k$
+    \end{itemize}
+    geschrieben werden.
+
+\end{definition}
+
+
+
+\begin{definition}
+    Gegeben eine Menge von Hornklauseln $H$.
+    Das Problem, ob $H$ unerfüllbar ist, heißt \definiere{Hornproblem}.
+\end{definition}
 
 %-----
+\begin{definition}
+    Eine Hornklausel der Form $\rightarrow q$ k = 0 heißt \definiere{Faktum}.
+    Eine Hornklausel der Form $\rightarrow \bot$ k = 0 heißt \definiere{Goal}.
+\end{definition}
 
-Eine Hornklausel der Form $\rightarrow q$ k = 0 heißt Faktum.
-Eine Hornklausel der Form $\rightarrow \bot$ k = 0 heißt Goal.
-
-In der Rgel entfällt H genau ein ``Goal'', $p\rightarrow \bot$
-H ist dann unerfüllbar, $Leftrightarrow$ p aus den übrigen Klausen hergeleitet werden kann. $H \vdash p$ hierbei ist die Herleitbarkeit wie folgt definiert.
+In der Regel entfällt $H$ genau ein ``Goal'', $p\rightarrow \bot$.
+\\
+$H$ ist dann unerfüllbar, genau dann, wenn $p$ aus den übrigen Klausen hergeleitet werden kann. $H \vdash p$ hierbei ist die Herleitbarkeit wie folgt definiert.
 \begin{itemize}
-\item $\rightarrow q \in H$ dann $H+g$ alle Fankten sind herleitbar
+\item $\rightarrow q \in H$ dann $H+g$ alle Fakten sind herleitbar
 \item $P_1, P_2, \dots P_k \rightarrow q \in H$ und
 $H+P_1, H+P_2, \dots H+P_k$ dann auch $H+g$
 \end{itemize}
 
-NB: eine Horn-Klausel Menge ohne Goals ist immer erfüllbar.
+\textbf{Bemerkung:}\\
+Eine Horn-Klausel Menge ohne Goals ist immer erfüllbar.
 
-NB: Eine Hornklauselmenge mit mehreren Goals ist unerfüllbar
-$\Leftrightarrow$ mindestens ein Goal herleibar ist.
+\textbf{Bemerkung:}\\
+Eine Hornklauselmenge mit mehreren Goals ist unerfüllbar
+genau dann, wenn mindestens ein Goal herleibar ist.
 
 \begin{satz}
-$Horn \in P$ Wir benutzen eine dynamsiche Menge S, die am Ende alle
+$Horn \in P$ Wir benutzen eine dynamische Menge $S$, die am Ende alle
 herleitbaren Variablen enthalten soll. $S:=\emptyset$
 \end{satz}
 
@@ -592,60 +629,68 @@ return ``es existiert P \rightarrow \bot \in H mit q \subseteq S''
 
 Dieses Vorgehen läuft in polynomieller Zeit, da die Zahl der
 Durchläufe durch die Zahl der Variablen beschränkt ist, aber nicht
-offensichtlich in log. Platz, da die dynamische Menge lineren Platz
+offensichtlich in lmgarithmischem Platz, da die dynamische Menge linearen Platz
 benötigt.
 
 \begin{beispiel}
-\begin{itemize}
-\item $ \rightarrow A $
-\item $ A \rightarrow B $
-\item $ F\rightarrow F $
-\item $ B,C \rightarrow D $
-\item $ A,B \rightarrow C $
-\item $ A,D \rightarrow E $
-\item $ E\rightarrow \bot $
-\end{itemize}
-$S:\emptyset ,{A},{A,B},{A,B,C},{A,B,C,D},{A,B,C,D,E}$
+    \begin{itemize}
+    \item $ \rightarrow A $
+    \item $ A \rightarrow B $
+    \item $ F\rightarrow F $
+    \item $ B,C \rightarrow D $
+    \item $ A,B \rightarrow C $
+    \item $ A,D \rightarrow E $
+    \item $ E\rightarrow \bot $
+    \end{itemize}
+    $S:\emptyset ,\{A\},\{A,B\},\{A,B,C\},\{A,B,C,D\},\{A,B,C,D,E\}$
 \end{beispiel}
 
 \begin{satz}
-Horn ist P-Vollständig.
+    Das Hornproblem ist P-vollständig.
 \end{satz}
 
 \begin{beweis}
-Genauo wie Satz Cock(Sat ist NP-vollständig), im Fall einer
-deterministschen Maschine entstheen bei der Übersetzung nur
-Horn-Klauseln.
-\paragraph{Details}
-Sei DTM T gegeben, Eingabe x $DTIME_T(x) \subseteq p(|x|)$
-\paragraph{Variablen}
-\begin{description}
-\item[zust(t,g)] Zustand zu Zeit t ist g
-\item[band(t,i,x)] Bandinhalt zur Zeit t an position i ist
-\item[kopf(t,i)] Kopf an Pos i zur Zeit t
-\end{description}
+    Genauo wie Satz Cock(SAT ist NP-vollständig), im Fall einer
+    deterministschen Maschine entstehen bei der Übersetzung nur
+    Horn-Klauseln.
+    \paragraph{Details}
+    Sei eine deterministsche Turingmaschine $T$ gegeben, Eingabe $x DTIME_T(x) \subseteq p(|x|)$
+    \paragraph{Variablen}
+    \begin{description}
+    \item[$zust(t,g)$] Zustand zu Zeit $t$ ist $g$
+    \item[$band(t,i,x)$] Bandinhalt zur Zeit $t$ an Position $i$ ist
+    \item[$kopf(t,i)$] Kopf an Pos $i$ zur Zeit $t$
+    \end{description}
 
-Klauseln z.B.
-\begin{itemize}
-\item $band(t,i,x), Kopf(t,i') \rightarrow band(t+1, i,x)$
-\item $band(t,i,x), Kopf(t,i), Zust(t,q) \rightarrow band(t+1, i, x')$
-\item $band(t,i,x), kopf(t,i)$
-\item $Zustand(t,q) \rightarrow Zustand(t+1, g')\dots$
-\end{itemize}
-falls jeweils S(g,x) = (g', x', m)
+    Klauseln z.B.
+    \begin{itemize}
+    \item $band(t,i,x), kopf(t,i') \rightarrow band(t+1, i,x)$
+    \item $band(t,i,x), kopf(t,i), zust(t,q) \rightarrow band(t+1, i, x')$
+    \item $band(t,i,x), kopf(t,i)$
+    \item $Zustand(t,q) \rightarrow zust(t+1, g')\dots$
+    \end{itemize}
+    falls jeweils $S(g,x) = (g', x', m)$
 
-Eingabe x wird akzeptiert $\Leftrightarrow$ Zustand(P|x|), $q_{ACC}$)
-herleibar ist um Goal $Zustand(P(|x|), q_{ACC}) \rightarrow \bot$
-hinzunehmen.  Die Übersetzung von T, x in diese Klauselmenge kann mit
-FL-Maschine durchgeführt werden. Also $L(T) \leq_{L}$ HORN.
+    Eingabe $x$ wird akzeptiert genau dann, wenn $zust(P|x|), q_{ACC}$
+    herleibar ist um Goal $zust(P(|x|), q_{ACC} \rightarrow \bot$
+    hinzunehmen.  Die Übersetzung von $T$, $x$ in diese Klauselmenge kann mit
+    FL-Maschine durchgeführt werden. Also $L(T) \leq_{L}$ HORN.
 \end{beweis}
 
-Das bereits genannte offne Problem $NL \subsetneq P$ NL echt in P enthalten?
-kann also umformuliert werden, innn die Frage, ob $HORN \in NL$
+Das bereits genannte offene Problem $NL \subsetneq P$ NL echt in $\ComplexityClassP$ enthalten?
+kann also umformuliert werden, in die Frage, ob $HORN \in NL$.
 
-\paragraph{Markieren von Klauseln}
+\textbf{Markieren von Klauseln}
+\\
 Auf ein Fakt darf jederzeit eine Marke gelegt werden. Liegen auf allen
 Prämissen $p_1, p_2, \dots, p_k$ einer Klausel
 $p_1, p_2, \dots, p_k \rightarrow$ schon Marken,
-dann darf q mit einer Marke beheftet werden.
-chapter platzkomplexitaet (end)
+dann darf $q$ mit einer Marke beheftet werden.
+
+
+
+
+% chapter platzkomplexitaet (end)
+
+
+
