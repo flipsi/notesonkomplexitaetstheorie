@@ -226,7 +226,7 @@ Gegeben Input $x \in \Sigma^\ast$, dann hält die Maschine nach $\leq p(|x|)$ Sc
 
 \begin{beispiel}
     
-    3COL = $\{ G = (V,E)\ |\ G \text{ kann mit 3 Farben gefärbt werden, d.h. } \exists c: V \rightarrow \{r,g,b\} \text{ sodass } \forall (u, u') \in E: c(v) \neq c(u') \}$
+    3COL = $\{ G = (V,E)\ |\ G \text{ kann mit 3 Farben gefärbt werden, d.\,h. } \exists c: V \rightarrow \{r,g,b\} \text{ sodass } \forall (u, u') \in E: c(v) \neq c(u') \}$
 
     SAT = $\{ \phi\ |\ \phi \text{ aussagenlogische Formel die erfüllbar ist} \}$
 
@@ -282,11 +282,11 @@ Gegeben Input $x \in \Sigma^\ast$, dann hält die Maschine nach $\leq p(|x|)$ Sc
 
     Es gilt NODE-COVER $\leq$ KNFSAT.
 
-    und - was schwieriger zu zeigen ist - KNFSAT $\leq$ NODE-COVER:
+    und -- was schwieriger zu zeigen ist -- KNFSAT $\leq$ NODE-COVER:
 
     Gegeben: KNF $\phi$ mit $m$ Variablen $x_1 \dots x_m$ und $k$ Klauseln $C_1 \dots C_k$ wobei $C_j = l_{j,1} \lor \dots \lor l_{j,k}$\\
     Falls 3SAT, so sind alle $k_j = 3$.\\
-    Die $l_{j,i}$ sind Literale, d.h. negierte oder nicht-negierte Variablen.
+    Die $l_{j,i}$ sind Literale, d.\,h. negierte oder nicht-negierte Variablen.
 
     Wir konstruieren Graphen $G = (V,E)$ wie folgt:
     \begin{itemize}
@@ -352,17 +352,17 @@ Gegeben Input $x \in \Sigma^\ast$, dann hält die Maschine nach $\leq p(|x|)$ Sc
     
     SAT $\in \ComplexityClassNP$: trivial.
 
-    Sei $L \in \ComplexityClassNP$ gegeben und o.B.d.A $M$ eine nichtdeterministische Turingmaschine für $L$ mit einem Band $M = (\Sigma, Q, q_0, F, I)$ und $p$ ein Polynom, das die Laufzeit von $M$ beschränkt.
+    Sei $L \in \ComplexityClassNP$ gegeben und o.\,B.\,d.\,A. $M$ eine nichtdeterministische Turingmaschine für $L$ mit einem Band $M = (\Sigma, Q, q_0, F, I)$ und $p$ ein Polynom, das die Laufzeit von $M$ beschränkt.
     Gegeben weiterhin $x = x_1 \dots x_n$ Input.
 
-    Gesucht: aussagenlogische Formel $\phi = f(x)$, sodass $\phi$ erfüllbar ist genau dann, wenn $M$ akzeptiert $x$. $q$ muss aus $x$ in polynomieller Zeit berechenbar sein, d.h. $f \in \ComplexityClassFP$.
+    Gesucht: aussagenlogische Formel $\phi = f(x)$, sodass $\phi$ erfüllbar ist genau dann, wenn $M$ akzeptiert $x$. $q$ muss aus $x$ in polynomieller Zeit berechenbar sein, d.\,h. $f \in \ComplexityClassFP$.
 
-    $M$ akzeptiert $x$ genau dann, wenn eine akzeptierende Berechnung von $M$ auf $x$ existiert. Solch eine Berechnung hat höchstens $p(n)$ Schritte und o.B.d.A genau $p(n)$ Schritte. Die Bandbeschriftung zu jedem dieser $p(n)$ Schritte besteht aus höchstens $p(n)$ Symbolen und o.B.d.A genau $p(n)$ Symbolen.
+    $M$ akzeptiert $x$ genau dann, wenn eine akzeptierende Berechnung von $M$ auf $x$ existiert. Solch eine Berechnung hat höchstens $p(n)$ Schritte und o.\,B.\,d.\,A. genau $p(n)$ Schritte. Die Bandbeschriftung zu jedem dieser $p(n)$ Schritte besteht aus höchstens $p(n)$ Symbolen und o.\,B.\,d.\,A. genau $p(n)$ Symbolen.
 
     Die Formel $\phi$ verwendet die Variablen 
     \begin{itemize}
         \item $Q_t^i$: Zur Zeit $t$ ist $M$ im Zustand $i$.
-        \item $P_{s,t}^i$: Zur Zeit $t$ enthält Bandposition $s$ das $i.$ Symbol.
+        \item $P_{s,t}^i$: Zur Zeit $t$ enthält Bandposition $s$ das $i$-te Symbol.
         \item $S_{s,t}$: Zur Zeit $t$ ist der Kopf in Position $s$.
     \end{itemize}
 
@@ -411,7 +411,7 @@ $\leq$ ist transitiv, da $\ComplexityClassFP$ unter Komposition abgeschlossen is
 
     $$ \exists A \in \ComplexityClassNP \setminus \ComplexityClassP: A \text{ nicht NP-vollständig.} $$
 
-    $A$ liegt also ``echt'' zwischen $\ComplexityClassP$ und NP-vollständig.
+    $A$ liegt also echt zwischen $\ComplexityClassP$ und NP-vollständig.
 
     
 \end{satz}
@@ -501,11 +501,11 @@ Es genügt, ein Polynom $p(n)$ zu finden, sodass in Zeit $p(n)$ der Wert $f(n+1)
 Die Laufzeit für $f(n)$ ist nämlich dann $\bigO(\Sigma_{m < n} p(m)) = poly(n)$.
 
 
-Klar ist, dass $A = A_f \neq L(M_i)$ falls $f(n) = 2i+1$ für ein $n$, denn dann war $f(n') = 2i$ für ein $n' < n$ und $f(n'+1) = 2i+1$ also die Suche in Fall 2 erfolgreich.
+Offensichtlic ist $A = A_f \neq L(M_i)$, falls $f(n) = 2i+1$ für ein $n$, denn dann war $f(n') = 2i$ für ein $n' < n$ und $f(n'+1) = 2i+1$ also die Suche in Fall 2 erfolgreich.
 
-Ebenso ist $f_i$ keine Reduktion: $SAT \leq A_f$ falls $f(n) = (2i+1)+1$ für ein $n$.
+Ebenso ist $f_i$ keine Reduktion: $SAT \leq A_f$, falls $f(n) = (2i+1)+1$ für ein $n$.
 
-Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.h. dass jeder Fall irgendwann erfolgreich abgeschlossen wird.
+Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.\,h. dass jeder Fall irgendwann erfolgreich abgeschlossen wird.
 
 % Für festes $d$ wächst $(2 + \log n)^d$ langsamer als $n$, also wächst auch $ $ blabla
 
@@ -526,7 +526,7 @@ Das heißt wir müssen zeigen, dass $f$ surjektiv ist, d.h. dass jeder Fall irge
 \section{Orakel-Turingmaschinen}
 
 
-Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisierung''\footnote{zum Beispiel benutzt für $\ComplexityClassNP \subseteq \ComplexityClassEXP$} und ``Simulation''\footnote{zum Beispiel benutzt für $\ComplexityClassP \subset \ComplexityClassEXP$ (Ladner)} nicht helfen, um $\ComplexityClassP = \ComplexityClassNP$ zu entscheiden.
+Orakel-Turingmaschinen als Mittel zu zeigen, dass die Beweismethoden Diagonalisierung\footnote{zum Beispiel benutzt für $\ComplexityClassNP \subseteq \ComplexityClassEXP$} und Simulation\footnote{zum Beispiel benutzt für $\ComplexityClassP \subset \ComplexityClassEXP$ (Ladner)} nicht helfen, um $\ComplexityClassP = \ComplexityClassNP$ zu entscheiden.
 
 
 
@@ -537,7 +537,7 @@ Orakel-Turingmaschinen als Mittel zu zeigen, dass Beweismethoden ``Diagonalisier
     Ist $A \subseteq \Sigma^\ast$, dann definiert man Berechnungen $T^A(x)$ von $T$ auf $x$ mit Orakel $A$ wie folgt:
     \begin{itemize}
         \item Wie üblich mit der zusätzlichen Regel:\\
-            Falls $T$ in $q_Q$ so wird $T$ in Zustand $q_{yes}$, $q_{no}$ versetzt und zwar in einem Schritt, je nach dem, ob die aktuelle Beschriftung $z \in \Sigma^\ast$ des Orakelbands (``Anfrage''/``Query'') in $A$ ist ($q_{yes}$) oder nicht ($q_{no}$).
+            Falls $T$ in $q_Q$ so wird $T$ in Zustand $q_{yes}$, $q_{no}$ versetzt und zwar in einem Schritt, je nach dem, ob die aktuelle Beschriftung $z \in \Sigma^\ast$ des Orakelbands (Anfrage/Query) in $A$ ist ($q_{yes}$) oder nicht ($q_{no}$).
     \end{itemize}
     Man schreibt $L^A(T)$ oder $L(T^A)$ für die von $T$ akzeptierte Sprache, falls Anfragen gemäß $A$ beantwortet werden.
 
@@ -725,7 +725,7 @@ Wr zeigen jetzt die folgenden zwei Sätze, aufgrund derer kein Beweis für $\Com
 
 $co\text{--}\ComplexityClassP = \ComplexityClassP$
 
-$co\text{--}\ComplexityClassNP$ ist nicht offensichtlich gleich $\ComplexityClassNP$ wegen der unsymmetrischen Akzeptanzbedingung bei Nichtdeterminismus.
+$co\text{--}\ComplexityClassNP$ ist nicht offensichtlich gleich $\ComplexityClassNP$ wegen der asymmetrischen Akzeptanzbedingungen bei Nichtdeterminismus.
 
 
 \begin{definition}
@@ -833,7 +833,7 @@ Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\Complexit
     
     \begin{itemize}
 
-        \item ``$\Leftarrow$'':
+        \item $\Leftarrow$:
 
             Seien $L' \in \ComplexityClassP$, $p$ Polynom vorgegeben.\\
 
@@ -847,7 +847,7 @@ Im allgemeinen gilt: Falls $\Sigma_{n+1}^\ComplexityClassP = \Sigma_n^\Complexit
 
             Die Maschine $M$ rät also $y$ und prüft $(x,y) \notin L''$ mit Orakel für $L''$.
 
-        \item ``$\Rightarrow$'':
+        \item $\Rightarrow$:
 
             Sei $M$ eine nichtdeterministische durch $p(n)$ laufzeitbeschränkte Turingmaschine mit Orakel $X \in \ComplexityClassNP$, z.B. $X = SAT$, $L = L(M)$
 
@@ -932,7 +932,7 @@ Beweis durch Induktion über $n$.
     Das heißt $\forall n \geq 2 : \Sigma_n^\ComplexityClassP = \Sigma_2^\ComplexityClassP$.
 
 
-    Dass $SAT$ ``polynomielle Schaltkreise hat'' soll heißen: Es gibt ein Polynom $p(n)$ und für jedes $n \in \N$ einen boolschen Schaltkreis $C_n$ mit $n$ Inputs und Größe $\leq p(n)$ ($|C_n| \leq p(n)$).\\
+    Dass $SAT$ polynomielle Schaltkreise hat soll heißen: Es gibt ein Polynom $p(n)$ und für jedes $n \in \N$ einen boolschen Schaltkreis $C_n$ mit $n$ Inputs und Größe $\leq p(n)$ ($|C_n| \leq p(n)$).\\
     Für alle aussagenlogische Formeln $\phi$ mit $|\phi| = n$ gilt $\phi \in SAT \Leftrightarrow C(\phi) = TRUE$, $C(\phi)$ die Bitkodierung von $\phi$ an die $n$ Inputs von $C$ anlegen.
     
 \end{satz}
@@ -941,7 +941,7 @@ Kurznotation: $SAT \in \ComplexityClassP / poly$
 
 Der Satz von Kamp-Lipton sagt also $SAT \in \ComplexityClassP / poly \Rightarrow \text{ PH } = \Sigma_2^\ComplexityClassP$
 
-Hilfsmittel: ``Selbstreduzierbarkeit von SAT''\\
+Hilfsmittel: Selbstreduzierbarkeit von SAT\\
 Ein Schaltkreis $C_n$ wie oben beschrieben kann so umgebaut werden in einem Schaltkreis $D_n$ polynomielle Größe, dass bei Antwort TRUE eine erfüllende Belegung zurückgeliefert wird.
 
 Das heißt $D_n$ hat $n$ Ausgänge, die eine Belegung kodieren sollen. Spezifiere 
