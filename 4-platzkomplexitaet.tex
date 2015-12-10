@@ -699,8 +699,126 @@ dann darf $q$ mit einer Marke beheftet werden.
 
 
 
+\begin{satz}
+    $QBF$ ist PSPACE-vollständig.
+    
+\end{satz}
 
 
+\definiere{Quantifizierte Boolesche Formeln} ($QBF$)
+
+Gegeben ist eine boolesche Formel mit Quantoren, die über boolesche Werte rangieren.
+$$ \forall x \exists y . x \leftrightarrow \neg y  $$
+o.\,B.\,d.\,A. kann man diese Formeln als geschlossen voraussetzen (ggf. $\exists$, $\forall$ davorschreiben)
+\\
+Gesucht ist die Antwort auf die Frage, ob diese Formel wahr ist.
+
+
+
+Gegeben ist eine boolesche Formel $\phi$.
+$$ \phi \text{ erfüllbar } \Longleftrightarrow \exists x_1 \exists x_2 \dots \exists x_n . \phi \in QBF $$
+wobei $\{ x_1 \dots x_n \}$ die Variablen von $\phi$ sind.
+\\
+$$ TAUT \leq QBF $$
+$$ \phi \text{ Tautologie } \Longleftrightarrow \forall x_1 \forall x_2 \dots \forall x_n . \phi \in QBF $$
+
+
+$AEQSAT = \{ (\phi, \psi) \quad | \quad \phi \text{ erfüllbar } \Leftrightarrow \psi \text{ erfüllbar } \}$ 
+$$(\phi, \psi) \in AEQSAT \Longleftrightarrow (\exists x . \phi ) \Leftrightarrow (\exists y. \psi) \in QBF $$
+\\
+$$\exists x_1 \exists y_1 \forall x_2 \forall y_2 . (\phi(x_2) \rightarrow \psi(y_1)) \land (\psi(y_2) \rightarrow \phi(x_1))$$
+
+
+
+
+
+\definiere{Spezialfall: $QBF_n$}
+
+% pränex???
+Gegeben ist eine $QBF$-Formel in Pränexform (alle Quantoren ganz außen) mit maximal $n$ Quantorenwechseln beginnend mit $\exists$.
+
+Gegeben: $\exists x_1 \forall x_2 \exists x_3 \dots \exists/\forall x_n . \phi$ wobei $\phi$ eine boolesche Formel ohne Quantoren ist.
+
+$QBF_n$ ist vollständig für $\Sigma_n^P$ (polynomielle Hierarchie) falls $n \geq 1$.
+\\
+(Lezteres ist unmittelbare Konsequenz aus der logischen Charakterisierung der PH und Satz von Cook.)
+
+
+
+
+Rekursiver Algorithmus für QBF:
+\begin{codebox}[javascript]
+    check(exists x.phi, eta) = 
+        check(phi, eta[x -> true]) or
+        check(phi, eta[x -> false])
+    check(forall x.phi, eta) = 
+        check(phi, eta[x -> true]) and
+        check(phi, eta[x -> false])
+    check(phi1 and phi2, eta) = 
+        check(phi1, eta) and
+        check(phi2, eta)
+    check(x, eta) = eta(x)
+        ...
+\end{codebox}    
+
+
+
+Wi zeigen jetzt $L \leq QBF$ für beliebiges $L \in PSPACE$:
+
+\begin{beweis}
+
+    Sei $T$ eine deterministische Turingmaschine mit $L(T) = L$ und $DSPACE_T(x) \leq p(|x|)$ und $DTIME_T(x) \leq 2^{p(|x|)}$ wobei $p$ ein Polynom ist.
+    Außerdem habe $T$ zu jeder Eingabe $x$ genau eine Startkonfiguration $a_{INI}$ und eine akzeptierende Endkonfiguration $a_{ACC}$.
+    sodass $x \in L(T) \Leftrightarrow \exists 
+    a_1, a_2 \dots a_{2^{p(|x|)}}$ mit $a_1 = a_{INI}, a_{2^{p(|x|)}} = a_{ACC}$
+    $a_i \righarrow_T a_{i+1}$ wobei $\righarrow_T$ ein Schritt der Auswertung durch T ist.
+    \\
+    $REACH(a, a', k) := a' \text{ ist in } 2^k \text{ Schritten von } a \text{ aus erreichbar. }$
+    \\
+    $x \in L \Leftrightarrow REACH(a_{INI}, a_{ACC}, p(|x|))$
+    \\
+    $REACH(a_{INI}, a', 0) \Leftrightarrow a \rightarrow_T a'$
+    \\
+    $REACH(a_{INI}, a', k+1) \Leftrightarrow \exists \check{a} . REACH(a, \check{a}, k) \land REACH(\check{a}, a', k)}$
+
+    Kodiere Konfiguration $a$ durch $p(|x|)$ viele boolesche Variablen. $a \rightarrow_T a'$ durch quantorenfreie boolesche Formel.
+    \\
+    Dies, zusammen mit Abwicklung der Rekursion, liefert eine $QBF_1$-Formel (nur Existenzquantoren), also wäre $PSPACE \subseteq NP$. Das ist natürlich falsch, denn die so erhaltene $QBF_1$-Formel hat die Größe $\Omega(2^{p(|x|)})$.
+    \\
+    Die Aufblähung findet nicht statt, wenn man folgende Rekurenz verwendet:
+    \\
+    $REACH(a,a') \Leftrightarrow a \rightarrow_T a'$
+    \\
+    $REACH(a,a') \Leftrightarrow \exists \check{a} \forall b \forall b' .
+    (b = a \land b' = \check{a} \lor b = \check{a} \land b' = a') \Rightarrow REACH(b, b', k)$
+    \\
+    % TODO lalalala '-W' zeichen worte keine ahnung
+    Die Größe von $REACH(a, a', k)$ ist $\bigO(k * p(|x|))$  lalalalala $\bigO(p(|x|)^2)$
+
+
+\end{beweis}
+
+
+Die Charakterisierung von $PSPACE$ durch QBF liefert einen direkten Zusammenhang zu Gewinnstrategien in endlichen 2-Personen-Spielen.
+Die Existenz einer Gewinnstrategie kann in offensichtlicher Weise als $QBF$-Formeln können selbst als 2-Personen-Spiel verstanden werden.
+\\
+Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternierenden Turingmaschinen}.
+
+
+
+
+
+
+% TODO use subsection?
+\subsection{Hexagon-Spiel}
+
+Gegeben ein Graph $G = (V,E)$.
+\\
+Knoten entsprechen beliebiger Belegung von boolesche Variablen. Kanten durch boolesche Formeln repräsentiert. Die Nachbarknoten eines Knoten können aufgezählt werden. $s, t \in V$ vorgegeben.
+
+Es werden abwechselnd Marken auf den Graphen gesetzt. Spieler 1 hat weiße Marken, Spieler 2 hat schwarze Marken. Ein Spieler hat gewonnen, wenn es einen Pfad seiner Farbe von $s$ nach $t$ gibt.
+
+Gefragt ist, ob Spieler 1 gewinnen kann. Man zeige, dass dieses Problem PSPACE-vollständig ist.
 
 
 
