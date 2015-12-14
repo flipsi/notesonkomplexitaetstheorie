@@ -699,6 +699,10 @@ dann darf $q$ mit einer Marke beheftet werden.
 
 
 
+
+\section{Quantifizierte Boolesche Formeln}
+
+
 \begin{satz}
     $QBF$ ist PSPACE-vollständig.
     
@@ -809,16 +813,26 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 
-% TODO use subsection?
-\subsection{Hexagon-Spiel}
+\begin{beispiel}
+    
 
-Gegeben ein Graph $G = (V,E)$.
-\\
-Knoten entsprechen beliebiger Belegung von boolesche Variablen. Kanten durch boolesche Formeln repräsentiert. Die Nachbarknoten eines Knoten können aufgezählt werden. $s, t \in V$ vorgegeben.
+    Gegeben ein Graph $G = (V,E)$.
+    \\
+    Knoten entsprechen beliebiger Belegung von boolesche Variablen. Kanten durch boolesche Formeln repräsentiert. Die Nachbarknoten eines Knoten können aufgezählt werden. $s, t \in V$ vorgegeben.
 
-Es werden abwechselnd Marken auf den Graphen gesetzt. Spieler 1 hat weiße Marken, Spieler 2 hat schwarze Marken. Ein Spieler hat gewonnen, wenn es einen Pfad seiner Farbe von $s$ nach $t$ gibt.
+    Es werden abwechselnd Marken auf den Graphen gesetzt. Spieler 1 hat weiße Marken, Spieler 2 hat schwarze Marken. Ein Spieler hat gewonnen, wenn es einen Pfad seiner Farbe von $s$ nach $t$ gibt.
 
-Gefragt ist, ob Spieler 1 gewinnen kann. Man zeige, dass dieses Problem PSPACE-vollständig ist.
+    Gefragt ist, ob Spieler 1 gewinnen kann. Man zeige, dass dieses Problem PSPACE-vollständig ist.
+
+\end{beispiel}
+
+
+
+
+
+
+
+
 
 
 
