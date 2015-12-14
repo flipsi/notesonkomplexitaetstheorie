@@ -839,6 +839,183 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 
+\datum{14.12.15}
+
+
+\section{Noch zwei PSPACE-vollständige Probleme}
+
+
+\begin{definition}
+    
+    \definiere{GENERALIZED GEOGRAPHY} (GGEO)
+
+    Gegeben: Gerichteter Graph $G = (V, E)$ und Startknoten $s \in V$.
+
+    Folgendes Zwei-Parteien-Spiel wird auf $G$ gespielt: Die Parteien ziehen abwechselnd eine Marke entlang der Kanten des Graphen beginnend bei $s$. Einmal besuchte Knoten dürfen nicht wieder besucht werden. Wer nicht mehr ziehen kann, hat verloren.
+
+    Gefragt: Besitzt die anziehende Partei eine Gewinnstrategie?
+
+\end{definition}
+
+
+\begin{satz}
+
+    GGEO ist PSPACE-vollständig.
+    
+\end{satz}
+
+\begin{beweis}
+    
+    \begin{itemize}
+
+        \item ``$\in PSPACE$'':
+
+        Wir betrachten die Funktion 
+        \\
+        $ WIN(v \in V, B \subseteq V) = 
+        \begin{cases}
+        true         & \text{ , falls GGEO kann von v aus gewonnen werden auf  } (V \setminus B, E)     \\
+        false         &  \text{ , sonst }    \\
+        \end{cases}
+        $
+
+        Es ist $WIN(v \in V, B \subseteq V) = 
+        \\\text{ if } v \in B \lor \forall w. (v,w) \in E \Rightarrow w \in B
+        \\\text{ then } false
+        \\\text{ else } \exists w . (v,w) \in E \land w \notin B \land \forall w' . (w,w') \in E \land w' \notin B \Rightarrow WIN(w', B \cup \{ v,w \})$
+
+        $WIN$ kann rekursiv (mit Stack\footnote{Tiefe beschränkt durch Anzahl der Knoten} wie bei Savitch) in $PSPACE$ ausgewertet werden.
+
+
+        % TODO:
+        % ein paar mehr footnotes benutzen im ganzen tex, wo ich hässlich geklammert hab
+
+
+        \item ``PSPACE''-hart:
+
+        Wir geben eine Reduktion von QBFSAT auf GGEO.
+
+        Sei eine Instanz $\phi$ von QBFSAT gegeben. O.\,B.\,d.\,A. habe $\phi$ folgende Form:
+        \\
+         $\exists x_1 \forall x_2 \exists x_3 \forall \dots \exists x_n . \Phi(x_1 \dots x_n)$ (KNF).
+
+
+    \end{itemize}
+
+\end{beweis}
+
+
+
+
+
+\begin{definition}
+    
+
+    \definiere{Universalität von NEA} (NEA-UNIV)
+
+    Gegeben: nichtdeterministischer endlicher Automat $A = (\Sigma, Q, \delta, q_0, F)$
+
+    Gefragt: $L(A) = \Sigma^ast$
+
+\end{definition}
+
+
+\textbf{Bemerkung:}\\
+Zu entscheiden, ob $L(A) = \emptyset$ ist in $NLOGSPACE \subseteq \ComplexityClassP$, denn es ist äquivalent zu der Frage, ob $E$ von $q_0$ aus erreichbar ist im Graphen $(Q,K)$ wobei 
+$K = \{ (q, q') \quad | \quad \exists a \in Sigma : (q, a, q') \in \delta \}$
+
+Sei $B$ der zu $A$ äquivalente deterministische endliche Automat\footnote{Das kennen wir ja, mit der Teilmengenkonstruktion...} und $\overline{B}$ dessen Komplement. Es ist $L(A) = \Sigma^\ast \Longleftrightarrow L(\overline{B}) = \emptyset$.
+\\
+Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{B}$ nicht explizit, sondern ``on demand'' aufbaut, kann die Suche in $\overline{B}$ in $PSPACE$ erfolgen.
+
+
+
+
+\begin{satz}
+    
+    NEA-UNIV ist PSPACE-vollständig.
+
+\end{satz}
+
+\begin{beweis}
+    
+    \begin{itemize}
+        
+        \item ``$\in PSPACE$'':
+
+        Bereits gezeigt.
+
+
+        \item ``PSPACE''-hart:
+
+        Sei eine normalisierte (im üblichen Sinne) deterministische Turingmaschine $T$ mit polynomiellen Platzverbrauch und eine Eingabe $x$ vorgelegt.
+        \\
+        Alle globalen Konfigurationen durch Strings der Länge $N = p(|x|)$ kodiert in vernünftiger Weise. Genau eine akzeptierende Endkonfiguration $q_{ACC}$.
+
+        Berechnungen von $T$ auf $x$ lassen sich also durch Wörter der Form $w = a_0 a_1 a_2 \dots a_n$ repräsentieren, wobei $a_0 = a_{INI}$ (Startkonfiguration zu Eingabe $x$).
+
+        % TODO    T
+        $a_i \rightarrow a_{i+1} $ für $i = 0 \dots n-1$
+        \\
+        insbesondere $|a_i| = N$
+
+        $a_n$ Endkonfiguration ($q_{ACC}$ oder nicht).
+
+        $x \in L(T) \Leftrightarrow \exists w . w \text{ hat diese Form und } a_n = q_{ACC}$
+        \\d.\,h. 
+        $x \in L(T) \Leftrightarrow \forall w . w \text{ ist keine Berechnung beginnend bei } x \lor w \text{ hört mit } q_{ACC} \text{ auf. }$
+
+        Die Eigenschaften
+        \\
+        $U_x \Longleftrightarrow w \text{ ist keine Berechnung beginnend bei } x $
+        \\
+        $V_x \Longleftrightarrow w \text{ hört nicht mit } x \text{ auf. }$
+        \\
+        können durch nichtdeterministische endliche Automaten geprüft werden, die aus $x$ in polynomieller Zeit (sogar FL) berechnet werden können.
+
+        Skizze der Konstruktion dieser Automaten: 
+        \begin{itemize}
+
+            \item Für $U_x$:
+
+            Prüfe, dass die ersten $N$ Symbole der Eingabe der Konfiguration $a_{INI}$ zu $x$ entsprechen. Dies kann mit $N$ Zuständen fest verdrahtet werden.
+            \\
+            Falls nicht, so wird sofort akzeptiert.
+            \\
+            Ansonsten muss der Automat für $U_x$ nichtdeterministisch einen Fehler in $w$ raten.
+            \begin{itemize}
+                \item Letzte $N$ Symbole sind keine Haltkonfiguration.
+                \item Eingabe hat die Form $u w_1 u w_2 v w_3$ wobei $|u w_2| = N$ und $|u| = |v| = 7$ und $u, v$ entsprechen einander in aufeinanderfolgenden Konfigurationen.
+                $v$ ist nicht entsprechender Teil der Folgekonfigurationen.
+            \end{itemize}
+
+            % z.B. lalalala 
+            % TODO weiß eh nicht wo das zugehört und was das soll und überhaupt
+            % z.B. Kopf nicht bei $u, v$ und doch $u \neq v$
+            % oder Kopf bei $u$ und Kopf an falsher..
+
+
+            Nach Konstruktion ist also ein Automat $A_x$ entstanden mit $L(A_x) = U_x v V_x$ also $L(A_x) = \Sigma^\ast \Leftrightarrow x \in L(T)$
+
+
+
+            \item Für $V_x$:
+
+            So ähnlich.
+
+
+        \end{itemize}
+
+    \end{itemize}
+
+\end{beweis}
+
+
+
+
+
+
+
 % chapter platzkomplexitaet (end)
 
 
