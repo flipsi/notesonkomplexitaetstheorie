@@ -1016,6 +1016,203 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 
 
 
+
+
+\datum{17.12.15}
+
+
+\section{Jumping Automata on Graphs}
+
+\begin{definition}
+
+    Gegeben ein Alphabet $\Sigma$.
+
+    Eine \definiere{Zeigerstruktur} über $\Sigma$ ist ein Paar $(V, E)$ wobei
+    \begin{itemize}
+        \item $V$ eine endliche Menge von Knoten und
+        \item $E \subseteq V \times \Sigma \rightarrow V$
+                \\
+                Notation: $v.l = E(v,l) \text{ für } v \in V \text{ und } l \in \Sigma$
+    \end{itemize}
+
+    Vorstellung: Knoten sind Objekte. Alphabetsymbole sind Feldnamen/Pointer.
+
+
+\end{definition}
+
+\begin{beispiel}
+
+    Ein regulärer ungerichteter Graph vom Grad $d$:
+    \begin{itemize}
+        \item Jeder Knoten hat genau $d$ Nachbarn (``regulär'').
+        \item Die Nachbarn eines Knotens sind linear angeordnet (nummeriert von $1$ bis $d$).
+    \end{itemize}
+
+    % TODO: tikz einfach so ein Gitter
+
+    Als Zeigerstruktur: $\Sigma \{ 1 \dots d \} . E(v,i) = \text{ i-ter Nachbar von } v$.
+
+\end{beispiel}
+
+\begin{beispiel}
+    
+    Gerichtete reguläre Graphen vom Grad $d$ kann man ebenso als Zeigerstruktur über $\Sigma = \{ 1 \dots d \}$ , oder besser, falls Kanten auch in umgekehrter Richtung navigiert werden können, über $\Sigma = \{ 1 \dots d \} \cup \{ 1' \dots d' \} $ darstellen.
+
+\end{beispiel}
+
+\begin{beispiel}
+    
+    Nicht-reguläre Graphen (Knoten haben beliebig viele Nachbarn) können durch Adjazenzlisten repräsentiert werden, z.\,B. zirkulär $\Sigma = \{ head, next, elem \}$.
+
+    Dabei hab ein Knoten ein Pointer mehr als Nachbarn: Knoten $a$ zeigt mit $head$ auf $a_1$, $a_1$ mit $next$ auf $a_2$, $a_2$ mit $next$ auf $a_1$. $a_1$ zeigt mit $elem$ auf $b$ und $a_2$ mit $elem$ auf $b$ usw.
+
+\end{beispiel}
+
+\begin{beispiel}
+    
+    Sogar Graphen ohne Ordnung auf den Nachbarn können so repräsentiert werden.
+
+    $(V, E), E \subseteq V \times V
+    \\
+    \leadsto V \times E, \mathcal{E}
+    \\
+    \Sigma = \{ s, t \}
+    \\
+    \mathcal{E}: (v, v').s = v
+    \\ \quad  (v, u').t = v'
+    \\ \quad  v.s = v'
+    \\ \quad  v.t = v
+    $
+
+\end{beispiel}
+
+\begin{beispiel}
+    
+    Gegeben: Endliche Gruppe $G$ mit Erzeugern $g_1 \dots g_d$
+
+    $\leadsto$ Zeigerstruktur $\Sigma = \{ g_1 \dots g_d, g_1^{-1} ,\dots g_d^{-1}$, 
+    $V = G$, 
+    $v.l = v * l$ wobei $*$ die Gruppenmultiplikation ist.
+
+\end{beispiel}
+
+
+
+
+\begin{definition}
+    
+    Ein \definiere{Jumping Automata on Graphs} (JAG) ist ein Quintupel $(\Sigma, Q, q_0, \delta, P)$ wobei 
+    \begin{itemize}
+        \item $\Sigma$ Alphabet
+        \item $Q$ Zustände
+        \item $q_0 \in Q$ Startzustand
+        \item $P$ Pebbles
+        \item $\delta$ Menge von Quadrupeln der Form $(q, S, q', m)$ 
+                mit $q, q' \in Q$ 
+                und $S$ Äquivalenzrelation auf $P$, $m: P \rightarrow P + \Sigma$:
+                \\
+                Falls $m(p) = p' \in P$ so muss $p$ auf die Position von $p'$ gesetzt werden.
+                \\
+                Falls $m(p) = l$ so muss $p$ auf $v.l$ gesetzt werden, wenn $p$ auf $v$ liegt.
+    \end{itemize}
+
+    Eine Konfiguration eines JAG auf einer Zeigerstruktur $(V, E)$ über $\Sigma$ ist ein Paar $C = (q, M)$ wobei $q \in Q, M: P \rightarrow V$.
+    Die Ein-Schritt-Relation $C \Rightarrow_A C' \Longleftrightarrow   C = (q, M), C' = (q', M'), \exists (q, S, q', m) \in \delta . 
+    (p, p') \in S \Leftrightarrow M(p) = M(p')
+    $
+    Falls $m(p) = p' \in P$ dann $M'(p) = M(p')$\\
+    Falls $m(p) = l$ dann $M'(p) = M(p).l$
+
+    $A$ deterministisch, falls zu jedem $(q, S)$ genau ein $(g', m)$ mit $(q, S, q', m) \in \delta$ existiert. In diesem Fall gibt es zu jedem $C = C_0$ eine eindeutige Folge $C_0 \rightarrow C_1 \rightarrow C_2 \dots$
+
+\end{definition}
+
+
+\begin{beispiel}
+    
+    $\Sigma = \{ S, N, O, W \}$ Himmelsrichtungen
+
+    Automat soll Pebble $b$ entlang der ersten ``freien'' Kante bewegen. 
+    (versperrt $v.X = v, X \in \{ S, N, O, W \}$)
+
+    Anfang bei Pebble $s$, Stehenbleiben bei Pebble $t$.
+    \\
+    $s$ und $t$ werden nicht bewegt.
+
+\end{beispiel}
+
+
+
+\begin{satz}
+
+    JAG-Berechnungen können durch $LOGSPACE$-Turingmaschinen simuliert werden.
+
+\end{satz}
+
+
+
+\begin{definition}
+    
+    Ein \definiere{deterministischer JAG} besucht einen Knoten $v$ von Knoten $s$ aus, wenn in der Berechnungsfolge beginnend bei $C_0 = (q_0, M_0), M_0(p) = s$ der Knoten $v$ irgendwann belegt ist, d.\,h. existiert $i$ sodass $C_i = (q_i, M_i), M_i(p) = u$ für ein $p \in P$
+    
+\end{definition}
+
+\begin{satz}
+    
+    \definiere{Satz von Cook Rackoff}
+
+    Sei $A = (\Sigma, Q, q_0, \delta, P)$ (deterministischer JAG)
+    und $V = (\mathcal{Z}_m)^d$
+
+    $\Sigma = \{ e_1 \dots e_d \} \cup \{ e_1^{-1}, e_d^{-1} \}$
+    \\
+    $e_i = (0 \dots 0, 1, 0 \dots 0)$ ($d$ Stück, die $1$ an Position $i$)
+    \\
+    $e_i^{-1} = (0 \dots 0, -1, 0 \dots 0)$ ($d$ Stück, die $1$ an Position $i$)
+
+    Ausgehend von beliebigem $s \in \mathcal{Z}_m^d$ kann $A$ höchstens $(m  . |Q|)^{c^{|P|}}$ viele Knoten besuchen, wobei $c > 0$ eine Konstante (unabhängig von $A, m.d$) ist, durch die man das einfacher abschätzen kann.
+
+\end{satz}
+
+Falls $m \geq |Q|^{c^P}$
+\\
+$(m  . |Q|)^{c^{|P|}} \leq m^{c^{|P|}+1}$
+\\
+Wenn zusätzlich $d > c^{|P|} + 1$
+\\
+$(m  . |Q|)^{c^{|P|}} < m^d = |\mathcal{Z}_m^d|$
+\\
+Kein fester JAG kann alle Knoten in $\mathcal{Z}_m^d$ besuchen.
+
+Besonderheit: $d$ ist in dem Automaten fest eingebaut. Man kann aber durch Verwendung von Adjazenzlisten auf feste Alphabetgröße reduzieren.
+
+
+
+\begin{lemma}
+
+    Sei $\alpha$ eine Folge von Moves $\alpha = m_1, m_2 \dots m_t$ mit $m_i: P \rightarrow P + \Sigma$
+
+    % Falls $C$ eine Konfiguration eines JAG auf 
+    % (hat er schlecht formuliert hahahaha)
+
+    Sei $M: P \rightarrow (\mathcal{Z}_m)^d$ eine Belegung. 
+
+    Wir schreiben $M' = \alpha(M)$ für die Belegung, die aus $M$ durch Abarbeiten von $\alpha$ entsteht.
+
+    Falls $(M_i)_i$ eine Folge von Belegungen
+    $M_0 \rightarrow_\alpha M_1 \rightarrow_\alpha M_2 \rightarrow_\alpha \dots \rightarrow_\alpha M_{i+1} = \alpha(M_i)$
+    dann existiert $k \leq |P|, n \leq |P|! * m $ sodass $M_{k+ni} = M_k$ für alle $i \geq 0$.
+
+    Es wiederholt sich also irgendwann nur noch oder so.
+
+
+    Grund: Falls $z \in (\mathcal{Z}_m)^d$, dann ist $z^n = z z \dots z = 1$.
+
+    Falls $\alpha$ keine Pebble-Sprünge enthält, kann man deshalb $k = 0, n = m$ wählen.
+    
+\end{lemma}
+
+
 % chapter platzkomplexitaet (end)
 
 
