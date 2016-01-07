@@ -1,0 +1,170 @@
+%!TEX root = 0-main.tex
+
+% Author: Philipp Moers <soziflip@gmail.com> 
+
+
+
+\datum{07.01.16}
+
+
+\chapter{Probabilistische Algorithmen} % (fold)
+\label{cha:probabilistische_algorithmen}
+
+
+
+\section{Miller-Rabin Primzahltest Einführung}
+
+Gegeben: $n \in \N$ binär kodiert, $\text{Länge}(n) = \log(n)$
+
+Gefragt: Ist $n$ prim?
+
+Man müsste testen bis $\sqrt{n}$
+Anzahl der Zahlen $< \sqrt{n}$: $\sqrt{2^{\log(n)}} = 2^{\frac{1}{2} \log(n)}$, d.\,h. exponentiell in $\text{Länge}(n)$.
+Das ist nicht effizient, insbesondere $\notin \ComplexitityClassP$.
+% todo wo ist das P
+
+
+\begin{lemma}
+    
+    Sei $G$ abelsche Gruppe (endlich) und $U$ eine Untergruppe von $G$.
+
+    Dann ist $|U|$ ein Teiler von $|G|$.
+
+\end{lemma}
+
+\begin{korollar}
+    
+    Falls $ggt(x, n)$ = 1, d.\,h. $x \in \Phi(n)$, dann $x^{\phi(n)} = 1 \mod n$,
+    wobei $\phi(n) = |\Phi(n)|$ die Anzahl der zu $n$ teilerfremden Zahlen kleiner $n$ ist.
+
+\end{korollar}
+
+\begin{korollar}
+    
+    Falls $n$ prim ist, so gilt $x^{n-1} = 1 \mod n$
+
+\end{korollar}
+
+
+\begin{lemma}
+    
+    Falls $x \notin \Phi(n)$, so ist $x^{n-1} \neq 1 \mod n$.
+
+\end{lemma}
+\begin{beweis}
+    
+    Sei $b = ggt(x, n) > 1$, $v = x^{n-2} \mod n$.
+
+    $x^{n-1} = v * x + u * n $ für ein $u \in \Z$
+
+    $b | RHS \Rightarrow x^{n-1} \neq 1$
+
+\end{beweis}
+    
+
+
+\section{Fermat-Primzahltest}
+
+Gegeben: $n \in \N$
+
+Wähle zufällig $x \in \{1 \dots n-1\}$.
+\\
+Bilde $a := x^{n-1} \mod n$ mittels ``Repeated Squaring''.
+\\
+Falls $a = 1$, so antworte ``ist prim''.
+\\
+Falls $a \neq 1$, so antworte ``ist zusammengesetzt''.
+
+Ist $n$ tatsächlich prim, so wird mit Sicherheit geantwortet ``ist prim'' (siehe Korollar).
+\\
+Ist $n$ zusammengesetzt und $x \notin \Phi(n)$, dann wird korrekt geantwortet ``ist zusammengesetzt''.
+\\
+Wenn $x \in \Phi(n)$, so kann trotzdem $a = 1$ sein, also korrekt geantwortet werden.
+
+Falls $U \neq \Phi(n)$, dann ist $|U|$ ein echter Teiler von $phi(n)$, also $\leq \frac{1}{2} n$.
+D.\,h. für mehr als 50\% der $x$ ist dann $a \neq 1$.
+
+Falls aber für alle $x \in \Phi(n)$ gilt $x^{n-1} = 1 \mod n$ und doch $n$ zusammengesetzt ist, dann funktioniert der Fermat-Test nicht gut. Solche $n$ heißen Carmichaelzahl, falls $n$ nicht prim, aber $x^{n-1} = 1 \mod n \forall x \in \Phi(n)$. Solche Carmichaelzahlen sind sehr selten.
+
+
+
+\begin{satz}
+    
+    Ist $n$ Carmichaelzahl, so ist der Anteil der $x \in \{1 \dots n-1\}$, sodass $\exists i: ggt(x^{\frac{n-1}{2^i}} - 1, n) > 1$ größer oder gleich 75\%.
+
+\end{satz}
+
+
+
+\section{Miller-Rabin Primzahltest}
+
+Gegeben $n \in \N$
+
+Wähle zufällig $x \in \{1 \dots n-1\}$.
+\\
+Bilde $a = x^{n-1} \mod n$.
+\\
+Falls $a \neq 1$, so ist $n$ sicher zusammengesetzt.
+\\
+Falls $a = 1$, berechne $ggt(x^{\frac{n-1}{2^i}} - 1, n)$ für $i = 1 \dots \log(n)$. Falls einmal $> 1$, so ist $n$ sicher zusammengesetzt. Sonst antworte ``ist prim''.
+
+Fehlerwahrscheinlichkeit $\leq 50\%$.
+
+
+
+
+
+\section{Testen von polynomiellen Identitäten}
+
+% TODO vbl?
+Gegeben: zwei Polynome $p(x), q(x)$ mit Koeffizienten aus $\Z$ und $n$ Vbl $x = x_1 \dots x_n$.
+
+Gefragt: Ist $p(x) = q(x)$?
+
+
+\begin{Beispiel}
+    
+    $p = (a^2 + b^2 + c^2 + d^2)(A^2 + B^2 + C^2 + D^2)$
+
+    $q = (aA + bB + cC + dD)^2 + \\
+         (aB + bA + cD + dC)^2 + \\
+         (aC + bD + cA + dB)^2 + \\
+         (aD + bC + cB + dA)^2 \\
+    $
+
+    Hier ist in der Tat $p = q$.
+
+\end{Beispiel}
+
+Für diese Aufgabe ist kein Polynomialzeitverfahren bekannt.
+Ausmultiplizieren hat im Allgemeinen exponentielle Laufzeit, falls $*$ und $+$ geschachtelt auftreten.
+
+
+
+\textbf{Probabilistisches Verfahren:}
+
+Wähle zufällig $x \in \{-nd, \dots 0, 1, 2, \dots , nd\}^n$, 
+wobei $n = \text{ Anzahl Vbl } $ und $  d \geq Grad(p), Grad(q)$.
+
+Wir zeigen jetzt, dass die Fehlerwahrscheinlichkeit kleiner oder gleich 50\% ist.
+
+\begin{Lemma}
+
+    \definiere{Lemma von Schwarz-Zippe}
+    
+    Sei $p$ ein Polynom vom Grad $d$ in $n$ Variablen und $p \neq q$.
+
+    Dann hat $p$ im Bereich $\{-N, \dots N\}^n$ höchstens $dn(2N+1)^{n-1}$ Nullstellen.
+
+\end{Lemma}
+
+Falls $N = nd$, dann ist $\frac{(2N+1)^{n-1} * dn}{(2N+1)^n}  =  \frac{dn}{2N+1} = \frac{dn}{2dn+1} \leq 50\%$.
+
+
+
+
+
+
+
+
+% chapter probabilistische_algorithmen (end)
