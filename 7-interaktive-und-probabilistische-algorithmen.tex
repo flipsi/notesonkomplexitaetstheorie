@@ -20,7 +20,7 @@ Gefragt: Ist $n$ prim?
 
 Man müsste testen bis $\sqrt{n}$
 Anzahl der Zahlen $< \sqrt{n}$: $\sqrt{2^{\log(n)}} = 2^{\frac{1}{2} \log(n)}$, d.\,h. exponentiell in $\text{Länge}(n)$.
-Das ist nicht effizient, insbesondere $\notin \ComplexitityClassP$.
+Das ist nicht effizient, insbesondere $\notin \ComplexityClassP$.
 % todo wo ist das P
 
 
@@ -122,7 +122,7 @@ Gegeben: zwei Polynome $p(x), q(x)$ mit Koeffizienten aus $\Z$ und $n$ Vbl $x = 
 Gefragt: Ist $p(x) = q(x)$?
 
 
-\begin{Beispiel}
+\begin{beispiel}
 
     $p = (a^2 + b^2 + c^2 + d^2)(A^2 + B^2 + C^2 + D^2)$
 
@@ -134,7 +134,7 @@ Gefragt: Ist $p(x) = q(x)$?
 
     Hier ist in der Tat $p = q$.
 
-\end{Beispiel}
+\end{beispiel}
 
 Für diese Aufgabe ist kein Polynomialzeitverfahren bekannt.
 Ausmultiplizieren hat im Allgemeinen exponentielle Laufzeit, falls $*$ und $+$ geschachtelt auftreten.
@@ -148,7 +148,7 @@ wobei $n = \text{ Anzahl Vbl } $ und $  d \geq Grad(p), Grad(q)$.
 
 Wir zeigen jetzt, dass die Fehlerwahrscheinlichkeit kleiner oder gleich 50\% ist.
 
-\begin{Lemma}
+\begin{lemma}
 
     \definiere{Lemma von Schwarz-Zippe}
 
@@ -156,7 +156,7 @@ Wir zeigen jetzt, dass die Fehlerwahrscheinlichkeit kleiner oder gleich 50\% ist
 
     Dann hat $p$ im Bereich $\{-N, \dots N\}^n$ höchstens $dn(2N+1)^{n-1}$ Nullstellen.
 
-\end{Lemma}
+\end{lemma}
 
 Falls $N = nd$, dann ist $\frac{(2N+1)^{n-1} * dn}{(2N+1)^n}  =  \frac{dn}{2N+1} = \frac{dn}{2dn+1} \leq 50\%$.
 
@@ -205,7 +205,7 @@ Polynomialzeitbeschränkt, falls Laufzeit $\leq p(|x|)$ unabhängig von den Zufa
 
 
 \begin{definition}
-    Eine Sprache $X \subseteq \Sigma^\ast$ ist in der Komplexitätsklasse $\ComplexitityClassPP$,
+    Eine Sprache $X \subseteq \Sigma^\ast$ ist in der Komplexitätsklasse $\ComplexityClassPP$,
     wenn eine Probabilistische Turingmaschine $T$ existiert, die
     \begin{itemize}
         \item polynomiell zeitbeschränkt ist,
@@ -214,7 +214,7 @@ Polynomialzeitbeschränkt, falls Laufzeit $\leq p(|x|)$ unabhängig von den Zufa
 \end{definition}
 
 \begin{satz}
-    $\ComplexitityClassP \subseteq PSPACE$
+    $\ComplexityClassP \subseteq PSPACE$
 \end{satz}
 \begin{beweis}
     Alle Berechnungen durchprobieren (Platz jeweils wiederverwenden) und Anzahl der
@@ -222,7 +222,7 @@ Polynomialzeitbeschränkt, falls Laufzeit $\leq p(|x|)$ unabhängig von den Zufa
 \end{beweis}
 
 \begin{satz}
-    $\ComplexitityClassNP \subseteq PSPACE$
+    $\ComplexityClassNP \subseteq PSPACE$
 \end{satz}
 \begin{beweis}
     Sei eine nichtdeterministische Turingmaschine $T$ für $X$ gegeben
@@ -238,7 +238,7 @@ Polynomialzeitbeschränkt, falls Laufzeit $\leq p(|x|)$ unabhängig von den Zufa
 \begin{satz}
     (Beispiel Spielman et al.)
 
-    $\ComplexitityClassPP$ ist unter $\cap, \cup$ abgeschlossen.
+    $\ComplexityClassPP$ ist unter $\cap, \cup$ abgeschlossen.
 \end{satz}
 Der Beweis dazu ist kompliziert.
 
@@ -284,7 +284,7 @@ Der Beweis dazu ist kompliziert.
     Wir möchten $Pr(S \leq \frac{t}{2}) \leq e^{-q(|x|)}$.
 
     Es gilt allgemein die Chernoff-Schranke.
-    (\textit{siehe Buch})
+    (\textit{siehe Details im Buch})
 
 \end{beweis}
 
@@ -295,4 +295,3 @@ Der Beweis dazu ist kompliziert.
 
 
 % chapter probabilistische_algorithmen (end)
-

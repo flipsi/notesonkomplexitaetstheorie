@@ -1,6 +1,6 @@
 %!TEX root = 0-main.tex
 
-% Author: Philipp Moers <soziflip@gmail.com> 
+% Author: Philipp Moers <soziflip@gmail.com>
 
 
 
@@ -8,7 +8,7 @@
 
 \chapter{Platzkomplexität} % (fold)
 \label{cha:platzkomplexitaet}
-    
+
 
 
 
@@ -16,7 +16,7 @@
 
 
 \begin{definition}
-    
+
     Eine Funktion $s(n)$ heißt \definiere{platzkonstruierbar} genau dann, wenn eine deterministische Turingmaschine existiert, die bei Eingabe $0^n$ genau $s(n)$ Bandfelder beschreibt und dann hält.
 
 \end{definition}
@@ -24,7 +24,7 @@
 \begin{beispiel}
 
     Alle Polynome mit Koeffizienten $\in \Q^+$, die Wurzelfunktion, die Logarithmus-Funktion, die Potzenfunktion usw. sind platzkonstruierbar.
-    
+
 \end{beispiel}
 
 
@@ -34,20 +34,20 @@
 
 \begin{definition}
 
-    Der \definiere{Platzverbrauch einer Turingmaschine} (deterministisch oder nichtdeterministisch) bei Eingabe $x$ ist 
+    Der \definiere{Platzverbrauch einer Turingmaschine} (deterministisch oder nichtdeterministisch) bei Eingabe $x$ ist
 
     \begin{itemize}
 
-        \item \textbf{erste Definition}\\ 
+        \item \textbf{erste Definition}\\
         die Größe des beschriebenen Teils aller Bänder am Ende der Berechnung. (Mit dieser Definition ist der Platzverbrauch stets $\geq |x|$).
 
-        \item \textbf{zweite Definition}\\ 
+        \item \textbf{zweite Definition}\\
         die Endgröße aller anderen Bänder, wobei das Eingabeband nicht überschrieben werden darf.
 
     \end{itemize}
 
     Die zweite Definition ist Standard,w enn sublineare Platzschranken betrachtet werden, zum Beispiel $\log(n)$. Oberhalb von $\bigO(n)$ sind die beiden Definitionen äquivalent.
-    
+
 
 
     Notation: $DSPACE_M (x)$ und $NSPACE_M (x)$
@@ -69,7 +69,7 @@
 
 
 \begin{beispiel}
-    
+
     STCONN (Erreichbarkeit in gerichteten Graphen) ist $\in NLOGSPACE$ (rate Pfad) und $\in LINSPACE$ (Tiefensuche/Breitensuche)
 
 \end{beispiel}
@@ -99,7 +99,7 @@ Mehr Platz als Laufzeit kann nicht angefordert werden.
 
     $DTIME_T(x) = \bigO(t(|x|) \Longrightarrow  L(T) \in DSPACE(\sqrt{t(n)})$
 
-    
+
 \end{satz}
 
 Für Mehrband-Turingmaschinen gibt es einen ähnliches Satz, bei dem der Platz allerdings etwas größer ist. Dass er für Einband-Turingmaschinen so gut ist, ist gewissermaßen kurios.
@@ -111,7 +111,7 @@ Für Mehrband-Turingmaschinen gibt es einen ähnliches Satz, bei dem der Platz a
 \section{Platzhierarchiesatz}
 
 \begin{satz}
-    
+
     ``Echt mehr Platz hilft auch mehr.''
 
     \textit{Für genaue Aussage und Beweis siehe z.B. Papadimitrion}
@@ -134,7 +134,7 @@ Von jeder dieser Inklusionen ist unbekannt, ob sie echt sind. Mindestens eine mu
 
 
 \begin{satz}
-    
+
     \definiere{Satz von Savitch}
 
     Für eine platzkonstruierbare Funktion $s(n) \geq \log(n)$ ist \\
@@ -147,12 +147,12 @@ Von jeder dieser Inklusionen ist unbekannt, ob sie echt sind. Mindestens eine mu
 \end{satz}
 
 \begin{beweis}
-    
+
     Sei eine nichtdeterministische Turingmaschine $T$ gegeben mit Platzbedarf $S = c * s(|x|)$ bei Eingabe $x$. Wir betrachten eine Kodierung der globalen Konfigurationen von $T(x)$ durch Wörter der Länge $S$ und o.\,B.\,d.\,A. gebe es exakt eine akzeptierende Endkonfiguration $s_{ACC}$. (Alle Bänder am Ende löschen, d.h. mit $0$ überschreiben.)
 
     $
-    x \in L(T) 
-        \Longleftrightarrow 
+    x \in L(T)
+        \Longleftrightarrow
     s_{ACC} \text{ von } s_{INI} \text{ aus in } \leq 2^S \text{ Schritten erreichbar}
     $
 
@@ -174,10 +174,10 @@ $REACH(s, s', i)$: $s \rightarrow^{\leq 2^i} s'$ ($s'$ ist von $s$ in weniger al
 
 $ x \in L(T) \Longleftrightarrow REACH(s_{INI}, s_{ACC}, S)$
 
-Es gilt 
+Es gilt
 $$REACH(s, s', 0) \Longleftrightarrow s = s' \lor s \rightarrow_T s'$$
 \hspace{4cm}($2^0 = 1$)
-$$REACH(s, s', i+1) \Longleftrightarrow \exists \check{s} : REACH(s, \check{s}, i) \land REACH(\check{s}, s', i)$$ 
+$$REACH(s, s', i+1) \Longleftrightarrow \exists \check{s} : REACH(s, \check{s}, i) \land REACH(\check{s}, s', i)$$
 \hspace{4cm}($2^{i+1} = 2 * 2^i$)\\
 Dies liefert eine rekursive Implementierung von $REACH(s,s',i)$ \\
 \hspace{4cm}($\exists \check{s} \leadsto \text { for } \check{s} \in \text{ globale Konfigurationen}$)
@@ -276,7 +276,7 @@ function guessPath() {
 }
     \end{codebox}
 
-    Falls $N$ die Anzahl der von $s_{INI}$ aus erreichbaren globalen Konfigurationen ist, so \underline{kann} A akzeptieren genau dann, wenn $s_{ACC}$ von $s_{INI}$ unerreichbar ist. 
+    Falls $N$ die Anzahl der von $s_{INI}$ aus erreichbaren globalen Konfigurationen ist, so \underline{kann} A akzeptieren genau dann, wenn $s_{ACC}$ von $s_{INI}$ unerreichbar ist.
     \\
     Begründung ``$\Rightarrow$'': Falls A akzeptiert, dann ist $s_{ACC}$ tatsächlich unerreichbar, weil alle $N$ erreichbaren Konfigurationen in der for-Schleife als solche erkannt wurden und $s_{ACC}$ nicht unter ihnen war.
     \\
@@ -302,7 +302,7 @@ function updateN() {
         cnt2 = 0;
         // alle N Stück die von s_ini aus in weniger als i-1 Schritten erreichbar sind, aufzählen
         for (sCheck in globalConfigs) {
-            pfad = guessPath(); 
+            pfad = guessPath();
             if (pfad.endsAt(sCheck)) {
                 cnt2++;
                 if (sCheck == s || sCheck -> s)
@@ -367,7 +367,7 @@ function updateN() {
 
 
 \begin{beispiel}
-    
+
     Der Beweis des Satzes von Savitch zeigt, dass STCONN $\in DSPACE(\log(n) + STACK)$ und $NSPACE(s(n)) \subseteq DSPACE(s(n) + STACK)$ ist.
 
 
@@ -377,7 +377,7 @@ function updateN() {
 
 
 \begin{satz}
-    
+
     $s(n) \geq \log(n) \Longrightarrow NSPACE(s(n)) + STACK = DTIME(2^{\bigO(s(n))})$
 
 \end{satz}
@@ -396,7 +396,7 @@ function updateN() {
         \\
         Wir definieren die partielle Funktion $f: B \times \Gamma \longrightarrow B: f(b, x) = b'$
         \\
-        $b'$ ist die Bandkonfiguration, die erreicht wird, wenn man $T$ in $b$ und mit Kellerinhalt $\bigxsqcup$ startet und so lange rechnet, bis $X$ zum ersten Mal gePOPt wird. 
+        $b'$ ist die Bandkonfiguration, die erreicht wird, wenn man $T$ in $b$ und mit Kellerinhalt $\bigxsqcup$ startet und so lange rechnet, bis $X$ zum ersten Mal gePOPt wird.
 
 
         \textbf{Bemerkung:}\\
@@ -405,9 +405,9 @@ function updateN() {
         \textbf{Bemerkung:}\\
         Streng genommen sollte man schreiben $f_x(b, X)$ oder $f(x, b, X)$, da die Eingabe $x$ in die Definition von $f$ einfließt.
 
-        $f$ gestattet folgende rekursive Definition: 
+        $f$ gestattet folgende rekursive Definition:
 
-        $f(b, X) = 
+        $f(b, X) =
         \begin{cases}
         b'                  & , \text{POP}     \\
         f(b', X)            & , \text{IDLE}   \\
@@ -419,11 +419,11 @@ function updateN() {
 
         Statt nun $f(b_{INI}, A)$ durch Rewriting auszuwerten, was letztendlich der Berechnung von $T$ entspräche, tabulieren wir die gesamten $f$-Werte systematisch mit dynamischer Programmierung. Die Anzahl der Bandkonfigurationen ist $2^{c*s(|x|)}$. Damit gibt es ingesamt $\bigO(2^{c*s(|x|)})$, o.\,B.\,d.\,A. $2^{c*s(|x|)})$ viele $f$-Aufrufe. Eine Wertetabelle für $f$ kann also in Zeit $2^{\bigO(s(|x|))}$ komplett ausgefüllt werden.
         \\
-        Gesamtrechenzeit: $\bigO((2^{c*s(|x|)})^2) = 2^{\bigO(s(|x|))}$ 
+        Gesamtrechenzeit: $\bigO((2^{c*s(|x|)})^2) = 2^{\bigO(s(|x|))}$
 
-        
+
         Wenn die Maschine nichtdeterministisch ist, dann nehmen wir statt $f$ die Funktion $F: B \times \Gamma \times B \longrightarrow bool:\\
-        F = 
+        F =
         \begin{cases}
          true        & \text{falls es Berechnung von } b \text{ nach } b' \text{ gibt, an deren Ende } X \text{ erstmals gePOPt wird}       \\
          false       & \text{sonst}     \\
@@ -437,24 +437,24 @@ function updateN() {
         Sei umgekehrt $T$ eine deterministische Turingmaschine mit Zeitschranke $2^{c*s(n)}$.
         \\
         Die Kopfpositionen aller Köpfe könenn durch String der Länge $\bigO(s(n))$ kodiert werden (Binärkodierung der numerischen Positionen).
-        $a$ mit $|a| = c' * s(n)$ kodiere diese Positionen. 
+        $a$ mit $|a| = c' * s(n)$ kodiere diese Positionen.
         \\
         Ebenso können Zeitpunkte in der Berechnung durch String dieser Länge kodiert werden.
 
-        Wir definieren bei fester Eingabe $x$ folgende rekursive Funktionen: 
+        Wir definieren bei fester Eingabe $x$ folgende rekursive Funktionen:
         \begin{itemize}
-            \item 
+            \item
             $band(t, a) \in \Sigma^k$ als Bandinhalt zur Zeit $t$ an den Positionen $a$.
             \\
             $band(0,   a) = \text{ Inhalt der initialisierten Bänder an den geforderten Positionen }$
             $band(t+1, a) = \dots zustand(t) \dots band(t,a) \dots kopf(t)$
 
-            \item 
+            \item
             $zustand(t) \in Q$
             \\
             $zustand(0) = q_0$
 
-            \item 
+            \item
             $kopf(t)    = \text{ Positionen aller Köpfe zur Zeit } t$
             \\
             $kopf(t+1)  = \dots kopf(t) \dots band(t,a) \dots zustand(t) $
@@ -468,9 +468,9 @@ function updateN() {
 
         % TODO der beweis ist noch nicht fertig oder
 
-\end{itemize}    
+\end{itemize}
 
-    
+
 \end{beweis}
 
 
@@ -514,7 +514,7 @@ für ein $c$, d.\,h. polynomiell beschränkt und auch $DTIME_T(x) \in \bigO(n^c)
 bei passenden $T$, welches $f$ berechnet.
 \end{itemize}
 
-\textbf{Bemerkung}\\ 
+\textbf{Bemerkung}\\
 $FL \subseteq FP$
 \begin{satz}
     $FL$ ist unter Komposition abgeschlossen.
@@ -573,7 +573,7 @@ $X' \leq_L X \Rightarrow x \leq_P X, \text{ bzw. } X \leq X'$
     den Formaten:
     %das v ist hier gemeint
     \begin{itemize}
-    \item $P_1, P_2, \dots P_k \rightarrow q$ 
+    \item $P_1, P_2, \dots P_k \rightarrow q$
     \item d.\,h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k \lor q$
     \item oder $P_1, P_2, \dots P_k \rightarrow \bot$
     \item d.\,h. $\neg p_1 \lor \neg p_2 \lor \dots \neg p_k$
@@ -623,7 +623,7 @@ while(!done)
   for p_1, \dots, p_k  \rightarrow q \in H
     if{p1, \dots, p_k} \seteq S' then
       S' := S' \u {q}
-    done := S' = S''; S := S' 
+    done := S' = S''; S := S'
 return ``es existiert P \rightarrow \bot \in H mit q \subseteq S''
 \end{codebox}
 
@@ -705,7 +705,7 @@ dann darf $q$ mit einer Marke beheftet werden.
 
 \begin{satz}
     $QBF$ ist PSPACE-vollständig.
-    
+
 \end{satz}
 
 
@@ -727,7 +727,7 @@ $$ TAUT \leq QBF $$
 $$ \phi \text{ Tautologie } \Longleftrightarrow \forall x_1 \forall x_2 \dots \forall x_n . \phi \in QBF $$
 
 
-$AEQSAT = \{ (\phi, \psi) \quad | \quad \phi \text{ erfüllbar } \Leftrightarrow \psi \text{ erfüllbar } \}$ 
+$AEQSAT = \{ (\phi, \psi) \quad | \quad \phi \text{ erfüllbar } \Leftrightarrow \psi \text{ erfüllbar } \}$
 $$(\phi, \psi) \in AEQSAT \Longleftrightarrow (\exists x . \phi ) \Leftrightarrow (\exists y. \psi) \in QBF $$
 \\
 $$\exists x_1 \exists y_1 \forall x_2 \forall y_2 . (\phi(x_2) \rightarrow \psi(y_1)) \land (\psi(y_2) \rightarrow \phi(x_1))$$
@@ -752,18 +752,18 @@ $QBF_n$ ist vollständig für $\Sigma_n^P$ (polynomielle Hierarchie) falls $n \g
 
 Rekursiver Algorithmus für QBF:
 \begin{codebox}[javascript]
-    check(exists x.phi, eta) = 
+    check(exists x.phi, eta) =
         check(phi, eta[x -> true]) or
         check(phi, eta[x -> false])
-    check(forall x.phi, eta) = 
+    check(forall x.phi, eta) =
         check(phi, eta[x -> true]) and
         check(phi, eta[x -> false])
-    check(phi1 and phi2, eta) = 
+    check(phi1 and phi2, eta) =
         check(phi1, eta) and
         check(phi2, eta)
     check(x, eta) = eta(x)
         ...
-\end{codebox}    
+\end{codebox}
 
 
 
@@ -773,9 +773,9 @@ Wi zeigen jetzt $L \leq QBF$ für beliebiges $L \in PSPACE$:
 
     Sei $T$ eine deterministische Turingmaschine mit $L(T) = L$ und $DSPACE_T(x) \leq p(|x|)$ und $DTIME_T(x) \leq 2^{p(|x|)}$ wobei $p$ ein Polynom ist.
     Außerdem habe $T$ zu jeder Eingabe $x$ genau eine Startkonfiguration $a_{INI}$ und eine akzeptierende Endkonfiguration $a_{ACC}$.
-    sodass $x \in L(T) \Leftrightarrow \exists 
+    sodass $x \in L(T) \Leftrightarrow \exists
     a_1, a_2 \dots a_{2^{p(|x|)}}$ mit $a_1 = a_{INI}, a_{2^{p(|x|)}} = a_{ACC}$
-    $a_i \righarrow_T a_{i+1}$ wobei $\righarrow_T$ ein Schritt der Auswertung durch T ist.
+    $a_i \rightarrow_T a_{i+1}$ wobei $\rightarrow_T$ ein Schritt der Auswertung durch T ist.
     \\
     $REACH(a, a', k) := a' \text{ ist in } 2^k \text{ Schritten von } a \text{ aus erreichbar. }$
     \\
@@ -783,7 +783,7 @@ Wi zeigen jetzt $L \leq QBF$ für beliebiges $L \in PSPACE$:
     \\
     $REACH(a_{INI}, a', 0) \Leftrightarrow a \rightarrow_T a'$
     \\
-    $REACH(a_{INI}, a', k+1) \Leftrightarrow \exists \check{a} . REACH(a, \check{a}, k) \land REACH(\check{a}, a', k)}$
+    $REACH(a_{INI}, a', k+1) \Leftrightarrow \exists \check{a} . REACH(a, \check{a}, k) \land REACH(\check{a}, a', k)$
 
     Kodiere Konfiguration $a$ durch $p(|x|)$ viele boolesche Variablen. $a \rightarrow_T a'$ durch quantorenfreie boolesche Formel.
     \\
@@ -814,7 +814,7 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 \begin{beispiel}
-    
+
 
     Gegeben ein Graph $G = (V,E)$.
     \\
@@ -846,7 +846,7 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 \begin{definition}
-    
+
     \definiere{GENERALIZED GEOGRAPHY} (GGEO)
 
     Gegeben: Gerichteter Graph $G = (V, E)$ und Startknoten $s \in V$.
@@ -861,25 +861,25 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 \begin{satz}
 
     GGEO ist PSPACE-vollständig.
-    
+
 \end{satz}
 
 \begin{beweis}
-    
+
     \begin{itemize}
 
         \item ``$\in PSPACE$'':
 
-        Wir betrachten die Funktion 
+        Wir betrachten die Funktion
         \\
-        $ WIN(v \in V, B \subseteq V) = 
+        $ WIN(v \in V, B \subseteq V) =
         \begin{cases}
         true         & \text{ , falls GGEO kann von v aus gewonnen werden auf  } (V \setminus B, E)     \\
         false         &  \text{ , sonst }    \\
         \end{cases}
         $
 
-        Es ist $WIN(v \in V, B \subseteq V) = 
+        Es ist $WIN(v \in V, B \subseteq V) =
         \\\text{ if } v \in B \lor \forall w. (v,w) \in E \Rightarrow w \in B
         \\\text{ then } false
         \\\text{ else } \exists w . (v,w) \in E \land w \notin B \land \forall w' . (w,w') \in E \land w' \notin B \Rightarrow WIN(w', B \cup \{ v,w \})$
@@ -909,7 +909,7 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 \begin{definition}
-    
+
 
     \definiere{Universalität von NEA} (NEA-UNIV)
 
@@ -921,7 +921,7 @@ Man kann ein entsprechendes Maschinenmodell definieren, die \definiere{alternier
 
 
 \textbf{Bemerkung:}\\
-Zu entscheiden, ob $L(A) = \emptyset$ ist in $NLOGSPACE \subseteq \ComplexityClassP$, denn es ist äquivalent zu der Frage, ob $E$ von $q_0$ aus erreichbar ist im Graphen $(Q,K)$ wobei 
+Zu entscheiden, ob $L(A) = \emptyset$ ist in $NLOGSPACE \subseteq \ComplexityClassP$, denn es ist äquivalent zu der Frage, ob $E$ von $q_0$ aus erreichbar ist im Graphen $(Q,K)$ wobei
 $K = \{ (q, q') \quad | \quad \exists a \in Sigma : (q, a, q') \in \delta \}$
 
 Sei $B$ der zu $A$ äquivalente deterministische endliche Automat\footnote{Das kennen wir ja, mit der Teilmengenkonstruktion...} und $\overline{B}$ dessen Komplement. Es ist $L(A) = \Sigma^\ast \Longleftrightarrow L(\overline{B}) = \emptyset$.
@@ -932,15 +932,15 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 
 
 \begin{satz}
-    
+
     NEA-UNIV ist PSPACE-vollständig.
 
 \end{satz}
 
 \begin{beweis}
-    
+
     \begin{itemize}
-        
+
         \item ``$\in PSPACE$'':
 
         Bereits gezeigt.
@@ -962,7 +962,7 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
         $a_n$ Endkonfiguration ($q_{ACC}$ oder nicht).
 
         $x \in L(T) \Leftrightarrow \exists w . w \text{ hat diese Form und } a_n = q_{ACC}$
-        \\d.\,h. 
+        \\d.\,h.
         $x \in L(T) \Leftrightarrow \forall w . w \text{ ist keine Berechnung beginnend bei } x \lor w \text{ hört mit } q_{ACC} \text{ auf. }$
 
         Die Eigenschaften
@@ -973,7 +973,7 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
         \\
         können durch nichtdeterministische endliche Automaten geprüft werden, die aus $x$ in polynomieller Zeit (sogar FL) berechnet werden können.
 
-        Skizze der Konstruktion dieser Automaten: 
+        Skizze der Konstruktion dieser Automaten:
         \begin{itemize}
 
             \item Für $U_x$:
@@ -989,7 +989,7 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
                 $v$ ist nicht entsprechender Teil der Folgekonfigurationen.
             \end{itemize}
 
-            % z.B. lalalala 
+            % z.B. lalalala
             % TODO weiß eh nicht wo das zugehört und was das soll und überhaupt
             % z.B. Kopf nicht bei $u, v$ und doch $u \neq v$
             % oder Kopf bei $u$ und Kopf an falsher..
@@ -1055,13 +1055,13 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 \end{beispiel}
 
 \begin{beispiel}
-    
+
     Gerichtete reguläre Graphen vom Grad $d$ kann man ebenso als Zeigerstruktur über $\Sigma = \{ 1 \dots d \}$ , oder besser, falls Kanten auch in umgekehrter Richtung navigiert werden können, über $\Sigma = \{ 1 \dots d \} \cup \{ 1' \dots d' \} $ darstellen.
 
 \end{beispiel}
 
 \begin{beispiel}
-    
+
     Nicht-reguläre Graphen (Knoten haben beliebig viele Nachbarn) können durch Adjazenzlisten repräsentiert werden, z.\,B. zirkulär $\Sigma = \{ head, next, elem \}$.
 
     Dabei hab ein Knoten ein Pointer mehr als Nachbarn: Knoten $a$ zeigt mit $head$ auf $a_1$, $a_1$ mit $next$ auf $a_2$, $a_2$ mit $next$ auf $a_1$. $a_1$ zeigt mit $elem$ auf $b$ und $a_2$ mit $elem$ auf $b$ usw.
@@ -1069,7 +1069,7 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 \end{beispiel}
 
 \begin{beispiel}
-    
+
     Sogar Graphen ohne Ordnung auf den Nachbarn können so repräsentiert werden.
 
     $(V, E), E \subseteq V \times V
@@ -1087,11 +1087,11 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 \end{beispiel}
 
 \begin{beispiel}
-    
+
     Gegeben: Endliche Gruppe $G$ mit Erzeugern $g_1 \dots g_d$
 
-    $\leadsto$ Zeigerstruktur $\Sigma = \{ g_1 \dots g_d, g_1^{-1} ,\dots g_d^{-1}$, 
-    $V = G$, 
+    $\leadsto$ Zeigerstruktur $\Sigma = \{ g_1 \dots g_d, g_1^{-1} ,\dots g_d^{-1}$,
+    $V = G$,
     $v.l = v * l$ wobei $*$ die Gruppenmultiplikation ist.
 
 \end{beispiel}
@@ -1100,15 +1100,15 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 
 
 \begin{definition}
-    
-    Ein \definiere{Jumping Automata on Graphs} (JAG) ist ein Quintupel $(\Sigma, Q, q_0, \delta, P)$ wobei 
+
+    Ein \definiere{Jumping Automata on Graphs} (JAG) ist ein Quintupel $(\Sigma, Q, q_0, \delta, P)$ wobei
     \begin{itemize}
         \item $\Sigma$ Alphabet
         \item $Q$ Zustände
         \item $q_0 \in Q$ Startzustand
         \item $P$ Pebbles
-        \item $\delta$ Menge von Quadrupeln der Form $(q, S, q', m)$ 
-                mit $q, q' \in Q$ 
+        \item $\delta$ Menge von Quadrupeln der Form $(q, S, q', m)$
+                mit $q, q' \in Q$
                 und $S$ Äquivalenzrelation auf $P$, $m: P \rightarrow P + \Sigma$:
                 \\
                 Falls $m(p) = p' \in P$ so muss $p$ auf die Position von $p'$ gesetzt werden.
@@ -1117,7 +1117,7 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
     \end{itemize}
 
     Eine Konfiguration eines JAG auf einer Zeigerstruktur $(V, E)$ über $\Sigma$ ist ein Paar $C = (q, M)$ wobei $q \in Q, M: P \rightarrow V$.
-    Die Ein-Schritt-Relation $C \Rightarrow_A C' \Longleftrightarrow   C = (q, M), C' = (q', M'), \exists (q, S, q', m) \in \delta . 
+    Die Ein-Schritt-Relation $C \Rightarrow_A C' \Longleftrightarrow   C = (q, M), C' = (q', M'), \exists (q, S, q', m) \in \delta .
     (p, p') \in S \Leftrightarrow M(p) = M(p')
     $
     Falls $m(p) = p' \in P$ dann $M'(p) = M(p')$\\
@@ -1129,10 +1129,10 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 
 
 \begin{beispiel}
-    
+
     $\Sigma = \{ S, N, O, W \}$ Himmelsrichtungen
 
-    Automat soll Pebble $b$ entlang der ersten ``freien'' Kante bewegen. 
+    Automat soll Pebble $b$ entlang der ersten ``freien'' Kante bewegen.
     (versperrt $v.X = v, X \in \{ S, N, O, W \}$)
 
     Anfang bei Pebble $s$, Stehenbleiben bei Pebble $t$.
@@ -1152,13 +1152,13 @@ Wenn man den ``Potenzautomaten'' $B$ beziehungsweise sein Komplement $\overline{
 
 
 \begin{definition}
-    
+
     Ein \definiere{deterministischer JAG} besucht einen Knoten $v$ von Knoten $s$ aus, wenn in der Berechnungsfolge beginnend bei $C_0 = (q_0, M_0), M_0(p) = s$ der Knoten $v$ irgendwann belegt ist, d.\,h. existiert $i$ sodass $C_i = (q_i, M_i), M_i(p) = u$ für ein $p \in P$
-    
+
 \end{definition}
 
 \begin{satz}
-    
+
     \definiere{Satz von Cook Rackoff}
 
     Sei $A = (\Sigma, Q, q_0, \delta, P)$ (deterministischer JAG)
@@ -1192,10 +1192,10 @@ Besonderheit: $d$ ist in dem Automaten fest eingebaut. Man kann aber durch Verwe
 
     Sei $\alpha$ eine Folge von Moves $\alpha = m_1, m_2 \dots m_t$ mit $m_i: P \rightarrow P + \Sigma$
 
-    % Falls $C$ eine Konfiguration eines JAG auf 
+    % Falls $C$ eine Konfiguration eines JAG auf
     % (hat er schlecht formuliert hahahaha)
 
-    Sei $M: P \rightarrow (\mathcal{Z}_m)^d$ eine Belegung. 
+    Sei $M: P \rightarrow (\mathcal{Z}_m)^d$ eine Belegung.
 
     Wir schreiben $M' = \alpha(M)$ für die Belegung, die aus $M$ durch Abarbeiten von $\alpha$ entsteht.
 
@@ -1209,7 +1209,7 @@ Besonderheit: $d$ ist in dem Automaten fest eingebaut. Man kann aber durch Verwe
     Grund: Falls $z \in (\mathcal{Z}_m)^d$, dann ist $z^n = z z \dots z = 1$.
 
     Falls $\alpha$ keine Pebble-Sprünge enthält, kann man deshalb $k = 0, n = m$ wählen.
-    
+
 \end{lemma}
 
 
