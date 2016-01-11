@@ -1,6 +1,6 @@
 %!TEX root = 0-main.tex
 
-% Author: Philipp Moers <soziflip@gmail.com> 
+% Author: Philipp Moers <soziflip@gmail.com>
 
 
 
@@ -25,7 +25,7 @@ Das ist nicht effizient, insbesondere $\notin \ComplexitityClassP$.
 
 
 \begin{lemma}
-    
+
     Sei $G$ abelsche Gruppe (endlich) und $U$ eine Untergruppe von $G$.
 
     Dann ist $|U|$ ein Teiler von $|G|$.
@@ -33,26 +33,26 @@ Das ist nicht effizient, insbesondere $\notin \ComplexitityClassP$.
 \end{lemma}
 
 \begin{korollar}
-    
+
     Falls $ggt(x, n)$ = 1, d.\,h. $x \in \Phi(n)$, dann $x^{\phi(n)} = 1 \mod n$,
     wobei $\phi(n) = |\Phi(n)|$ die Anzahl der zu $n$ teilerfremden Zahlen kleiner $n$ ist.
 
 \end{korollar}
 
 \begin{korollar}
-    
+
     Falls $n$ prim ist, so gilt $x^{n-1} = 1 \mod n$
 
 \end{korollar}
 
 
 \begin{lemma}
-    
+
     Falls $x \notin \Phi(n)$, so ist $x^{n-1} \neq 1 \mod n$.
 
 \end{lemma}
 \begin{beweis}
-    
+
     Sei $b = ggt(x, n) > 1$, $v = x^{n-2} \mod n$.
 
     $x^{n-1} = v * x + u * n $ für ein $u \in \Z$
@@ -60,7 +60,7 @@ Das ist nicht effizient, insbesondere $\notin \ComplexitityClassP$.
     $b | RHS \Rightarrow x^{n-1} \neq 1$
 
 \end{beweis}
-    
+
 
 
 \section{Fermat-Primzahltest}
@@ -89,7 +89,7 @@ Falls aber für alle $x \in \Phi(n)$ gilt $x^{n-1} = 1 \mod n$ und doch $n$ zusa
 
 
 \begin{satz}
-    
+
     Ist $n$ Carmichaelzahl, so ist der Anteil der $x \in \{1 \dots n-1\}$, sodass $\exists i: ggt(x^{\frac{n-1}{2^i}} - 1, n) > 1$ größer oder gleich 75\%.
 
 \end{satz}
@@ -123,7 +123,7 @@ Gefragt: Ist $p(x) = q(x)$?
 
 
 \begin{Beispiel}
-    
+
     $p = (a^2 + b^2 + c^2 + d^2)(A^2 + B^2 + C^2 + D^2)$
 
     $q = (aA + bB + cC + dD)^2 + \\
@@ -143,7 +143,7 @@ Ausmultiplizieren hat im Allgemeinen exponentielle Laufzeit, falls $*$ und $+$ g
 
 \textbf{Probabilistisches Verfahren:}
 
-Wähle zufällig $x \in \{-nd, \dots 0, 1, 2, \dots , nd\}^n$, 
+Wähle zufällig $x \in \{-nd, \dots 0, 1, 2, \dots , nd\}^n$,
 wobei $n = \text{ Anzahl Vbl } $ und $  d \geq Grad(p), Grad(q)$.
 
 Wir zeigen jetzt, dass die Fehlerwahrscheinlichkeit kleiner oder gleich 50\% ist.
@@ -151,7 +151,7 @@ Wir zeigen jetzt, dass die Fehlerwahrscheinlichkeit kleiner oder gleich 50\% ist
 \begin{Lemma}
 
     \definiere{Lemma von Schwarz-Zippe}
-    
+
     Sei $p$ ein Polynom vom Grad $d$ in $n$ Variablen und $p \neq q$.
 
     Dann hat $p$ im Bereich $\{-N, \dots N\}^n$ höchstens $dn(2N+1)^{n-1}$ Nullstellen.
@@ -167,4 +167,132 @@ Falls $N = nd$, dann ist $\frac{(2N+1)^{n-1} * dn}{(2N+1)^n}  =  \frac{dn}{2N+1}
 
 
 
+\datum{11.01.16}
+
+
+\begin{definition}
+
+    Ein \definiere{Perfektes Matching} zu Graph $G= (V, E)$ ist eine
+    Kantenauswahl $T \subseteq E$, sodass
+    $u, v \in T, u \neq v \rightarrow u \cap v = \emptyset$.
+    (Die ausgewählten Kanten haben keine Punkte gemeinsam.)
+
+    Ein Graph ist perfekt, wenn $\bigcup T = V$.
+    (Alle Knoten werden gematcht.)
+
+\end{definition}
+
+
+\begin{satz}
+    Sei $G=(V,E)$ ein Graph und $A$ die zugehörige Adjazenzmatrix.
+    $G$ hat ein perfektes Matching genau dann, wenn $det(A) \neq 0$.
+\end{satz}
+
+
+
+\begin{definition}
+    Eine \definiere{Probabilistische Turingmaschine} ist wie eine nichtdeterministische
+    Turingmaschine aufgebaut. Zu jedem Paar $q, a$ gibt es exakt zwei Quintupel
+    (ggf.\ künstlich aufblähen).
+\end{definition}
+
+Deutung:
+Passendes Quintupel wird jeweils mit Wahrscheinlichkeit 50\% ausgewählt.
+Die Wahrscheinlichkeit, dass $T$ die Eingabe $x$ akzeptiert, ist
+$\frac{\text{Anzahl akzeptierender Berechnungen}}{\text{Anzahl aller Berechnungen}}$.
+
+Polynomialzeitbeschränkt, falls Laufzeit $\leq p(|x|)$ unabhängig von den Zufallsentscheidungen.
+
+
+\begin{definition}
+    Eine Sprache $X \subseteq \Sigma^\ast$ ist in der Komplexitätsklasse $\ComplexitityClassPP$,
+    wenn eine Probabilistische Turingmaschine $T$ existiert, die
+    \begin{itemize}
+        \item polynomiell zeitbeschränkt ist,
+        \item $x \in X \Leftrightarrow \text{Akzeptanzwahrscheinlichkeit} \geq 50\%$.
+    \end{itemize}
+\end{definition}
+
+\begin{satz}
+    $\ComplexitityClassP \subseteq PSPACE$
+\end{satz}
+\begin{beweis}
+    Alle Berechnungen durchprobieren (Platz jeweils wiederverwenden) und Anzahl der
+    akzeptierenden Berechnungen mitzählen.
+\end{beweis}
+
+\begin{satz}
+    $\ComplexitityClassNP \subseteq PSPACE$
+\end{satz}
+\begin{beweis}
+    Sei eine nichtdeterministische Turingmaschine $T$ für $X$ gegeben
+    (O.B.d.A. im 2. Nachfolgequintupelformat).
+    Zunächst mit 50\% Wahrscheinlichkeit einfach so akzeptieren,
+    anschließend $T$ als Probabilistische Turingmaschine fahren.
+    \\
+    $x \in X$: Wahrscheinlichkeit der Akzeptanz $\geq 50\%$
+    \\
+    $x \notin X$: Wahrscheinlichkeit der Akzeptanz $= 50\%$
+\end{beweis}
+
+\begin{satz}
+    (Beispiel Spielman et al.)
+
+    $\ComplexitityClassPP$ ist unter $\cap, \cup$ abgeschlossen.
+\end{satz}
+Der Beweis dazu ist kompliziert.
+
+
+
+\begin{definition}
+    Komplexitätsklassen $\ComplexityClassR, \ComplexityClassRP$
+
+    $X \in \ComplexityClassR$ genau dann, wenn eine polynomiell zeitbeschränkte Probabilistische Turingmaschine $T$ existiert mit
+    \begin{itemize}
+        \item $x \in X \Rightarrow$ Wahrscheinlichkeit der Akzeptanz $\geq 50\%$
+        \item $x \notin X \Rightarrow$ Wahrscheinlichkeit der Akzeptanz $= 0$
+    \end{itemize}
+\end{definition}
+
+\begin{beispiel}
+    $PRIM \in \ComplexityClassR$
+\end{beispiel}
+
+
+\begin{definition}
+    Komplexitätsklasse $\ComplexityClassBPP$
+
+    $X \in \ComplexityClassBPP$ genau dann, wenn eine polynomiell zeitbeschränkte Probabilistische Turingmaschine $T$ existiert mit
+    \begin{itemize}
+        \item $x \in X $: Wahrscheinlichkeit der Akzeptanz $\geq 75\%$
+        \item $x \notin X $: Wahrscheinlichkeit der Akzeptanz $\leq 75\%$
+    \end{itemize}
+\end{definition}
+
+\begin{satz}
+    Sei $A \in \ComplexityClassBPP$ und $q(n)$ ein Polynom.
+    \\
+    Es existiert eine Probabilistische Turingmaschine $T$ für $A$
+    mit Fehlerwahrscheinlichkeit $\leq e^{-q(|x|)}$ für Eingabe $x$.
+\end{satz}
+\begin{beweis}
+    Beweisidee: $A$ auf Eingabe $x$ wiederholt, d.\,h. $t = t(|x|)$ mal ablaufen lassen.
+    Am Ende diejenige Antwort, die häufiger gegeben wurde, nach außen reichen.
+
+    $x \in A$ Anzahl der Akzeptanzen binomialverteilt mit Parameter $p \geq 75\%$.
+    Sei $S$ diese Anzahl (Zufallsvariable).
+    Wir möchten $Pr(S \leq \frac{t}{2}) \leq e^{-q(|x|)}$.
+
+    Es gilt allgemein die Chernoff-Schranke.
+    (\textit{siehe Buch})
+
+\end{beweis}
+
+
+
+
+
+
+
 % chapter probabilistische_algorithmen (end)
+
