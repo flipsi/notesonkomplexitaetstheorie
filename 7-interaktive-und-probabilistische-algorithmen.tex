@@ -288,10 +288,179 @@ Der Beweis dazu ist kompliziert.
 
 \end{beweis}
 
+\datum{14.1.2016}        
 
+\section{Chernoff Schranke}
+Seien $X_1 \dots X_n$ $0-1$
+Zufallsvariablen mit $Pr(X_i=1) = P_i$
 
+Setze $S=X_1 + \dots + X_n$ \\
+$\mu = E[S] = p_1 \dots  + p_n$
 
+Für jedes $S > 0$
 
+$PR (S>(1+S)) \mu \leq (\frac{e^\delta}{(1+\delta)^{+\delta}})^\delta$
+Falls zusätzlich $\delta < 1$ \\
+$Pr(S\leq (1- \delta) \mu ) \leq e^{\frac{- \delta^2}{2} * \mu}$
 
+In der Literatur gibt es andere Versionen.
+
+\paragraph{Anmerkung}
+t-fache unabhängige Ausführung eines BRP-Algorithmus für
+$A\subseteq \Sigma^*$ bei Eingabe x. $x \in A$: $\mu = 0,75 * t$
+
+Fehlerwahrscheinlichkeit:
+$Pr(S\leq \frac{t}{2}) = Pr(S \leq (1 - \delta) \mu)$
+Für $\delta = \frac{2}{3}$
+
+t ist also so zu wählen, dass
+
+$e ^ {\frac{\frac{-2}{3}^2}{2} * \frac{3}{4} * t} \leq e^{-q(|x|)}$
+
+Also $q(|x|) \geq \frac{\frac{3}{2}^2}{2} * \frac{3}{x} * t$
+
+$q(|x|) \geq 24 t$
+
+$t \notin A : \mu = \frac{1}{4} * t $
+
+$ PR( S\geq \frac{t}{s} = PR (S \grq (1+1) \mu ) $
+$ \geq \frac{e}{4}^\frac{t}{4} = (e^{-0.386})^\frac{t}{4}$
+
+Es muss also
+$0.386 * \frac{t}{4} \leq q(|x|)$
+Wahr, wenn $t(|x|)=24 * g(|x|)$
+
+\subsection{Anwendung}
+Satz: $BPP \subseteq \frac{P}{Poly}$
+$\frac{P}{Poly} = \{A | \forall n \exists$  Schaltkreis $C. |C| \leq p(n) \forall x . |x| < n : x \in A \Leftrightarrow C(x) = 1\} $
+
+$SAT \in \frac{P}{Poly} \Rightarrow PH$ kollabiert
+
+\begin{beweis}
+Sei ein BPP Algirithmus M für A gegeben. OBdA(vorhergehender Satz) können wir annehmen, dass
+
+$ x \in A  \Rightarrow Pr (M akzeptiert . x) \geq 1-2^{-(|x| + 1)}$
+
+$ x \notin  A  \Rightarrow Pr (M akzeptiert . x) \leq 1-2^{-(|x| + 1)}$
+
+Wir nehmen außerdem an, dass $| \Sigma  | = 2$ (sonst ersetze 2 durch $| \Sigma|$).
+
+Anteil der Zufallsentscheidungen, der für ein bestimmtes $x\in \Sigma^*$
+ungünstig ist, ist $\leq 2 ^{-(|x| + 1)}$, d.h. $\leq 2^{-(n+1)}$ falls
+$|x| = n$
+
+Der Anteil der Zufallsentscheidungen, der ffür mindestens ein $x\in \Sigma^*$
+ungünstig ist, also $\leq 2^n * 2^{-(n+1)} \leq \frac{1}{2}$
+
+Der Anteil der Zufallsentscheidungen die für jedes x mit $|x|$ = n günstig  sind,
+ist $>0$, ja sogar $> \frac{1}{2}$. Der Schaltkreis $C$, der für alle Inputs der
+Größe $n$ funktioniert ergibt sich aus $M$ in dem eine dieser universell
+günstigen Entscheidungen festverdrahtet wird.
+\end{beweis}
+
+BPP, RP, co-RP \checked
+
+ZPP : Antwort immer richtig mit $W\leq 50$ darf "dont know'' geantwortet werden. Laufzeit in jedem Fall polynomiell.
+
+Offensichtlich $ZPP = RP \cap co - RP$
+
+Las Vegas Algorithmus (verallgemeinert ZPP) Liefert nur richtige Ergebnisse aber manchmal($W<50\%$) kein Ergebnis ("dont know'')
+
+Monte Carlo Algorthmus Liefert Ergenbis, dass mit $W \leq 25\% falsch ist (verallgemeinert BPP)$
+
+\begin{beispiel}
+für Las Vegas
+
+Randomisiertes Quicksort (Laufzeitschranke $n log n$ mit laufen lassen
+"dont know'' falls nicht richtig)
+\end{beispiel}
+
+Allg. ist ein Las Vegas Alg. ersetzbar durch einen, der immer richtig
+antwortet, aber mit einer gewissen Wahrscheinlichkeit nicht
+terminiert. Letzteres mit Wahrscheinlichkeit $0$.
+
+(Wiederholung)
+Folgene formale Version:
+$ZPP = \{A |$ es existiert ein Entscheidungsverfahren, für A dessen Laufzeit eine Zufallsvariable ist mit polynomiellem Erwartungswert $\}$. beschränkt.      
+
+\section{Interaktive Beweissysteme} 
+\begin{itemize}
+\item Polynomiell laufzeitbeschränkter Verifizierer (``wir''): $V$
+\item Mit umbeschränkter Rechenkraft ausgestatteter Beweiser (``sie''): $P$
+\end{itemize}
+
+% Jetzt kommt eine GRafik
+%Eingabeband
+
+$P$ und $V$ haben spezielle Zustände zur Beendigung von Phasen.
+
+Bei gegebnere Eingabe $x$ auf dem Eingabend finden eine bestimmte Zahl von Runden statt.
+$Zahl \leq poly (|x|)$
+Zu Beginn jeder Runde schreitet $V$ ein Wort aufs Frageband. Anschließend schreibt $P$ eine Antwort aufs Antwortband.
+
+Zum Schluss(alle Runden vorbei) entscheidet ob akzeptiert oder nicht.
+
+\begin{definition}
+Sei $X \subseteq \Sigma^*$. Eine polynomiell beschränkte Turingmaschine $V$ ist polynomiell verifizierbar für $x$
+genau dann wenn $ \exists$ Prover $P$
+$\forall x \in A . V \leftrightarrow P$ akzeptiert auf x nicht.
+
+Falls Verifizierer deterministische polynomiell beschränkt
+Turingmaschine sind, so spricht man von der Klasse DIP (falls Pb für
+die ein deterministischer polynomiellialzeit Verifizierer existiert)
+\end{definition}
+
+\begin{satz}
+DIP = NP
+
+\begin{description}        
+\item["$\subseteq$''] Verwendet Formulierung von NP mit Polynom großen "Lösungen''.
+\item["$\supseteq$''] Sei $V$ ein DIP Verifizierer für $X$ und P der
+  zugehörigem Prover. Komplettes Transcript raten bzw. als Lösung
+  verwenden.
+\end{description}
+\end{satz}      
+
+\begin{definition}
+$ \subseteq \Sigma^*$ ist in $TP$
+falls eine probailistischer polynomialzeit beschrkänkter Verifizierer $V$
+existiert so, dass $\exists$ Prover $P$
+
+$ x\in A : Pr(V \leftrightarrow P$ auf $x$ akzeptiert) $\geq 75\%$.
+
+$ x \notin A : \forall$ Prover $P$.
+
+$P_1 (V \leftrightarrow P$ auf $x$ akzeptiert) $\leq 25\%$.
+
+Evidenz für IP ``$\supsetneqq$'' $NP$.
+
+Sei $G$ das Problem Graph-Isomorphismus. Offensichtligh $GI \in NP$ Isomorphismus vorlgegen.
+
+Man weiß nicht ob $\overline{GI} \in NP$.
+
+Aber: $\overline{GI} \in IP$.
+
+$V:$
+
+\begin{itemize}
+\item Gegenben: $G$,  $H$ Graphen
+\item Wähle zufällig (1:1) $b\in \{0,1\}$
+\item if b then K:= G else K:=H
+\item Wähle zufällige Permutation $\pi$ auf den Knoten von $K$ und stelle an $P$ die Fragen $\pi(K)$ $P$ antwortet mit $b\in \{0,1\}$
+Akzeptiere, falls $b=b'$
+\end{itemize}
+
+Wiederhole dies 2x (akzeptiert ``wirklich'' nur falls beide Male akzeptiert wurde).
+
+Dies ist korrektes Protokoll für $\overline{GI}$.
+
+\end{definition}
 
 % chapter probabilistische_algorithmen (end)
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "0-main"
+%%% ispell-local-dictionary: "de-neu"
+%%% eval: (highlight-parentheses-mode)
+%%% End:
