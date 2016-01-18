@@ -1,0 +1,610 @@
+\documentclass[12pt, oneside, a4paper, numbers=enddot, abstracton, parskip=full]{scrreprt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman, english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathcomp}
+
+
+% big-O notation/symbol
+\newcommand{\bigO}{\ensuremath{\mathcal{O}}} 			
+
+
+\begin{document}
+1-Band Turingmaschine
+
+$(Q, \Sigma,I, q_o, F)$
+
+$I \subseteq Q \times\Sigma\times\Sigma\times Q x{L,R,S}$
+
+Konfiguration: (q, k, tape)
+q: Zustand
+k: Kopfpos
+tape: Bandinhalt
+
+$(q,k,tape) \leftarrow (q',k', tape)$                  
+                                                     
+\begin{math}
+falls (q, tape(k), tape'(k), q', m) \in I und k' =
+  \begin{cases}
+  k+1 & \text{falls m=R} \\
+  k-1 & \text{falls m=L} \\
+  k   & \text{falls m=S}\\
+\end{cases}
+\end{math}
+                                                     
+
+tape: Zeichen an Pos k
+
+                                               
+2-Kopf-1-Band Turingmaschine
+
+%| | | | | |
+
+a) ersetze I durch
+
+$I \subseteq Q \times\Sigma ^2\times\Sigma ^2\times Q \times{L,R,S}^2$
+
+Konfiguration: (qq, i, j,tape)
+
+Uebergangsrelation:
+$(q,i,j,tape) \leftarrow (q',i',j',tape') wenn$
+
+$(q,(tape(i),tape(j)), (tape'(i'),tape'(j)),q',(m_1,m_2)) \in I $
+
+\begin{math}
+  i' =
+  \begin{cases}
+    i+1 & \text{falls } m_1 = R \\
+    i-1 & \text{falls } m_1 = L \\
+    i   & \text{falls } m_1 = S \\
+  \end{cases}  
+\end{math}
+
+und
+
+\begin{math}
+  j' =
+  \begin{cases}
+    j+1 & \text{falls } m_2 = R \\
+    j-1 & \text{falls } m_2 = L \\
+    j   & \text{falls } m_2 = S \\
+  \end{cases}
+\end{math}
+
+
+b) Simulation von 2-Kopf Turing Maschine durch 1-Band Turingmaschine:
+Alphabet: $\Sigma' := \Sigma \times {0,1,2,3} $
+0:keine
+1:Kopf1
+2:Kopf2
+3:beide
+
+% |a|b|c|d....
+%  ↑     ↑
+%  1     2
+
+%|(a,0)|(b,1)|(c,0)|(d,2)|
+
+
+\section{2-1}
+Tm M hat Laufzeit f(n), wenn jede Eingabe$\times$in hoechstens f(|x|) Schritten akzeptiert oder abgelenhnt werid.
+$q_A \in F, q_R \in F, q_A \neq q_R$
+
+$L_1 \in NP und L_2 \in NP, dann L_1 \cup L_2 \in NP und L_1 \cap L_2 \in NP$
+
+\begin{itemize}
+\item Sei $M_1$ und $M_2$ nicht def. Tm mit plynomiellen Laufzeiten
+  und $L_1 = L(M_1)$ und $L_2 = L(M_2)$. Definiere M: 
+\begin{enumerate}
+\item Waehle nichtdeterministisch $b \in {1,2}$
+\item Fuehre $M_b$ aus und akzeptiere bzw. lehne ab, wenn $M_b$
+  akzeptiert bzw ablehen)
+\end{enumerate}
+\item schnittmenge: Definiere M:
+  \begin{enumerate}
+  \item Fuehre $M_1$ auf die Eingabe aus, Wenn $M_1$ ablehnt, dann
+    lehne ab.
+  \item Sonst Fuehre $M_2$ auf die Eingabe aus. Das Ergebnis ist das Endergebnis.
+  \end{enumerate}
+
+  Laufzeit Polynomiell:
+  \begin{itemize}
+  \item $L(M) <= L_1\cap L_2$
+  \item $L_1 \cap L_2 <= L(M)$   
+  \end{itemize}
+
+\end{itemize}
+
+\section{2-2}
+$L\subseteq \Sigma*$ ist in Np, wenn es ein Polynom p(x) und eine
+def. Pliynomzeit Tm M gibt , sod dass gilt
+$ L=\{x \in \Sigma\* | \exists  y \in {0,1}^{p(|x|)}.$ M akzeptiert $y \$x\}$
+
+NEXP = $\cup NTIME(2^{n^{k}})$
+
+Spezialfall von nichtdet. Tm:
+Ersetze I durch
+\begin{itemize}
+\item : $ \delta_0 Q \times \Sigma \leftarrow \Sigma \times Q \times
+{L,R,S} $
+\item : $ \delta_1 Q \times \Sigma \leftarrow \Sigma \times Q \times
+{L,R,S} $
+
+\end{itemize}
+
+Gemeint ist Tm mit
+$I = \{(q,a,b,q',m) | (b,q',m) \in detla_0 (q,a) $ oder
+  $(b,q',m) \in detla_1 (q,a) oder\}$
+
+Beh. Jede Sprache in Np wird durch Tmin Spezialform und polynomieller
+Lafuzeit akkzeptiert.
+
+Ein Baum mit Tiefe eins und 6 Blaettern wird zu einme Binaer Baum mit
+Tiefe 3  aber auch 6 Blaettern. Bild war ich zu faul zu zeichnen.
+
+
+Beweis: Sei $ L\in NP$, akteptiert durch Turingmaschine in spezialform und
+Laufzeit f(n).
+
+Waehle p(n) := f(n).
+Waehle fuer M folgende Maschine:
+\begin{enumerate}
+\item Lies Eingabe y\$x und schreibe y
+auf Band 2 und x auf Band 1.
+\item Gehe Band 2 von links nach rechts durch und fuehre jeweils M mit
+  $\delta_0$ oder $\delta_1$ (je nachdem ob auf Band 2 eine 0 oder
+  eine 1 steht) einen Schritt aus.
+\item Akzeptiere wenn M akzeptiert, lehne ab, wenn M ablehnt oder das
+  Band zu Ende ist.
+\end{enumerate}
+
+
+\section{10-November Baltt 4}
+\subsection{Hennier und Stearns}
+Es gibt eine universelle Turing MAschine u, so dass gilt, M akyeptiert
+Eingabe x  in t Schritten, genau dann wenn U akzeptiert Eingabe <code
+(M),x> in c*t*log t Schritten.
+
+\section{Aufgabe 4-1}
+\begin{itemize}
+\item $ Zeithierachisatz: P \subsetneq EXP $
+\item Wir wissen $P \subseteq NP und NP \subseteq EXP $
+\item Angenommen
+\begin{itemize}
+\item $\neg (P\subsetneq NP) und \neg (NP \subsetneq EXP)$
+\item $PNP und NP = EXP $
+\end{itemize}
+\item $\Rightarrow P = EXP$
+\end{itemize}
+
+\section{Aufgabe 4-2}
+Bemerkung
+\begin{math}
+  L\in NP \Leftrightarrow \exists Polynom p und deterministische
+  Polytime Tm M,so dass
+  L = \{x | \exists y \in \{0,1\}^{p(|x|)} M akzeptiert y \$ x \}
+\end{math}
+
+Aufgabe:
+\begin{itemize}
+\item \begin{math}
+  L=\{ x | \exists y \{0,1\} ^ {2^{|x|}} Die Maschine M akzeptiert y
+  \# x \}
+\end{math}
+\item Zeige: jede Sprache $L\in EXP $ lässt sich so fomrulieren
+\item Beweis: sei $L' \in EXP$ bezeugt durch Turingmaschine M' Laufzeit von M' ist
+  $ c \times 2 ^ {n^k}$
+
+\item Konsturiere Turingmaschine M'':
+  \begin{enumerate}
+  \item Prüfe,dass Eingabe die Form y\#x hat
+  \item Schreibe x auf zweites Band
+  \item Schreibe $2^{|y\#x|/2}$ viele Zeichen auf ein zweites Band
+  \item Führe M' für $2^{|y\#x|/2}$ viele Schritte aus
+  \end{enumerate}
+\item Laufzeit M'' $\bigO (2^{n/2}) $
+\item Simuliere M'' durch 1-Band Turingmaschine M'''
+\item Laufzeit M''': $\bigO ((2^{n/2})^2 = \bigO (2^n)$
+\item Spraceh von M'''
+  \begin{itemize}
+  \item Betrachte Verhalten M''' bei Eingabe von y\#x mit
+    $|y| =2^{|x|}$ M''' akzeptiert gdw M' die Eingabe x in
+    $2^{|y\#x|/2} = 2^{2^{|x|} +1+|x|)/2}$ Schritten akteptiert
+  \item Es gibt $n_0$,so dass $c\times2^{n^k} \leq  2^{2^n +1+n}$
+  \item für alle $n\geq n_0$
+  \item $\Rightarrow$ Für Eingaben der Länge $\geq n_0$ hat M''' das
+    gleiche Akzeptantverhalten wie M'.            %<
+  \item Definiere M so, dass die Wörter die Länge $< n_0$  fest in der
+    Übergangstabelle kodiert sind und dass sich M wie M''' verhält.
+  \end{itemize}  
+\end{itemize}
+
+\section{4-3}
+Wenn jede unäre Sprache in Np auch in P liegt, dann folgt EXP =
+NEXP. E = NE
+
+\begin{itemize}
+\item $E\subseteq NE$
+\item $NE \subseteq E$
+  \begin{itemize}
+  \item Sei $L \in NE$
+  \item Dann ist $L' =\{unär(x) | x\in L\} in NP $
+  \item Konstruiere nicht deterministische Turingmaschine M' mit L(M') = L':
+  \begin{enumerate}
+  \item Dekodierunge $unär(x) \mapsto x $ Zeit $\bigO (n)$,grö0e von x
+    ist $ \bigO (log n) $ wobei $ n=|Eingabe|$
+  \item Lasse Ne-Tm  für L laufen. Zeit $ \bigO (2^{k \times log n} = \bigO (n^k)$
+    
+  \end{enumerate}
+  \item Nach Annahme folgt $L' \in P$. Sei M'' eine deterministische
+    Turingmaschine mit polynomieller Laufzeit für L'.
+  \item Definiere Turingmaschine M''' durch:
+    \begin{enumerate}
+    \item Kodiere Eingabe $x \mapsto unär(x)$  Zeit: $ \bigO (2^n)$,
+      Gröse von unär(x) $ \bigO (2^n)$
+    \item Lasse M'' laufen Zeit: $ \bigO ((2^n)^k) = (2^{n \times k})
+      \Rightarrow L \in E bezeucht durch M'''.$
+    \end{enumerate}
+  \end{itemize}
+\item Es gilt $N=NE \Rightarrow Exp = NEXP$
+\item Beweis Aufgabe 2-2
+\end{itemize}
+\section{5-1}
+Sat ist Np-vollständig wenn man nur Klauseln der Form
+$(x_1 \vee x_2 \vee x_3 \dots \vee x_n)$ und $(\neg x_1 \vee \neg x_2 \vee \neg x_3 \vee .. \neg x_n)E$ zulässt.
+\begin{itemize}
+\item Sat' ist in NP
+\item Sat' ist Np-schwer Z.z. $\forall L \in NP. \leq_p Sat'$
+  Es genügt zu zeigen $ SAT \leq_p SAT'$
+  Beachte: ($x \Leftrightarrow z $) ist äuqivalent zu KNF-Formel = $(\neg x v \neg y) \land (x v z) $
+\item Idee ersätze
+  $(q \land (x_1 \land \neg x_2 \land x_3)$ durch
+  $q \land (x_1 v z v x_3) \land (\neg z \neg x_2) \land (z \vee x_2)$
+  für eine frische Variable z. Beide Forlmen sind erfüllbarkeitsäuquivalent.
+  \begin{enumerate}
+  \item   Definiere f durch sukzesive Anwendung
+    dieser Umformung. 
+  \item Es gibt $\forall q. q\in SAT \Leftrightarrow f(q) \in SAT$
+  \item f ist berechenbar in linearer Zeit.  
+  \end{enumerate}
+\end{itemize}
+
+\section{5-2}
+0-1 Integeer Linear Programming.
+
+\paragraph in NP
+\paragraph in NP-schwer
+Reduktion von Sat'
+
+3-Sat $\leq_p  0-1-ILP$
+
+\begin{itemize}
+\item Für jede KLausel
+  \begin{math}
+  (x_1 \vee \dots \vee x_n)
+    x_1 + \dots + x_n \geq 1
+    \Leftrightarrow
+    x_1 + \dots + x_n - c_n - c_{n-1} = 1   c_i \in {0,1}
+    (C_1, \dots , C_{n-1} sind neue Variablen)
+   \end{math}
+\item Für jede Klausel $\neg x_1 \vee \dots \vee \neg x_m$
+
+  \begin{math}
+    -x_1 - \dots x_m \geq 1 - m
+    \Leftrightarrow -x_1 - \dots -x_m + c_1 + \dots c_m = 1
+  \end{math} ($c_i$ sind neue variablen)
+
+\item Definiere f so dass eine gegebene Formel $\varphi$ auf das folgendes
+  Gleichungssystem abbildet.
+  \begin{itemize}
+  \item Eine Klausel$(x_1 \vee x_2 \vee x_3)$ wird zu
+    $x_1 + x_2 + x_3 - c_1 - c_2 = 1$
+  \item Eine KLausel$(\neg x_1 \vee \neg  x_2 \vee \neg x_3)$ zu
+        $-x_1 -x_2 - x_3 + c_1 + c_2 + c_3= 1$
+  \end{itemize}
+\item zu Zeigen $\varphi \in Sat' \Leftrightarrow f(\varphi) \in \bigO -1 -ILP$
+  $\Rightarrow$ Sei $\eta$ eine erfüllende Bedingung für $\varphi$.
+  Setze $x_i =$
+  \begin{math}
+  \begin{cases}
+    0 & \eta (x_i) = true \\
+    1 & \eta (x_i) = false \\
+  \end{cases}
+  \Rightarrow
+  \end{math}
+  Wert f[r die $c_i$ finde um die Gleichen 
+  \item $Leftarrow$ Angenommen wir haben eine Lösung des gleichssystems f(p). Zeige $\varphi$
+    erfüllbar
+    \begin{math}
+      \eta (x_i)
+      \begin{cases}
+        \top & falls x_i := 1 \\
+        \bot & falls x_i := 0 \\
+      \end{cases}
+    \end{math}
+      ist einf. Bel.
+\end{itemize}
+
+\paragraph{Reduktion von Sat}
+\begin{itemize}
+\item Wähle für jede aussagelogische Variable x zwei Variablen $x_T$ und $x_F$ und Gleichungssystem
+  $x_T + x_F = 1$
+\item Klausel $(x_1 \vee \neg x_2 \vee x_3)$ wird zu 
+\end{itemize}
+ka wies weiterging
+\section{5-3}
+co-NP $=\{ L | \overline{L} \in NP \}$
+
+Wenn $L\subseteq \Sigma*$ Np-vollständig und $L\in$ co-NP, dann Np=co-NP
+
+\subparagraph{Beweis}
+Sei L Np-vollständig und $L\in co-NP$  Zeige Np=co-NP
+\begin{itemize}
+\item $NP\subseteq$ co-NP
+  Sei $L' \in NP$. Dann gilt $L'\leq_p L$ wegen Np-vollständig von L. D.h.
+  $\forall x. x\in L' \Leftrightarrow f(x) \in L$ f[r eine Funktion f, die in polynomieller Zeit
+    berechenbar ist
+  \item $\Rightarrow \forall x. x\in \overline{L'} \Leftrightarrow f(x) \in \overline{L}$.
+    Da $L\in co-NP$ gilt $\overline{L} \in NP.$ Sei M eine Np-Turing-Maschiene für $\overline{L}$ Dann ist f;M eine NP-Turingmaschine für $\overline{L'} \Rightarrow \overline{L'} \in NP.$
+  \item co-NP $\subseteq$NP Sei L'' $\in$ co-NP d.h. $\overline{L''} \in$ NP
+    Wederhole (\_)* statt $L'\Rightarrow \overline{\overline{L''}} \in NP \Rightarrow L'' \in NP$
+\end{itemize}
+
+\section{6-1}
+$A \in P^B$ und $B \in P \Rightarrow$ $A \in P$
+
+\section{6-2}
+$A \in NP \cap coNP \Rightarrow NP^A = NP$
+
+Sei $A\in NP$ und $A\in coNP$ (d.h. $\overline{A} \in NP$)
+\begin{itemize}
+\item $NP \subseteq NP^A$
+\item $NP^A \subseteq NP$
+\end{itemize}
+
+Sei $L\in NP^A$, d.h. $L$ wird von einer nicht deterministischer
+Turingmaschine mit Zugriff auf A-Orcakel in Polynomieller Zeit akteptiert.
+Nach an Annahme existieren Np-Tm für A und für $\overline{A}$. Ersetze eine Orakelanfrage durch:
+\begin{enumerate}
+\item Rate, ob das Wort in A oder in $\overline{A}$ ist
+\item Führe die Tm für A und $\overline{A}$ aus.
+\item Wenn die Antwort dem geratenem Wert entspricht, dann fahre mit
+  der Berechnung fort. Sonst ablehnen.
+\end{enumerate}
+
+\section{6-3}
+Sei $A \in \Sigma*$ Da Beweis der Zeithierachisatz  ``relativiert'',
+d.h z.B. $D^A \subsetneq EXP^A$
+
+\paragraph{Beweis}
+Wir haben $P^A \subseteq DTIME^A(2^k), denn n^k \in O(2^n)$ für alle k.
+
+Definiere $U=\{M | M$ kodiert eine TM mit A-Orcakel-Zugriff welcher
+die Eingabe M in höchstens $2^{|M|}$ Schritten akteptiert$\}$.\\
+
+Es gibt eine Tm mit A-Oracel, die $U$ in Zeit $O(2^{2n})$.  \\
+
+Zeige $U \notin DTIME^A(2^n)$ Ausgenommen $U \in DTIME^A(2^n)$.
+Dann ist auch $D(x) = if U(x) = 1$ then $0$ else $1$ \\
+
+in $DTIME^A(2^n)$ Aber $O(D) = 1 \Leftrightarrow  U(D) = 0 \Rightarrow D$ akzeptiert $ D$ nicht  in
+$ <= 2^n $ Schritten $D(D) = 0 $ Das ist ein Wiederspruch.
+
+\section{6-4}
+\paragraph{Problem} Unabhängige Menge \\
+
+$U=\{(G,k) | G$ hat unabhaengige Menge der Größe k $\}$ ist Np-vollständig.
+
+Subproblem: Geg(G,k), finde Unabhängige Menge der Größe k.
+
+\subsection{Eine Lösung}
+\begin{enumerate}
+\item Überprüfe, ob G eine Unabhängige Menge der Größe k hat, wenn nicht, Ausgabe nein
+\item Solange G noch mehr als k Knoten hat:
+  \begin{enumerate}
+  \item for $v \in V \{$
+    \begin{enumerate}
+    \item Wenn $G\setminus \{v\}$ eine Unabhängige Mege der Größe $k$
+      hat, denn $G:=G\setminus \{v\}$
+    \end{enumerate}
+  \end{enumerate}
+\item Die Knoten in G sind die gesuchte Unabhängige Menge.
+\end{enumerate}
+
+\subsection{Allgemeine Lösung}
+$L=\{ x | \exists y \in \{0,1\}^{p(|x|)} M(x,y) = 1 \}$
+(Entscheidungsproblem)
+
+\paragraph{Suchproblem} Gegeben. x, berechne $y\in \{0,1\}^{\leq}$ mit $M(x,y) = 1$
+Wenn $L$ NP-vollständig, dann kann das Suchproblem auf das Entscheidungsporblem reduziert werden.
+D.h. es existiert eine TM für das Suchproblem mit L-Orakel.
+
+Definiere: $L'=\{(x,b)|\exists y |by| \leq p(|x|) \wedge M(x,by) = 1\}$
+Wegen Np-vollständigkeit von L gilt $L' \leq_p L$, d.h. es gibt DTIME-Fkt. f, mit
+$(x,b) \in L' \Leftrightarrow f(x,b) \in L$
+
+Allgorithmus f[r Suchproblem:Eingabe x
+ for i=1 to p(x) \\
+ $b_i$ = 0 \\
+ if $f(x,b_1 \dots b_i) \notin L$ then $b_i=1$ \\
+ enf for
+
+Loesung ist $b_1 \dots b_{p(x)}$
+
+\section{7-1}
+$\Sigma_0 = \Pi_0 = \Delta_0 = P$
+$\Sigma_{i+1} = NP^{\Sigma_i}$
+$\Delta_{i+1} = coNP^{\Sigma_i}$
+$\Delta_{i+1} = p^{\Sigma_i}$
+
+\paragraph{Charakterisierung}
+\begin{itemize}
+\item $L\in \Sigma_i \Leftrightarrow $ Es gibt Polynome $p_1,\dots,p_n$ und eine Polynomialzeit TM M, so dass $x\in L \Leftrightarrow \exists x_1 \in \{0,1\}^{P_1(|x|)}  \forall x_2\in \{0,1\}^{P_2(|x|)} \forall x_3\in \{0,1\}^{P_3(|x|)}  \dots Q_i x_i \in \{0,1\}^{P_i(|x|)}   M(x,x_1, x_2, \dots x_i$
+
+\item $L\in \Pi_i \Leftrightarrow $ Es gibt Polynome $p_1,\dots,p_n$ und eine Polynomialzeit TM M, so dass $x\in L \Leftrightarrow \forall x_1\in \{0,1\}^{P_1(|x|)} \forall x_2\in \{0,1\}^{P_2(|x|)}  \dots Q_i x_i \in \{0,1\}^{P_i(|x|)}   M(x,x_1, x_2, \dots x_i$
+\end{itemize}
+
+\paragraph{b}
+\begin{itemize}
+\item $\Sigma_k \subseteq \Pi_k \Rightarrow \Sigma_k = \Pi_k$
+Sei $\Sigma_k \subseteq$ Z.z $\Pi_k \subseteq \Sigma_k$ Sei $L\in \Pi_k = co \Sigma_k$
+$\Rightarrow \overline{L} \in \Sigma_k$ Nach Annahme $\overline{L} \in \Pi_k$ Wegen $\Pi_k = co\Sigma_k$
+folgt $\overline{\overline{L}} \in \overline{Z}_k \Rightarrow L \in \Sigma_k$
+\item Zeige durch Indektion über $i\geq k \Sigma_i = \Pi_i = \Sigma_k$
+  \begin{itemize}
+  \item I.A. $i=k$ Nach annahme gilt $\Sigma_k = \Pi_k \Rightarrow \Sigma_k = \Pi_k$
+  \item I.S. Sei $\Sigma_i = \Pi_i = \Sigma_k $ für eine $i\geq k$ Zeige $\Sigma_{i+1} = \Pi_{i+1} = \Sigma_{k} \dots$
+  \end{itemize}
+\end{itemize}
+
+\section{7-2}
+Nach 7-1 gezeigt $\Sigma_1 \subseteq \pi_1$ d.h. $NP \subseteq coNP$
+%Sei $L \in NP$ dann $L \lqe_p SAT$, da Sat NP-schwer
+$\Rightarrow \leq_p \overline{Sat}$ wegen der Transitivität von $\leq_p$
+Es gilt $\overline{Sat} \in CoNP$ Es gibt polynomlzeitberechenbare Funktionen f mit \dots
+
+\section{7-3}
+\subsection{a}
+Äquivalenz $\forall_n$ wenn die eine Formel drue liefert genau dann liefert auch die andere Formel true.$\Rightarrow L\in \Pi_1$
+\subsection{b}
+\begin{itemize}
+\item $\Pi_2 = P^{NP}$
+  \begin{itemize}
+  \item Benutye Orakel für (G, k+1) um zu prüfen, ob es eine größere unabhängige Menge gibt.
+  \item Benutze Orakel für (G,k) um Existenz einer unabhängigen Menge der Größe k zu testen.
+  \end{itemize}
+\end{itemize}
+
+\subsection{b}
+\begin{itemize}
+\item Ein Knoten im Graph benötigt logarithmischen Platz. (log n Bits um Zahlen in {0,1,2,3} zu kodieren.
+\item Menge von Kknoten benötigt Platz k log n
+\end{itemize}
+
+$Rightarrow$ Man kann alle Mengen von k Knoten durchprobieren und jeweils Unabhängigkeit testen.
+
+\section{8-1}
+siehe Vorlesung, angeblich trivial
+
+\section{8-2}
+Wie lang können Ableitungen $ S\rightarrow *w$ sein?
+Ableitungen haben die folgenden Form $S \rightarrow \alpha^1_1 \rightarrow \alpha^1_2 \dots \rightarrow \alpha^1_{n1}  \rightarrow \alpha^2_1 \rightarrow \alpha^2_2 \dots \rightarrow \alpha^2_{n2} \dots \rightarrow \alpha^n_1 \rightarrow \alpha^n_2 \dots \rightarrow \alpha^n_{nn}$
+
+Wobei der Haufen mit $\alpha^1_x$ sind Satzformen der Länge 1 mit Anzahl m, der Haufen $\alpha^2_x$ sind Satzformen der Länge 2  mit Anzahl $m^2$ usw.
+
+$\Rightarrow$ Länge $\leq m + m^2 \dots + m^n \leq m^{n+1} \in 2^{O(c)}$
+
+Algorithmus von Savitch:
+$reach(\alpha, \beta, k) = $
+\begin{itemize}
+\item if$k=0$ then $\alpha = \beta$
+\item if$k=1$ then $\alpha \rightarrow \beta$
+\item else for $\gamma \in (\Sigma \cup \Gamma)^n:$
+  \begin{itemize}
+  \item if reach $(\alpha, \gamma, [ \frac{k}{2} ] ) \wedge reach(\gamma, \beta, [ \frac{k}{2} ])$
+  \item then return true
+  \end{itemize}
+\end{itemize}
+
+  Insgesamt Einge w
+  Berechne reach(S,w,$2^{k \times irgendwas}$), wobei k und l so gewählt sind, dass $2^{k \times |w| +l}$ die Länge aller möglichen Zyklischen Ableitungen $S\rightarrow^{*}w$ beschränkt.
+  Platzverbrauch: Rekursionstiefe: $log(2^{k \times |w| +l} = k \times |w| +l$
+
+  Strackfframe:
+  \begin{itemize}
+  \item Platz für $\alpha, \beta, \gamma \leq 3 \times |w|$
+  \item Platz für $k \leq k \times |w| + l$
+
+  \end{itemize}
+
+  $\Rightarrow$ Isgesamt Rekusionstiefe $\times$ Stackframe $\in O(|w|^2)$
+
+  \section{8-3}
+  Zeige: $Horn \leq_{log} \overline{CFGempty}$ und $\overline{CFGempty}\leq_{log} Horn$
+  
+  \section{8-4}
+  \subsection{a}
+  Der Beweis der NL Vollständigkeit von Reach kann man annehmen, dass der Konfigurationsgraph der TM kreisfrei ist, indem man die MAschine um ein Band mit einem Schrittzähler weritert.
+  \subsection{b}
+  Reduktion von Erreichbarkeit in Kreisfreiem Graphen. s von t in kreisfreiem Graph erreichbar g.d.w. G' = (V, $E \cup \{(t, s)\}$ kreis hat.
+
+
+\section{10-1}
+Vorschläge:
+\begin{itemize}
+\item $A = QBF$ \\
+  $P^{QBF} = PSPACE$
+  \begin{itemize}
+  \item $PSPACE \subseteq P^{QBF}$ \\ Sei $L \in PSPACE.$ $QBF$ ist
+    $PSPACE$-vollständig $\Rightarrow$ Es gibt
+    Polynomialzeitberechenbare Funktion f mit $x \in L \Leftrightarrow f(x) \in QBF$
+    Eine TM in $P^QBF$ lässt sich ausgeben durch:
+    \begin{itemize}
+    \item Berechne $f(x)$ und befrage das $QBF$-Orakel
+    \item Entsprechend der Antwort des Orakels wird angenommen oder Abgelehnt
+    \end{itemize}
+  \item $P^B \neq PSPACE^B$ //
+    Aus Vorlesung: Es existiert $B$ mit $P^B \subsetneq NP^B$ \\
+    Es gilt $NP^B \subseteq PSPACE^B$.
+
+    Das kann man so erklären: //
+    $L \in NP^B$ genaudann wenn es Polynomp  und $P^B$ TM M gibt mit:
+    $L = \{x | \exists y \in \{ 0,1\}^{|P(x)|} M...$ da hat er weggewischt.
+    
+  \end{itemize}
+\end{itemize}
+
+\section{10-2}
+$QBF \in E$ \\
+
+$\phi, \xi := \top | \bot | x | \phi \land \xi | \neg \phi | \forall x . \phi | \exists x.\phi$ \\
+Ansatz $ \forall x \phi \Leftrightarrow \phi [\bot \/ x ] \land \phi [ \top \/ x]$ \\
+$ \exists x.\phi \Leftrightarrow \phi [\bot \/x ] \lor \phi [ \top \/ x ]$ \\
+
+Bei Eingabe $\phi$ werden alle Quantoren expandiert. Jede Expansion
+kann die Formel höchstens verdopplen und braucht lineare
+Zeit. Insgesamt höchstens $n$ Verdoppleungen($n=|p|$) .
+Zeit: $2n + 4n +8n+ \dots + 2^n * n \leq 2^{n+1} n \leq 2^{n+1} * 2^{n} = 2^{n+1} \leq 2^{3n}$
+Am ende noch Auswerten in linearer Zeit.
+$\Rightarrow Zeit insgesamt \mathcal{0} 2^{3n}$ \\
+
+Alternative:\\
+eval(T, n) = T \\
+eval($\phi \land \phi$,n) = if eval($\phi$,n) = $\bot$ then $\bot$ else eval($\phi$,n) \\
+eval($\forall x.\phi$, n) = if eval($\phi$,  n $[ x:= \bot ]$) = $\bot$ then $\bot$ else eval($\phi$,n $[ x := \top ]$) \\
+\dots \\
+\\
+Warum folgt nicht $PSPACE \subseteq E$? und schwupps war die Tafel wieder gewischt.
+
+\subsection{10-3}
+Gegeben: Graph G mit Kntoen s und t \\
+Gesicht: Länge des kürzestens PFades von s nach t (oder unendlich wenn keiner existiert). \\
+
+Entscheidungsproblem $L= \{(G,s,t,n) |$ Der kürzeste PFad vons nach t hat die Länge n $\}$
+zeige $L\in NL$:\\
+Dazu:
+\begin{itemize}
+\item $L_n = \{(G,s,t,n) |$ Es gibt Pfad von s nach t der Länge n $\}$ ist in NL \\
+Algorithmus: Beginne bei $s$. Rate die Nachfolge, solange bis $n$ Schritte
+gemacht wurden. Akzeptiere, wenn am Ende $t$ nicht erreicht ist.
+\item $\overline{L_n} \in NL$ $\overline{L_n} = \{(G,s,t,n) |$ Es gibt keinen Pfad von s nach t der Länge n $\}$
+\end{itemize}
+
+Damit $L=L_n \cap \overline{L_{n-1}}$. Da NLunter Schnitt abgeschlosse folgen $L\in NL$
+
+Klasse $FNL|$:\\
+Eine Funktion $f$ ist in $FNL$ falls gilt: Es gibt eine nicht det. TM $M$ mit logarithmischem Platzverbrauch, so dass gilt:
+$f(x) = y$ genaudannwenn Die Maschine $M$ hat bei Eingabe $x$ einen akzeptierenden Lauf mit Ausgabe $y$.
+
+Akzeptierende Definition: $FNL = FL^{NL}$ \\
+$FNL\subseteq FL^{NL}$:\\
+Benutze als Orakel: $\{ (x,i,c)|$ Bei Eingabe $x$ ist $c$ das i-te Zeichen in der Ausgabe $\}$.
+
+
+
+\end{document}
