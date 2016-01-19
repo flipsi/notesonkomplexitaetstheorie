@@ -11,7 +11,7 @@
 
 
 % big-O notation/symbol
-\newcommand{\bigO}{\ensuremath{\mathcal{O}}} 			
+\newcommand{\bigO}{\ensuremath{\mathcal{O}}}
 
 
 \begin{document}
@@ -26,8 +26,8 @@ q: Zustand
 k: Kopfpos
 tape: Bandinhalt
 
-$(q,k,tape) \leftarrow (q',k', tape)$                  
-                                                     
+$(q,k,tape) \leftarrow (q',k', tape)$
+
 \begin{math}
 falls (q, tape(k), tape'(k), q', m) \in I und k' =
   \begin{cases}
@@ -36,11 +36,11 @@ falls (q, tape(k), tape'(k), q', m) \in I und k' =
   k   & \text{falls m=S}\\
 \end{cases}
 \end{math}
-                                                     
+
 
 tape: Zeichen an Pos k
 
-                                               
+
 2-Kopf-1-Band Turingmaschine
 
 %| | | | | |
@@ -62,7 +62,7 @@ $(q,(tape(i),tape(j)), (tape'(i'),tape'(j)),q',(m_1,m_2)) \in I $
     i+1 & \text{falls } m_1 = R \\
     i-1 & \text{falls } m_1 = L \\
     i   & \text{falls } m_1 = S \\
-  \end{cases}  
+  \end{cases}
 \end{math}
 
 und
@@ -99,7 +99,7 @@ $L_1 \in NP und L_2 \in NP, dann L_1 \cup L_2 \in NP und L_1 \cap L_2 \in NP$
 
 \begin{itemize}
 \item Sei $M_1$ und $M_2$ nicht def. Tm mit plynomiellen Laufzeiten
-  und $L_1 = L(M_1)$ und $L_2 = L(M_2)$. Definiere M: 
+  und $L_1 = L(M_1)$ und $L_2 = L(M_2)$. Definiere M:
 \begin{enumerate}
 \item Waehle nichtdeterministisch $b \in {1,2}$
 \item Fuehre $M_b$ aus und akzeptiere bzw. lehne ab, wenn $M_b$
@@ -115,7 +115,7 @@ $L_1 \in NP und L_2 \in NP, dann L_1 \cup L_2 \in NP und L_1 \cap L_2 \in NP$
   Laufzeit Polynomiell:
   \begin{itemize}
   \item $L(M) <= L_1\cap L_2$
-  \item $L_1 \cap L_2 <= L(M)$   
+  \item $L_1 \cap L_2 <= L(M)$
   \end{itemize}
 
 \end{itemize}
@@ -221,7 +221,7 @@ Aufgabe:
     gleiche Akzeptantverhalten wie M'.            %<
   \item Definiere M so, dass die Wörter die Länge $< n_0$  fest in der
     Übergangstabelle kodiert sind und dass sich M wie M''' verhält.
-  \end{itemize}  
+  \end{itemize}
 \end{itemize}
 
 \section{4-3}
@@ -239,7 +239,7 @@ NEXP. E = NE
   \item Dekodierunge $unär(x) \mapsto x $ Zeit $\bigO (n)$,grö0e von x
     ist $ \bigO (log n) $ wobei $ n=|Eingabe|$
   \item Lasse Ne-Tm  für L laufen. Zeit $ \bigO (2^{k \times log n} = \bigO (n^k)$
-    
+
   \end{enumerate}
   \item Nach Annahme folgt $L' \in P$. Sei M'' eine deterministische
     Turingmaschine mit polynomieller Laufzeit für L'.
@@ -268,9 +268,9 @@ $(x_1 \vee x_2 \vee x_3 \dots \vee x_n)$ und $(\neg x_1 \vee \neg x_2 \vee \neg 
   für eine frische Variable z. Beide Forlmen sind erfüllbarkeitsäuquivalent.
   \begin{enumerate}
   \item   Definiere f durch sukzesive Anwendung
-    dieser Umformung. 
+    dieser Umformung.
   \item Es gibt $\forall q. q\in SAT \Leftrightarrow f(q) \in SAT$
-  \item f ist berechenbar in linearer Zeit.  
+  \item f ist berechenbar in linearer Zeit.
   \end{enumerate}
 \end{itemize}
 
@@ -317,7 +317,7 @@ Reduktion von Sat'
   \end{cases}
   \Rightarrow
   \end{math}
-  Wert f[r die $c_i$ finde um die Gleichen 
+  Wert f[r die $c_i$ finde um die Gleichen
   \item $Leftarrow$ Angenommen wir haben eine Lösung des gleichssystems f(p). Zeige $\varphi$
     erfüllbar
     \begin{math}
@@ -334,7 +334,7 @@ Reduktion von Sat'
 \begin{itemize}
 \item Wähle für jede aussagelogische Variable x zwei Variablen $x_T$ und $x_F$ und Gleichungssystem
   $x_T + x_F = 1$
-\item Klausel $(x_1 \vee \neg x_2 \vee x_3)$ wird zu 
+\item Klausel $(x_1 \vee \neg x_2 \vee x_3)$ wird zu
 \end{itemize}
 ka wies weiterging
 \section{5-3}
@@ -526,7 +526,7 @@ $reach(\alpha, \beta, k) = $
 
   \section{8-3}
   Zeige: $Horn \leq_{log} \overline{CFGempty}$ und $\overline{CFGempty}\leq_{log} Horn$
-  
+
   \section{8-4}
   \subsection{a}
   Der Beweis der NL Vollständigkeit von Reach kann man annehmen, dass der Konfigurationsgraph der TM kreisfrei ist, indem man die MAschine um ein Band mit einem Schrittzähler weritert.
@@ -555,7 +555,7 @@ Vorschläge:
     Das kann man so erklären: //
     $L \in NP^B$ genaudann wenn es Polynomp  und $P^B$ TM M gibt mit:
     $L = \{x | \exists y \in \{ 0,1\}^{|P(x)|} M...$ da hat er weggewischt.
-    
+
   \end{itemize}
 \end{itemize}
 
@@ -604,6 +604,30 @@ $f(x) = y$ genaudannwenn Die Maschine $M$ hat bei Eingabe $x$ einen akzeptierend
 Akzeptierende Definition: $FNL = FL^{NL}$ \\
 $FNL\subseteq FL^{NL}$:\\
 Benutze als Orakel: $\{ (x,i,c)|$ Bei Eingabe $x$ ist $c$ das i-te Zeichen in der Ausgabe $\}$.
+
+
+
+\section{10-4}
+
+$G_{m,d} = $ Cayley-Graph der Gruppe $(\mathcal{Z}_m)^d)$
+
+Knoten $(x_1, \dots x_d)$, $x_i \in \{0, \dots m \}$
+\\
+Kanten $(x_1, \dots x_d) -- (x_1, \dots x_i + 1 \mod m, \dots x_d)$,
+
+In der Vorlesung wurde gezeigt: Ein JAG mit P Pebblen  kann in $G_{m,d}$ höchstens $(Qm)^{C^P}$ Knoten besuchen.
+
+Es gibt JAG, der mit $p$ Pebblen, der $G_{m,2^{p-1}}$ durchläuft, also $m^{2^{p-1}}$ Knoten besucht.
+
+Aufgabe: Konstruiere JAG mit $P$ Pebblen, der $G_{m,2^{p-1}}$ für beliebiges $m$ vollständig durchläuft.
+
+
+
+\section{11-1}
+
+
+
+
 
 
 
