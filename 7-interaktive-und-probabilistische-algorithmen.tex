@@ -288,7 +288,17 @@ Der Beweis dazu ist kompliziert.
 
 \end{beweis}
 
-\datum{14.1.2016}        
+
+
+
+
+
+
+
+
+
+
+\datum{14.01.2016}
 
 \section{Chernoff Schranke}
 Seien $X_1 \dots X_n$ $0-1$
@@ -381,9 +391,9 @@ terminiert. Letzteres mit Wahrscheinlichkeit $0$.
 
 (Wiederholung)
 Folgene formale Version:
-$ZPP = \{A |$ es existiert ein Entscheidungsverfahren, für A dessen Laufzeit eine Zufallsvariable ist mit polynomiellem Erwartungswert $\}$. beschränkt.      
+$ZPP = \{A |$ es existiert ein Entscheidungsverfahren, für A dessen Laufzeit eine Zufallsvariable ist mit polynomiellem Erwartungswert $\}$. beschränkt.
 
-\section{Interaktive Beweissysteme} 
+\section{Interaktive Beweissysteme}
 \begin{itemize}
 \item Polynomiell laufzeitbeschränkter Verifizierer (``wir''): $V$
 \item Mit umbeschränkter Rechenkraft ausgestatteter Beweiser (``sie''): $P$
@@ -413,13 +423,13 @@ die ein deterministischer polynomiellialzeit Verifizierer existiert)
 \begin{satz}
 DIP = NP
 
-\begin{description}        
+\begin{description}
 \item["$\subseteq$''] Verwendet Formulierung von NP mit Polynom großen "Lösungen''.
 \item["$\supseteq$''] Sei $V$ ein DIP Verifizierer für $X$ und P der
   zugehörigem Prover. Komplettes Transcript raten bzw. als Lösung
   verwenden.
 \end{description}
-\end{satz}      
+\end{satz}
 
 \begin{definition}
 $ \subseteq \Sigma^*$ ist in $TP$
@@ -455,6 +465,207 @@ Wiederhole dies 2x (akzeptiert ``wirklich'' nur falls beide Male akzeptiert wurd
 Dies ist korrektes Protokoll für $\overline{GI}$.
 
 \end{definition}
+
+
+
+
+
+
+
+
+
+\datum{25.01.2016}
+
+
+% wiederholung: TODO merge with above
+
+\begin{definition}
+    \definiere{Interaktives Beweissysteme}
+    \begin{align*}
+        L \in \mathit{IP} & \text{ genau dann, wenn }
+        \\
+        & \exists \text{ polynomialzeitbeschränkte, probabilistische Turingmaschine Verifier } V:
+        \\
+        & \exists \text{ Prover } P:
+        \\
+        & x \in L \Rightarrow (P,V) \text{ akzepiert auf } x \text{ mit Wahrscheinlichkeit } \geq 75\%
+        \\
+        & x \notin L \Rightarrow \forall P: (P,V) \text{ verwirft auf } x \text{ mit Wahrscheinlichkeit } \geq 75\%
+    \end{align*}
+
+    Der Prover ist eine deterministische Turingmaschine ohne
+    Ressourcenbeschränkung. In jeder Runde schickt der Verifizierer eine Frage
+    an den Prover und der Prover eine Antwort an den Verifizierer.
+    Die Anzahl der Runden ist polynomiell beschränkt.
+    Ausschließlich $V$ entscheidet, ob akzeptiert wird.
+
+\end{definition}
+
+
+
+
+ % so jetzt geht's los
+
+
+\subsection{Graphisomorphismus}
+\label{sec:graphisomorphismus}
+
+
+Verifizierer für das Problem, ob zwei Graphen \underline{nicht} isomorph sind, $\overline{GI}$:
+
+Gegeben: $G_1 = (V_1, E_1), G_2 = (V_2, E_2)$
+
+Falls $|V_1| \neq |V_2|$, dann verwerfen.
+
+Wähle zufällig $i \in \{1,2\}$ und Permutation $\phi$ auf $V_1$.
+Übermittle $G_3 = \phi(G_i)$ an den Prover.
+
+Prover antwortet mit einer Zahl $j \in \{1,2\}$. Falls $i=j$, dann akzeptieren, sonst verwerfen.
+
+Wenn $G_1 \not\cong G_2$, so kann der intendierte Prover so antworten, dass
+$V$ mit Sicherheit akzepiert.
+\\
+Wenn $G_1 \cong G_2$: Falls $G_3$ übermittelt wird und $P$ richtig rät, so ist
+das in 50\% der Fälle die falsche Antwort, da ja
+$G_3 = \phi(G_1) = \phi(\psi^{-1}(G_2))$
+wenn $\phi_1: G_1 \rightarrow G_2$ Isomorphismus
+\\
+$\Rightarrow$ Akzeptanzwahrscheinlichkeit $\leq$ 50\%.
+
+
+
+% TODO tex these with tikz
+
+%\begin{beispiel}
+
+    %G_1      1 - 2
+             %| / |
+             %3 - 4
+
+    %G_2      1   2
+             %| X |
+             %3 - 4
+
+       %sind isopmorph
+
+%\end{beispiel}
+
+
+%\begin{beispiel}
+
+    %G_1      1 - 2
+             %| \
+             %3   4
+
+    %G_2      1 - 2
+             %| /
+             %3   4
+
+       %sind nicht isopmorph
+
+%\end{beispiel}
+
+
+
+
+
+\subsection{Unerfüllbarkeit von 3KNF}
+\label{sec:unerfullbarkeit_von_3knf}
+
+
+Ziel: $\mathit{co-NP} \subseteq \mathit{IP}$
+
+Konstruktion eines IP-Protokolls für Unerfüllbarkeit von 3KNF.
+
+Vorgelegt sei eine 3KNF $\phi$.
+\\
+Gefragt ist $\phi(\eta) = 0$ für alle Belegungen $\eta$.
+\\
+$\eta: Vars(\phi) \rightarrow \{0.1\}$
+
+
+Lösung ist die Arithmetisierung.
+Man ordnet jeder KNF $\phi$ ein Polynom $[\phi]$ in denselben Variablen zu.
+\begin{itemize}
+    \item $[ x ] = x$
+    \item $[ \phi \land \psi ] =  [\phi] * [\psi]$
+    \item $[ \phi \lor \psi ] =  1 - (1 - [\phi]) * (1 - [\psi])$
+    \item $[ \neg \phi ] =  1 - [\phi]$
+\end{itemize}
+
+Falls $\eta: Vars \rightarrow \{0,1\}$ \\
+$\phi [\eta] = [\phi](\eta)$ \\
+Durch Induktion über Aufbau von $\phi$.
+
+$\phi = (x \lor \neg y) \land z$ \\
+$[\phi] = (1 - (1-x) (1-(1-y))) * z$
+
+
+Wenn $\phi$ eine 3KNF mit $n$ Variablen und $m$ Klauseln ist, dann ist $[\phi]$
+ein Polynom in $n$ Variablen (denselben) und vom Grad $3m$.
+
+
+
+
+
+Wir erweitern die Syntax von Polynomen um den Operator
+$SUM_x$ wobei $SUM_x(p) = p(x=0) + p(x=1)$.
+
+Jetzt ist $\phi$ unterfüllbar (mit Variablen $x_1 \dots x_2$) genau dann, wenn
+\\
+$SUM_{x_1}(SUM_{x_2}(SUM_{x_3}(\dots  SUM_{x_n}([\phi]) )))$.
+
+Wir entwerfen ein IP-Protokoll für das Problem $p(a_1 \dots a_n) = b$?,
+wobei $p$ verallgemeinertes Polynom ist.
+
+Alle Zwischenergebnisse bei der Auswertung eines erweiterten Polynoms
+sind durch $2^m$ beschränkt (und größer oder gleich 0).\\
+Wir können daher alle Berechnungen in $\Z / p\Z (\Z_p), (\mod p)$ durchführen
+(statt in $\R$), sofern $p$ eine Primzahl $\geq 2^m$ ist.
+
+Ganz zu Beginn einigen sich $P$ und $V$ also auf solch eine Primzahl $p$.
+Anschließend finden alle Berechnungen $\mod p$ statt.
+Das Protokoll läuft über so viele Runden, wie das verallgemeinerte Polynom $p$ groß ist.
+
+
+Falls $p = x_i$: Verifizierer prüft, ob $a_i = b$. Wenn ja, akzeptiere sonst verwerfen.
+\\
+Falls $p = p_1 * p_2$: Verifizierer fragt Prover nach Zwischenergebnissen
+$b_1, b_2$ und prüft, ob $b_1 * b_2 = b$ und in folgenden Runden wird dann
+bestätigt, dass $p_1(a) = b_1, p_2(a) = b_2$.
+
+
+
+Fülle $p = p_1 + p_2$, $p = P_1 - P_2$ \\
+$p = 1$ analog.
+
+Fall $p = SUM_x p_1(x_1 \dots x_n, x)$
+\\
+Gefragt ist $p_1(a_1 \dots a_n, 0) + p_1(a_1 \dots a_n, 1) = b$.
+\\
+Verifizierer bittet Prover um die Koeffizienten (in $\Z_p$) es Polynoms
+(vollständig ausmultipliziert.)
+\\
+$q(x) = p_1(a_1 \dots a_n, x)$ Polynom in 1 Variablen vom Grad $3m$.
+\\
+Verifizierer prüft, ob $q(0) + q(1) = b$.
+\\
+Verifizierer wählt zufällig $a \in \Z/p\Z$.
+\\
+In weiteren Runden wird bestätigt, dass
+$p_1(a_1 \dots a_n, a) = q(a)$
+
+Das funktioniert intuitiv deshalb weil bei Polynomen eine zufällige Einsetzung
+fast so gut wie eine symbolische Variablenbelegung ist.
+
+
+
+
+
+
+
+
+
 
 % chapter probabilistische_algorithmen (end)
 
