@@ -10,6 +10,12 @@
 \usepackage{mathcomp}
 
 
+\usepackage{tikz}
+\usetikzlibrary{shapes.arrows,chains}
+
+\input{sfliptex05.tex}
+
+
 % big-O notation/symbol
 \newcommand{\bigO}{\ensuremath{\mathcal{O}}}
 
@@ -621,14 +627,272 @@ Es gibt JAG, der mit $p$ Pebblen, der $G_{m,2^{p-1}}$ durchläuft, also $m^{2^{p
 
 Aufgabe: Konstruiere JAG mit $P$ Pebblen, der $G_{m,2^{p-1}}$ für beliebiges $m$ vollständig durchläuft.
 
+\begin{enumerate}
+\item 1 Pebbel $G_{M,1}$
+  \begin{codebox}[javascript]
+    while(true) {
+      x_0 := x_0.e_1
+      }
+  \end{codebox}
+\item 2 Pebbel $G_{M,2}, m=3$
+  \begin{codebox}[javascript]
+    while(true) {
+      x_1 := x_0:
+      do{
+        x_0 := x_0.e_2        
+      } while (x_1 != x_0)
+      x_1 := x_1.e_1
+    }
+  \end{codebox}  
+\end{enumerate}
+
+\begin{tikzpicture}[
+      start chain=1 going right,start chain=2 going below,node distance=-0.15mm
+    ]
+
+    \foreach \x in {1,2,...,11} {
+        \x, \node [draw,on chain=1] {};
+    } 
 
 
+\end{tikzpicture}
+
+%Zwei spalten
+%Spalte eins
+Definiere Programm $next_k(b_1,b_2,\dots, b_{2 k-1})$ s
+
+%Spalte zwei
+\begin{enumerate}
+\item Zähle in dem Untervektor der Psitionen
+  $next_k(b_1,b_2,\dots,b_{2 k-1})$ eins weiter (mit Variable $x_0$)
+\item Es werden nur variablen $x_0, \dots, x_{k-1} benutzt$
+\end{enumerate}
+
+%ende spalte zwei
+
+% Pfeile die jeweils von der Zahl nach unten deuten
+%                       1 2 3 4
+%                       ↓ ↓ ↓ ↓    
+Beispiel vorher $x_0 = (0,1,0,2)
+
+Hier kam noch was
+
+\begin{enumerate}
+\item $next_1 (b_1) s = $
+  
+  $x_0 := x_0 e_{b_1}$
+\item Definition von $next_{k+1}$
+  Definiere dazu:
+  $restart_k$ $(b_1, b_2, \dots, b_{2^k-1})$ s t =
+  $x_0 := s$
+  while(s <> t){
+    next_n (b_1, b_2, \dots, b_{2^k-1}
+  }
+
+  %uber den b ist jeweils ein Vektorpfeil
+\item next_{k+1}(b_{upper}, b_{lower}) s =
+  \begin{codebox}[javascript]
+    if x_0 != x_k then
+      next_n b_{lower} s
+      else {
+        restart_k b_{upper} s x_k
+        next_k b_{upper}
+        x_k b_{upper}
+        x_k := x_0
+        restart_k b_{lower} x_k x_k
+        next_k b_{lower} x_k
+  \end{codebox}
+  
 \section{11-1}
+\subsection{Bemerkungen}
+
+\begin{enumeration}
+\item Turingmaschine mit plynomieller Laufzeit
+\item In jedem Schritt ein Münzwurf
+  \begin{description}
+  \item [PP] $x\in L$ genau dann wenn $P(M akzeptiert x) > 0.5$
+  \item [BPP]
+    \begin{enumerate}
+    \item $x\in L \Rightarrow P(M akzeptiert x) > 0.75$  
+    \item $x\notin L \Rightarrow P(M akzeptiert x) < 0.25$
+    \end{enumerate}
+  \item [RP]
+    \begin{enumerate}
+    \item $x\in L \Rightarrow P(M akzeptiert x) > 0.5$  
+    \item $x\notin L \Rightarrow P(M akzeptiert x) = 0$
+    \end{enumerate}
+  \end{description}
+\end{enumeration}
+
+$BPP_{\sigma, \delta}$
+\begin{enumerate}
+\item $x\in L \Rightarrow P(M lehnt ab x) \leq \sigma$  
+\item $x\notin L \Rightarrow P(M akzeptiert x) \leq \delta$
+\end{enumerate}
+$BPP = BPP_{0.25, 0.25}$
+
+\subsection{a}
+$BPP_{0, 0} = P$
+
+$BPP_{0.5, 0.5} = $Menge aller Sprachen
+
+Sei $l\subseteq\Sigma*.$ Zeige $L\in BPP_{0.5, 0.5}$.
+
+Definiere TM, M, die eine Münze wirft und bei Kopf akzeptiert und sonst ablehnt.
+
+\subsetction{b}
+$BPP_{0.5, 0} \subseteq \NP$
+
+\subsection{c}
+$BPP_{\frac{1}{2^2^{|x|}}, \frac{1}{2^2^{|x|}}} =
+
+Laufzeit einer $BPP_{\sigma, \delta}$-Turingmaschiene ist ein Polynom $p(n)$
+Es gibt $2^{P(n)}$ Läufe bei Eingabe der Länge $n$.
+
+$P(M akz.x= \frac{akzeptierte Läufe}{2^{P(|x|)}} \Rightarrow $ Vielfaches von $\frac{1}{2^{P|x|}}$
+
+Für alls x mit $|x| \geq n_0$ ($n_0$ geeignet) gilt
+
+$\frac{1}{2^{P(|x|)}} \geq \frac{1}{2^2^{P(|x|)}}$
+
+Wenn $P(M akz. x) \leq \frac{1}{2^2^{P(|x|)}}$ und $P(M akz. x)$ ist Vielfaches von $ \frac{1}{2^2^{P(|x|)}}$
+dann $P(M akz. x) = 0 $
+
+Durch Festverdrahtung des Wörter bis Länge $n_0$ erhält man eine P-TM aus einer gegebenen $BPP_{\frac{1}{2^2^{|x|}}, \frac{1}{2^2^{|x|}}} - TM$
+
+\section{11-2}
+Rate werte für a,b,c
+$a = 7, b=-4, c=-1$
+Determinate $887040 \noteq 0$
+
+\section{11-3}
+gegeben: Zahlen n,r
+
+gesucht: Zufallszahl aus $0 \dots n-1$
+
+Es darf auch mit ``unbekannten'' geantwortet werden, aber höchstens mit Wahrscheinlichkeit $\frac{1}{r}$
+
+Algorithmus:
+\begin{enumerate}
+\item Bestimme die Bits $2^{\lceil log n  \rceil }$der Ausgabe-Zahl zufällig
+\item Wenn die so gewonnene Zahl in ${0, \dots,n-1}$, so ist sie die Ausgabe 
+\item Sonst werde die Schritte wiederholt
+\item Wiedehole maximal so oft, wie $r$ lang ist in Binärschreibweise.
+\end{enumerate}
+
+Maximale Anzahl der Wiederholungen.
+\begin{enumerate}
+\item Wahrscheinlichkeit, dass wiederholt werden muss $<\frac{1}{5}$
+\item Wahrscheinlichkeit, dass $k$ Mal wiederholt werden muss $<(\frac{1}{2})^k$
+\item Ziel: $(\frac{1}{2})^k < \frac{1}{r} \Leftrightarrow r<2^k$
+\item $\Rightarrow k := (\lceil log r \rceil )$ genügt.
+
+\section{12-1}
+$PP$: Akzeptanzbedingung: $x \in L \Leftrightarrow P(M akzeptiert x) > \frac{1}{2}$
+$PP'$: Akzeptanzbedingung: $x \in L \Leftrightarrow P(M akzeptiert x) \geq \frac{1}{2}$
+
+\begin{enumerate}
+\item $L \in PP \Rightarrow L \in PP'$
+  Angenommen $x \in L \Leftrightarrow P (M akzeptiert x) > \frac{1}{2}$. Zu zeigen: Es gbit eine probabilistische Turingmaschine $M'$ akzeptiert x) $\geq \frac{1}{2}$
+  Definiere $M'$ wie folgt:
+  \begin{enumerate}
+  \item Führe $M$ aus
+    \begin{enumerate}
+    \item Wenn $M$ ablehnt, dann lehne ab
+    \item Wenn $M$ annimmt, dann wirf $P(|x|) + 1$ eine Münze und lehne ab,
+      wenn immer Kopf kommt, sonst wird angenommen. ($p(x)$ ist die Laufzeit von $M$ und $x$ die Eingabe)
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+$x \in L \Rightarrow P (M akzeptiert x) \geq \frac{1}{2}$
 
 
+  $P(M'$ akzeptiert $x) = 1 - P(M'$ lehnt x ab$)$
+
+$= 1 - (P(M$ lehnt $x$ ab$) + P(M$ akzeptiert $x) \frac{1}{2^{p(x)+1}})$ \\
+$= P(M$ akzeptiert $x) - P(M$ akzeptiert $x) * \frac{1}{2^{p(x)+1}}) $
+
+$x \in L \Rightarrow P(M akzeptiert x) > \frac{1}{2}$
+
+Da die Warhschenilichkeit ein Vielfaches von $\frac{1}{2^{p(x)+1}})$ ist folgt
+$P(M akzeptiert x) > \frac{1}{2} + \frac{1}{2^{p(x)+1}})$
+
+Zu Zeigen $P(M'$ akzeptiert $x) \geq \frac{1}{2} \Rightarrow x \in L$
+
+Zeige dazu $P(M$ akzeptiert $x) \geq \frac{1}{2}$
+
+$P(M$ akzeptiert $x) = \frac{P(M' akzeptiert x)}{1-\frac{1}{2^{p(x)+1}}} $
+
+$ \frac{1}{2^{p(x)+1}} - \frac{1}{2^{p(x)+1}} * P(M'$ akzeptiert $x)$
+
+\section{12-2}
+\label{sec:12-2}
+
+\subsection{$NP \subseteq PP$}
+Sei $M$ eine $NP$ - Turingmaschine. Definiere $M'$ durch:
+\begin{enumerate}
+\item Wirf Münze
+  \begin{enumerate}
+  \item Kopf $\Rightarrow$ akzeptiere
+  \item Zahl $\Rightarrow M$  ausführen
+  \end{enumerate}
+\end{enumerate}
+
+$P(M' akzeptiere. x) = $
+\begin{math}
+  \begin{cases}
+    \frac{1}{2} & Kein\- Lauf von M \\
+    \frac{1}{2} + \epsilon & wenn M akzeptierenden Lauf hat, wobei \epsilon > 0
+  \end{cases}
+
+  \Rightarrow x \in L(M) \Leftrightarrow P(M' akzeptiert x) > \frac{1}{2}
+\end{math}
+
+\subsection{$BPP \subseteq PP$}
+$M$ $BPP$ Turingmaschine
+
+$x \in L \Rightarrow P(M akzeptiert x) > \frac{3}{4} \Rightarrow P(M akzeptiert x) > \frac{1}{2}$
+$x \notin L \Rightarrow P(M akzeptiert x) \leq \frac{1}{4} \Rightarrow P(M akzeptiert x) \leq \frac{1}{2}$
+
+Alter, so schnell kann man nicht schreiben. Da fehlt jetzt noch was.
+
+\section{12-3}
+\label{sec:label}
+$x$ ist quadratischer Rest falls $\exists y.$ $x=y^2 \mod p$
+
+$V:$ Eingabe p,n $\in \N$ mit $p<n$
+
+Wähle zufällig $z_1 < p$ und $z_2 <p$. Wähle zufällig $b_1 \in \{1,2\}$ und $b_2 \in \{1,2\}$
+
+for  i = 1,2 do \\
+  if b_i = 1 then w_i = z_i^2 \mod p else w_i := n*z_i^2 \mod p
+done
+
+sende w_1, w_2 von P
+Empfange c_1, c_2 von P
+
+for i=1,2 do
+if c_i \noteq b_i then REJECT
+done
+ACCEPT
+
+Definition von P:
+Empfange w_1, w_2 von V
+for i=1,2 do
+if w_i ist quadratischer Rest bezgl. p then c_i = 1
+else c_i = 2
+done
+Sende c_1,c_2
 
 
-
-
+\begin{itemize}
+\item n kein quadratischer Rest  \Rightarrow (P,V) akzeptiert n.
+Denn w_i ist quadratischer Rest genau dann wenn b_i = 1
+\Rightarrow P kann b_i ausrechnen und zurücksenden
+\item n quadratischer Rest \Rightarrow \forall P'. (P', V) lehnt mit
+  Wahrscheinlichkeit \geq \frac{3}{4} ab. n*z^2 ist auch quadratischer
+  Rest und alle quadratischen Reste treten in der gleichen wahrscheinlichkeit in dieser Form auf.
+\end{itemize}
 
 \end{document}
