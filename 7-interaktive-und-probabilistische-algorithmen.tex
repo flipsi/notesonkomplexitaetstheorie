@@ -668,6 +668,262 @@ fast so gut wie eine symbolische Variablenbelegung ist.
 
 
 
+\datum{28.01.16}
+
+
+\textbf{IP-Protokoll:}
+
+Zu Beginn jeder Runde liegt ein verallgemeinertes Polynom $p$ in Variablen $x_1
+\dots x_n$ vor und Werte $a_1 \dots a_k \in \Z_p$, wobei $p$ eine Primzahl $\geq
+2^n$ ist.
+
+$b \in \Z_p$
+\\
+Es gibt dann zu bestätigen, dass $p(a_1 \dots a_k) = b$.
+\\
+Gestartet wird mit
+% todo ? über =
+$SUM_{x_1} \dots SUM_{x_n}[q] =? 0$ für $k = 0$.
+\\
+Ist $p(a_1 \dots a_k) \equiv SUM_x p_1(a_1 \dots a_k, x)$
+\\
+* Wählt $V a \in \Z_p$ zufällig und lässt sich das Polynom
+$q_(x) = p_1(a_1 \dots a_k, x)$
+von P geben.
+\\
+$V$ prüft, ob $q(0) + q(1) = b$ und in der nächsten Runde wird bestätigt, dass
+$p_1(a_1 \dots a_k, a) = q(a)$
+\\
+Falls $\phi$ unerfüllbar ist, dann kann P alle Fragen wie gewünscht beantworten und
+$V$ wird zu 100\% überzeugt.
+Falls $phi$ erfüllbar ist, ist die einzige Möglichkeit, dass P den Verifier
+fälschlicherweise überzeugt, dass ein oder mehrere Male ander Stelle * zufällig
+eine der $\leq 3m$ Nullstellen von $p_1(a, x) - q(x)$ wobei $p_1(a, x) \neq
+q(x)$, erwischt wurde.
+
+Die Wahrscheinlichkeit, dass das nicht passiert, ist $\geq (1 -
+\frac{3m}{p})^2$. (Der Bruch bezeichnet die Größe des Körpers $\Z_p$)
+\\
+$p \geq c^n \leadsto \text{ Wahrscheinlichkeit } \geq 75\%$ wie gewünscht.
+
+%TODO begründung dazu kommt am montag
+
+
+
+
+
+\textbf{Verallgemeinerung:}
+
+
+$\mathit{IP} \supseteq \mathit{PSPACE}$
+
+$\mathit{QBF} \in \mathit{IP}$
+
+Verallgemeinerte Polynome werden um zusätzliche Operatoren erweitert:
+\begin{itemize}
+    \item $\mathit{EX}_x p(x) = 1 - (1 - p(0))(1 - p(1))$
+    \item $\mathit{ALL}_x p(x) = p(0) * p(1)$
+    \item $\mathit{RED}_x p(x) = p(0) + x * (p(1) - p(0))$
+\end{itemize}
+$\mathit{RED}_x p(x)$ stimmt mit $p(x)$ auf $[0,1)$ überein.
+$\mathit{RED}_x p(x)$ hat in $x$ aber Grad 1.
+
+Einer QBF-Formel $\phi$ kann man mit diesen Operatoren ein verallgemeinertes
+Polynom $[\phi]$ vom Grad $n$ (Anzahl der Variablen in $\phi$) zuordnen, sodass
+$[\phi] = 1 \Leftrightarrow \phi \text{ wahr (keine freien Variablen)}$.
+
+
+
+
+\begin{satz}
+
+Zusammengefasst gilt:
+$\mathit{IP} = \mathit{PSPACE}$
+
+Es gibt aber Orakel $A$, sodass
+$\mathit{IP}^A \neq \mathit{PSPACE}^A$
+
+\end{satz}
+
+
+
+
+
+
+
+
+\subsection{Probabilistically Checkable Proof}
+\label{sec:probabilistically_checkable_proof}
+
+
+\begin{definition}
+    Bei \definiere{Probabilistically Checkable Proof} (PCP) gibt es einen
+    Verifier wie bei IP.
+    Statt eines interaktiven Provers gibt es jetzt einen ``Beweis'' $\Pi \in
+    \{0,1\}^N$.
+    $V$ stellt Fragen an $\Pi$ in Form eines Bitstrings $q \in \{0,1\}^{\log
+    N}$.
+    Diese werden mit dem $q.$ Bit von $\Pi$ beantwortet.
+
+    \begin{align*}
+        L \in \mathit{PHP} &\\
+        \Leftrightarrow \exists V . & \\
+                                    & x \in L \Rightarrow \exists \Pi . (\Pi, V) \text{ akzepiert mit
+    Wahrscheinlichkeit } \geq 75\% \\
+                                    & x \notin L \Rightarrow \forall \Pi . (\Pi, V) \text{ akzepiert mit
+    Wahrscheinlichkeit } \leq 25\%
+    \end{align*}
+
+\end{definition}
+
+Falls Rechenzeit von $V$ $\leq p(n)$, wobei $n = |x|$ und $p$ Polynom,
+dann machen nur Beweise $\Pi$ mit $|\Pi| \leq 2^{p(n)}$ Sinn.
+
+Offensichtlich ist $\mathit{IP} \subseteq \mathit{PCP}$.
+Die Umkehrung ist fraglich, denn $\mathit{PCP} = \ComplexityClassNEXP$. Warum
+ist nicht offensichtlich $\mathit{PCP} \subseteq \mathit{IP}$.
+
+Einschränkungen:
+\begin{itemize}
+    \item $\mathit{PCP}(\psi(n), q(n)) = \{ L | \exists \mathit{PCP}
+            \text{ Verifier } V $, der bei Eingabe $x$ nur $\bigO(\psi(|x|))$
+            Zufallsbits verwendet und $\bigO(q(|x|))$ Anfragen stellt.
+            $\}$
+\end{itemize}
+
+
+
+\begin{satz}
+    \textbf{PCP-Theorem}
+
+    $\ComplexityClassNP = \mathit{PCP}(\log(n), 1)$
+
+    $c * \log(n)$ Zufallsbits
+    \\
+    $d$ Fragen
+    \\
+    Insgesamt $2^{c * \log(n)} * d = n^c * d = poly(n)$
+
+    Der Beweis hat polynomielle Größe, kann also geraten werden.
+    \\
+    $\Rightarrow P(P(\log(n), 1)) \subseteq \ComplexityClassNP$
+
+\end{satz}
+
+
+Im Buch ist ein Beweis von
+$\ComplexityClassNP \subseteq \mathit{PCP}(poly(n), 1)$
+
+
+
+
+
+
+
+
+\textbf{ Problem MAX-CLIQUE-APPROX }
+
+Gegeben ein Graph $G = (V, E)$.
+
+Man berechne eine Clique in $G$, die mindestens halb so groß ist, wie die
+maximale Clique.
+Das Problem nennt man MAX-CLIQUE-APPROX (MCA).
+
+
+\begin{satz}
+    Falls $\ComplexityClassP \neq \ComplexityClassNP$, dann gibt es keinen
+    polynomiellen Algorthmus für das Problem MAX-CLIQUE-APPROX.
+\end{satz}
+
+\begin{beweis}
+    Wir geben uns einen $\mathit{PCP}(\log(n), 1)$ Verifier $V$ für SAT vor.
+    Außerdem einen hypothetischen Polynomialzeit-Algorithmus für MCA.
+
+    Daraus bauen wir ein Polynomialzeit-Entscheidungsverfahren für SAT.
+
+    Sei 3KNF $x$ vorgelegt.
+    Es werden $d = \bigO(\log(|x|))$ Zufallsbits verwendet und $t = \bigO(1)$
+    Fragen gestellt.
+
+    Transcript:
+    $(r, q_1, a_1, q_2, a_2, \dots q_t, a_t)$,
+    wobei $r$ die Zufallsbits und $q_i$ die Fragen sind.
+    Dieses Transcript beschreibt einen möglichen Lauf der Berechnung von $V$.
+
+    Nachdem $V$ eine Turingmaschine ist, hängen die $q_i$ nur ab von $r$ und
+    $a_1 \dots a_t$.
+    Gültige Transcripts sind nur solche, die tatsächlich durch $V$ in
+    Erscheinung treten.
+    Die Anzahl der Transcripts ist $2^d * 2^t = poly(n)$.
+
+    Bilde Graphen $G = (V, E)$, wobei $V$ die Menge der Transcripts und $E$ die
+    Konsistenz der Transcripts ist.
+
+    $(r, q_1, a_1, q_2, a_2, \dots q_t, a_t)$ und
+    $(r', q_1', a_1', q_2', a_2', \dots q_t', a_t')$
+    sind konsistent, wenn $q_i = q_i' \Rightarrow a_i = a_i'$.
+
+    Jeder funktionierende Beweis $\Pi$ liefert eine Clique der Größe $\geq 0.75
+    * 2^d$, wobei $d$ so in etwa $\bigO(\log(i))$ ist oder so.
+    \\
+    Umgekehrt gibt es keinen Beweis mit Akzeptanzwahrscheinlichkeit $\geq 25\%$,
+    dann gibt es keine Clique $\geq 0.25 * 2^d$.
+
+    Mit dem hypothetischen Algorthmus für MCA berechnet man eine Clique, die
+    mindestens halb so groß wie die größte Clique ist.
+    Falls $> 0.5 * 0.75 * 2^d = 0.375 * 2^d$, dann akzeptieren, sonst verwerfen.
+
+\end{beweis}
+
+
+
+
+
+
+\textbf{Schaltkreiskomplexität}
+
+Schaltkreise aus UND-, ODER-Gattern. NICHT-Gatter stellen
+
+XOR mit NAND gebaut:
+\url{https://www.circuitlab.com/circuit/5m6zgn/xor-gate-with-nand-gates/}
+
+
+UND-Gatter gefolgt von UND können verschmolzen werden. ODER-Gatter auch. (Also
+mehr Eingänge statt hintereinander stecken.)
+
+Daher können wir Schaltkreise als geschichtet annehmen, wobei jede Schicht
+Gatter derselben Art enthält und UND, ODER abwechseln.
+
+Die Größe eines Schaltkreises ist die Anzahl der Gatter.
+\\
+Die Tiefe eines Schaltkreises ist die Anzahl der Schichten.
+
+
+DNF:\\
+Tiefe 3 genügt, wenn man exponentielle Größe in Kauf nimmt.
+
+
+Satz: First-Save-Sipser oder so:\\
+Paritätsfunktion ($\Sigma \mod 2$) kann nicht mit polynomieller Größe und
+konstanter Tiefe berechnet werden.
+\\
+(Tiefe $\log n$ leicht: Binärbaum aus XOR).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 % chapter probabilistische_algorithmen (end)
 
 %%% Local Variables:
