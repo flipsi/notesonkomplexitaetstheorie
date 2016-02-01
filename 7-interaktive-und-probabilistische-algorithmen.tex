@@ -445,7 +445,7 @@ $P_1 (V \leftrightarrow P$ auf $x$ akzeptiert) $\leq 25\%$.
 
 Evidenz für IP ``$\supsetneqq$'' $NP$.
 
-Sei $G$ das Problem Graph-Isomorphismus. Offensichtligh $GI \in NP$ Isomorphismus vorlgegen.
+Sei $G$ das Problem Graph-Isomorphismus. Offensichtlich $GI \in NP$ Isomorphismus vorlgegen.
 
 Man weiß nicht ob $\overline{GI} \in NP$.
 
@@ -895,7 +895,8 @@ Gatter derselben Art enthält und UND, ODER abwechseln.
 
 Die Größe eines Schaltkreises ist die Anzahl der Gatter.
 \\
-Die Tiefe eines Schaltkreises ist die Anzahl der Schichten.
+Die Tiefe eines Schaltkreises ist die Anzahl der Schichten
+(Länge des längsten Pfades von Blatt zu Wurzel).
 
 
 DNF:\\
@@ -912,6 +913,230 @@ konstanter Tiefe berechnet werden.
 
 
 
+
+
+
+
+
+
+
+
+\datum{01.02.16}
+
+
+
+\textbf{Random Fact für Übung}
+
+$(1-a)^n \geq 1 - an$ für $a \geq 0$
+
+
+
+\textbf{zu Schaltkreisen}
+
+Man kann Schaltkreise o.B.d.A nur aus $\land$ und $\lor$ bauen.
+
+\begin{itemize}
+    \item
+        $AC_0$: konstante Tiefe, polynomielle Größe (polynomiell in $n$, der Anzahl der Variablen).
+    \item
+        $NC_0$: Wie $AC_0$ aber Fan-In $= 2$.
+    \item
+        $AC_k$: Tiefe in $\bigO((\log n)^k)$, polynomielle Größe
+    \item
+        $NC_k$: Wie $AC_k$ aber Fan-In $= 2$.
+\end{itemize}
+
+$AC_k \subseteq \ComplexityClassP$, sogar wenn polynomielle Tiefe erlaubt wäre.
+
+$AC_k \subseteq NC_{k+1}$: Ersetze UND-Kette (Länge $n^d$) durch UND-Baum (Tiefe $\bigO(\log n))$.
+
+$NC_k \subseteq AC_k$
+
+
+
+\begin{satz}
+    \textbf{Furst-Saxe-Sipser}
+
+    $\text{PARITY} \notin AC_0$
+
+    $\text{PARITY}(x_1 \dots x_n) =
+    \begin{cases}
+        1   & , \text{falls } x_1 + \dots x_n \mod 2 = 1 \\
+        0   & , sonst
+    \end{cases}
+    $
+
+    Offensichtlich $\text{PARITY} \in NC_1$:
+    Binärbaum aus XOR-Gattern der Tiefe $\log n$.
+    XOR durch 4 NAND-Gatter ersetzen usw. liefert Behauptung.
+
+
+\end{satz}
+
+\begin{beweis}
+    \textbf{von Razborow-Smolerity oder sowas keine Ahnung}
+
+    Ausgangspunkt:
+    Darstellung von Schaltkreisen durch Polynome:
+    \begin{itemize}
+        \item $[x] = x$
+        \item $[\neg x] = 1 - x$
+        \item $[s_1 \land \dots \land s_d] = [s_1] * [s_2] * \dots * [s_d]$
+        \item $[s_1 \lor \dots \lor s_d] = 1 - (1 - [s_1]) * \dots * (1 - [s_d])$
+        \item $s(\eta) = [s](\eta) \forall \eta \in \{0,1\}^n$
+    \end{itemize}
+    Jede Funktion aus $AC_0$ kann also durch ein Polynom dargestellt werden mit
+    Grad $poly(n)$.
+    \\
+    $poly(n)^t = poly(n)$ falls $t$ konstant.
+    \\
+    Dies gilt also auch für $\text{PARITY}$ falls $\text{PARITY} \in AC_0$, aber
+    daraus lässt sich noch kein Widerspruch ableiten.
+    \\
+    Es gilt aber auch: $\forall s \in AC_0: \exists \text{ Polynom } p_s: Grad
+    \frac{1}{2}\sqrt{n} \land s(\eta) = p_s(\eta) \text{ für } 90\% \text{ der }
+    \eta \in \{0,1\}^n$.
+
+    Gute Approximation der $v$-Funktion auf $n$ Variablen und kleinem Grad:
+    $S_0 = \{1, \dots n\}$
+    \\
+    $S_0 \supseteq S_1 \supseteq  S_2 \supseteq  S_3 \dots \supseteq S_l  $
+    \\
+    Teilmengen $S_i$ werden durch Zufallsprozess erzeugt.
+    $P(i \in S_{k+1} \ |\ i \in S_k) = \frac{1}{2}$
+    \\
+    $l = \log(n) + 2$
+    \begin{itemize}
+        \item $S_0 = \{1, 2, 3, 4, 5\}$
+        \item $S_1 = \{1, 2, 5\}$
+        \item $S_2 = \{2, 5\}$
+        \item $S_3 = \{2\}$
+        \item $S_x = \emptyset$
+    \end{itemize}
+    Mit diesen $S_0, S_1 \dots S_{\log(n)+2}$ (durch Zufallsprozess gebildet.)
+    wird jetzt folgendes Polynom konstruiert:
+    $q(x_1 \dots x_n) = 1 - (1 - q_0(x)) (1 - q_1(x)) \dots (1 - q_l(x))$
+    \\
+    $q_i(x_1 \dots x_n) = \Sigma_{j \in S_i} = x_j$
+    z.B. $q(x_1 \dots x_5) = 1 - (1 - (x_1 + x_2 + x_3 + x_4 + x_5)) (1 - (x_1 +
+    x_2 + x_5)) (1 - (x_2 + x_5)) (1 - x_2)$
+    \\
+    Falls alle $x_i$˘Null ist, so ist $q(x) = 0$.
+
+    Sei jetzt $T = \{i | x_i \neq 0 \}$ z.B. $T = \{2,5\}$.
+    Im Beispiel ist dann tatsächlich $q_(x) = 1$.
+    Für $T' = \{3,4\}$ allerdings ergibt sich $q(x_1 \dots x_5) = 2$.
+    \\
+    Für $x_i \in \{0,1\}$ gilt $q(x_1 \dots x_n) = x_1 \lor \dots \lor x_n$
+    falls entweder $T = \emptyset$ oder ein $i \leq l$ existiert mit $| S_i \cap
+    T | = 1$,
+    dann ist $q_i(x) = 1$.
+
+    Die Wahrscheinlichkeit, dass das passiert, ist $\geq \frac{1}{2}$, wenn
+    mindestens ein $x_i = 1$.
+    \\
+    $P(|S_l \cap T| > 1) \leq P(|S_l \cap T| \geq 1) \leq P(|S_l| \geq 1) \leq n
+    * 2^l = n * 2^{-\log(x) + 2} \leq \frac{1}{4}$
+    \\
+    Mit Wahrscheinlichkeit $\geq \frac{3}{4}: |S_l \cap T| \leq 1$
+    \\
+    Entweder ist $S_0 \cap T| = |T| = 1$ (sowieso günstig) oder $S_0 \cap T| >
+    1$ und $|S_i \cap T| \leq 1$.
+    \\
+    $P(|S_i \cap T| = 1) = P('=1' | '\leq 1') = P('=1') / P('\leq 1') = t *
+    2^{-t} / (2^{-t} + t * 2^{-t}) = t / (1 + t) \geq 2/3$
+    \\
+    $t = |S_{i-1} \cap T|$
+    \\
+    Insgesamt $\frac{3}{4} * \frac{2}{3} = \frac{1}{2}$
+
+    $q$ zufällig konstruiert.
+
+    Gegeben $x$: Falls $x = 0$, dann ist $q(x) = 0$, falls $x = \neq 0$, dann
+    ist $P(q(x) = 1) \geq \frac{1}{2}$.
+
+    Konstruiere jetzt $s \in \N$ viele solche Polynome $q^{(1)} \dots q^{(s)}$
+    und bilde
+    $q'(x) = 1 - (1 - q^{(1)}) (1 - q^{(2)}) \dots (1 - q^{(s)})$
+    \\
+    $Grad(q') = s * Grad(q) = s * (\log(n) + 2)$
+    Fehlerwahrscheinlichkeit für $q'$ ist $2^{-s} \leq \epsilon$ falls $s =
+    \log(\frac{1}{\epsilon})$.
+
+    Gegeben Schaltkreis mit konstanter Tiefe $t$ und Größe $S = poly(n)$.
+    Ersetze jedes Gatter durch so ein Zufallspolynom mit
+    Fehlerwahrscheinlichkeit $\leq \epsilon$ also Grad $\log(\frac{1}{\epsilon})
+    * (\log(n) + 2)$.
+    Daraus resultiert ein Polynom vom Grad $(\log(\frac{1}{\epsilon}) * \log(n)
+    + 2)^t $ und Fehlerwahrscheinlichkeit $1 - (1 - \epsilon)^S \leq S:\in$
+    %% TODO DAFUQ
+
+    Gewünschte Fehlerwahrscheinlichkeit ist $\leq 10\%$, $\epsilon \leq
+    \frac{0.1}{S}$
+    Also Grad es Polynoms $(\log(\frac{S}{0.1}) * (\log(n) + 2))^t$
+    \\
+    Wenn $s = poly(n)$ und $t = \bigO(1)$, dann $\log(n)^k$ für große $n$ und
+    festes $k$.
+    \\
+    $\log(n^d) = d * \log(n)$
+    \\
+    Es gibt also auch mindestens eine Wahl der Zufallsentscheidungen, die für
+    mindestens 90\% aller Eingaben günstig ist. Test-Verdrahten liefert festes
+    Polynom $q$ vom Grad $\log(n) \bigO(1)$, welches auf mindestens 90\% der
+    Eingaben richtig ist.
+
+    Lalalalala
+
+    Wenn jetzt $\text{PARITY } \in AC_0$, gäbe es $q'(x_1 \dots x_n)$ mit Grad
+    $\frac{\sqrt{n}}{2}$, sodass für große $n$ und $S' = \{x_1 \dots x_n) |
+        q'(x_1 \dots x_n) = \text{ PARITY }(x_1 \dots x_n) \}$ erfüllt $|S'|
+        \geq 0.9 * 2^n$.
+
+
+    \textbf{Fourier-Repräsentation}
+
+    \begin{itemize}
+        \item true ist -1
+        \item false ist 1
+    \end{itemize}
+    Warum auch nicht.
+
+    Wir rechnen jetzt $q'$ auf die Fourier-Repräsentation um mit $q$
+    \\
+    $q(x_1 \dots x_n) = 1 - 2 * q'(\frac{1-x_1}{2}, \frac{1-x_2}{2}, \dots
+    \frac{1-x_n}{2})$ und der Grad ist $q = \frac{\sqrt{n}}{2}$.
+    \\
+    $S = \{(x_1 \dots x_n) | x \in \{-1,1\}^n . q(x) = x_1 * \dots * x_n \}$
+    erfüllt $|S| \geq 0.9 * 2^n$.
+    \\
+    O.B.d.A. kann $q$ als multilinear vorausgesetzt werden.
+    Jede Variablenbelegung nur in Potenz 1 (Also ein $x_i$ mehrfach ist böse),
+    denn auf $\{-1, 1\}$ ist $x^2 = 1$.
+    \\
+    Zu jedem multilinearem Polynom $p(x_1 \dots x_n)$ kann mithilfe von $q$ ein
+    Polynom $p'$ konstruiert werden, welches mit $p$ auf ganz $S$ übereinstimmt,
+    aber Grad $\frac{n}{2} + \frac{\sqrt{n}}{2}$ hat:
+    Ersetze Monom $\Pi_{i \in M} x_i: M \subseteq \{1, \dots n\}$ mit $|M| \geq
+    \frac{n}{2}$ durch $q(x) * \Pi_{i \notin M} x_i$.
+
+
+\end{beweis}
+
+
+
+Sei $U$ der Vektorraum der multilinearen Polynome in $x_1 \dots x_n$ vom Grad
+$\leq \frac{n + \sqrt{n}}{2}$
+\\
+$dim(U) = \Sigma_{i=0}^{(n+\sqrt{n})/2} (n über i) \leq 0.88 * 2^n$ durch die
+Stirling-Approximation. Und das gibt dann, wie man ja offensichtlich sieht - wer
+tut das nicht - einen Widerspruch zu dem Kram davor.
+
+Dann definieren wir noch für $s \in S$ irgendsoein $k_x(x)$, das man per DNF und
+so als multilineares Polynom darstellen kann und wegen der Reduktion gibt es
+dann auch zu jedem $s \in S$ ein multilineares Polynom aus $U$ mit $k_S(x) =
+k'_s(x)$ für alle und die $k$ sind alle linear unabhängig in $U$ und ihre Zahl
+ist $\geq 0.9 * 2^n$ und das können wir jetzt wirklich selber ausrechnen, er hat
+es im Kopf und schreibt es jetzt nicht mehr auf. Joa.
 
 
 
