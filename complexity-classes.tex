@@ -16,6 +16,9 @@
 
 \begin{document}
 
+\pagenumbering{gobble}
+
+
 
 DTM - Deterministic Turing Machine\\
 NTM - Non-deterministic Turing Machine\\
@@ -23,6 +26,7 @@ PT - Probabilistic Turing Machine\\
 PDTM - Deterministic Turing Machine \textit{running in polynomial time}\\
 PNTM - Non-deterministic Turing Machine \textit{running in polynomial time}\\
 PPT - Probabilistic Turing Machine \textit{running in polynomial time}\\
+$n$ - Input length
 
 
 
@@ -54,6 +58,49 @@ $\text{NTIME}(f) = \{
         EXP     &= \bigcup_{k \geq 1} \text{ DTIME}(2^{n^k})
     &   NEXP    &= \bigcup_{k \geq 1} \text{ NTIME}(2^{n^k})
 \end{align*}
+
+
+
+
+
+
+\section*{Space Complexity Classes}
+\label{sec:space_complexity_classes}
+
+
+$\text{DSPACE}(s) = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ DTM } T:
+    T \text{ decides } A \land
+    T \text{ uses } \mathcal{O}(s(n)) \text{ space}
+~\}$
+$\text{NSPACE}(s) = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ NTM } T:
+    T \text{ decides } A \land
+    T \text{ uses } \mathcal{O}(f(n)) \text{ space}
+~\}$
+
+
+\begin{align*}
+    LOGSPACE     &= L =& \text{DSPACE}(\log n)
+    \\
+    NLOGSPACE    &= NL =& \text{NSPACE}(\log n)
+    \\
+    LINSPACE     &=& \text{DSPACE}(n)
+\end{align*}
+\begin{align*}
+        PSPACE          &= \bigcup_{k \geq 1} \text{ DSPACE}(n^k)
+    ~~~~=&  NPSPACE     &= \bigcup_{k \geq 1} \text{ NSPACE}(n^k)
+    \\
+        ESPACE          &= \bigcup_{k \geq 1} \text{ DSPACE}(2^{kn})
+    ~~~~=&  NESPACE     &= \bigcup_{k \geq 1} \text{ NSPACE}(2^{kn})
+    \\
+        EXPSPACE        &= \bigcup_{k \geq 1} \text{ DSPACE}(2^{n^k})
+    ~~~~=&  NEXPSPACE   &= \bigcup_{k \geq 1} \text{ NSPACE}(2^{n^k})
+\end{align*}
+
+
 
 
 
