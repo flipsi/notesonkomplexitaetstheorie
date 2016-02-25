@@ -1,5 +1,5 @@
 \documentclass[
-    14pt,
+    13pt,
     oneside,
     a4paper,
     numbers=enddot,
@@ -17,9 +17,70 @@
 \begin{document}
 
 
-DTM - Deterministic Turing Machine running in polynomial time\\
-NTM - Non-deterministic Turing Machine running in polynomial time\\
-PT - Probabilistic Turing Machine running in polynomial time\\
+DTM - Deterministic Turing Machine\\
+NTM - Non-deterministic Turing Machine\\
+PT - Probabilistic Turing Machine\\
+PDTM - Deterministic Turing Machine \textit{running in polynomial time}\\
+PNTM - Non-deterministic Turing Machine \textit{running in polynomial time}\\
+PPT - Probabilistic Turing Machine \textit{running in polynomial time}\\
+
+
+
+
+\section*{Time Complexity Classes}
+\label{sec:time_complexity_classes}
+
+$\text{DTIME}(f) = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ DTM } T:
+    T \text{ decides } A \land
+    T \text{ runs in } \mathcal{O}(f(n))
+~\}$
+$\text{NTIME}(f) = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ NTM } T:
+    T \text{ decides } A \land
+    T \text{ runs in } \mathcal{O}(f(n))
+~\}$
+
+
+\begin{align*}
+        P       &= \bigcup_{k \geq 1} \text{ DTIME}(n^k)
+    &   NP      &= \bigcup_{k \geq 1} \text{ NTIME}(n^k)
+    \\
+        E       &= \bigcup_{k \geq 1} \text{ DTIME}(2^{kn})
+    &   NE      &= \bigcup_{k \geq 1} \text{ NTIME}(2^{kn})
+    \\
+        EXP     &= \bigcup_{k \geq 1} \text{ DTIME}(2^{n^k})
+    &   NEXP    &= \bigcup_{k \geq 1} \text{ NTIME}(2^{n^k})
+\end{align*}
+
+
+
+
+\section*{Polynomial Hierarchy}
+\label{sec:polynomial_hierarchy}
+
+
+\begin{align*}
+    \Delta^P_0 = \Sigma^P_0 = \Pi^P_0 &= P
+    \\
+        \Delta^P_{k+1} &= P^{\Sigma^P_k}
+    &&  \Delta^P_1 = P ~~~& \Delta^P_2 &= P^{NP}
+    \\
+        \Sigma^P_{k+1} &= NP^{\Sigma^P_k}
+    &&  \Sigma^P_1 = NP ~~~& \Sigma^P_2 &= NP^{NP}
+    \\
+        \Pi^P_{k+1} &= co\text{--}NP^{\Sigma^P_k}
+    &&  \Pi^P_1 = co\text{--}NP ~~~& \Pi^P_2 &= co\text{--}NP^{NP}
+\end{align*}
+
+$ PH = \bigcup_{k \geq 0} \Delta^P_{k}
+     = \bigcup_{k \geq 0} \Sigma^P_{k}
+     = \bigcup_{k \geq 0} \Pi^P_{k} $
+
+
+
 
 \section*{Probabilistic Complexity Classes}
 \label{sec:probabilistic_complexity_classes}
@@ -28,37 +89,37 @@ PT - Probabilistic Turing Machine running in polynomial time\\
 \begin{align*}
     P & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ DTM } T:
+    \exists \text{ PDTM } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) = 1 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
     \\
     NP & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ NTM } T:
+    \exists \text{ PNTM } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
     \\
     PP & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ PT } T:
+    \exists \text{ PPT } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) \leq 0.5 ~\}
     \\
     BPP & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ PT } T:
+    \exists \text{ PPT } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 + \epsilon ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) \leq 0.5 - \epsilon ~\}
     \\
     RP & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ PT } T:
+    \exists \text{ PPT } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
     \\
     ZPP & = \{
     A \in \Sigma^\ast ~|~
-    \exists \text{ PT } T:
+    \exists \text{ PPT } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
     & &                     & \text{ P}(T(x)=\,?\,) < 0.5 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\land \\
