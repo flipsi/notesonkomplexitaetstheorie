@@ -14,9 +14,19 @@
 \usepackage{mathpazo}
 
 
+\renewcommand{\familydefault}{\sfdefault}
+
+
 \begin{document}
 
 \pagenumbering{gobble}
+
+
+
+
+\chapter*{Complexity Classes}
+
+
 
 
 
@@ -92,9 +102,6 @@ $\text{NSPACE}(s) = \{
 \begin{align*}
         PSPACE          &= \bigcup_{k \geq 1} \text{ DSPACE}(n^k)
     ~~~~=&  NPSPACE     &= \bigcup_{k \geq 1} \text{ NSPACE}(n^k)
-    \\
-        ESPACE          &= \bigcup_{k \geq 1} \text{ DSPACE}(2^{kn})
-    ~~~~=&  NESPACE     &= \bigcup_{k \geq 1} \text{ NSPACE}(2^{kn})
     \\
         EXPSPACE        &= \bigcup_{k \geq 1} \text{ DSPACE}(2^{n^k})
     ~~~~=&  NEXPSPACE   &= \bigcup_{k \geq 1} \text{ NSPACE}(2^{n^k})
@@ -174,6 +181,65 @@ $ PH = \bigcup_{k \geq 0} \Delta^P_{k}
 \end{align*}
 
 
+
+
+
+
+\section*{Relations between Complexity Classes}
+\label{sec:relations_between_complexity_classes}
+
+
+
+\subsubsection*{Time Hierarchy Theorem}
+
+$P \subset E \subset EXP$
+
+
+\subsubsection*{Borodin-Trakhtenbrot Gap-Theorem}
+
+$\forall$ total computable function $g$ with $g(n) \geq n$:\\
+$\exists$ total computable function $f:$
+    $ DTIME(f) = DTIME (g \circ f) $
+
+
+
+\subsubsection*{Space Hierarchy Theorem}
+
+$ L \subseteq NL \subset PSPACE \subset EXPSPACE $
+
+$ L \subseteq NL \subseteq P \subseteq NP \subseteq PH \subseteq PSPACE \subseteq EXP$
+
+
+\subsubsection*{Savitch}
+
+$ NSPACE(s(n)) \subseteq DSPACE(s(n)^2)$
+\\
+(compare to $ NTIME(f(n)) \subseteq DTIME(2^{\mathcal{O}(f(n))})$ )
+
+
+\subsubsection*{Immerman-Szelepcsényi}
+
+$s(n) \geq \log(n) \Longrightarrow NSPACE(s(n)) = co\text{--}NSPACE(s(n))$
+
+
+\subsubsection*{Probabilistic World}
+
+\begin{align*}
+    P \subseteq~& ZPP \subseteq & RP \subseteq~& BPP & \subseteq PP \subseteq~& PSPACE
+    \\
+    P \subseteq~& ZPP \subseteq & RP \subseteq~& NP & \subseteq PP \subseteq~& PSPACE
+    \\
+    P \subseteq~& ZPP \subseteq & co\text{--}RP \subseteq~& co\text{--}NP & \subseteq PP \subseteq~& PSPACE
+\end{align*}
+
+$ RP \cap co\text{--}RP = ZPP $
+
+
+\subsubsection*{Misc}
+
+$ DIP = PV = NP \subseteq PH \subseteq PSPACE $
+
+$ P = NP \Longleftrightarrow PH = P $
 
 
 
