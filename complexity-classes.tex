@@ -1,0 +1,72 @@
+\documentclass[
+    14pt,
+    oneside,
+    a4paper,
+    numbers=enddot,
+    abstractoff,
+    parskip=full
+]{scrreprt}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathcomp}
+\usepackage{eulervm}
+\usepackage{mathpazo}
+
+
+\begin{document}
+
+
+DTM - Deterministic Turing Machine running in polynomial time\\
+NTM - Non-deterministic Turing Machine running in polynomial time\\
+PT - Probabilistic Turing Machine running in polynomial time\\
+
+\section*{Probabilistic Complexity Classes}
+\label{sec:probabilistic_complexity_classes}
+
+
+\begin{align*}
+    P & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ DTM } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) = 1 ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
+    \\
+    NP & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ NTM } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) > 0 ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
+    \\
+    PP & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ PT } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) \leq 0.5 ~\}
+    \\
+    BPP & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ PT } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 + \epsilon ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) \leq 0.5 - \epsilon ~\}
+    \\
+    RP & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ PT } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\}
+    \\
+    ZPP & = \{
+    A \in \Sigma^\ast ~|~
+    \exists \text{ PT } T:
+    & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
+    & &                     & \text{ P}(T(x)=\,?\,) < 0.5 ~\land \\
+    & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\land \\
+    & &                     & \text{ P}(T(x)=\,?\,) < 0.5 ~\}
+\end{align*}
+
+
+
+
+
+\end{document}
