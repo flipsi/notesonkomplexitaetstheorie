@@ -175,9 +175,11 @@ $ PH = \bigcup_{k \geq 0} \Delta^P_{k}
     A \in \Sigma^\ast ~|~
     \exists \text{ PPT } T:
     & \forall x \in A:      & \text{ P}(T(x)=1) > 0.5 ~\land \\
-    & &                     & \text{ P}(T(x)=\,?\,) < 0.5 ~\land \\
+    & &                     & \text{ P}(T(x)=0) = 0 ~\land \\
+    & &                     & \text{ P}(T(x)=\,?\,) \leq 0.5 ~\land \\
     & & \forall x \notin A: & \text{ P}(T(x)=1) = 0 ~\land \\
-    & &                     & \text{ P}(T(x)=\,?\,) < 0.5 ~\}
+    & &                     & \text{ P}(T(x)=0) > 0.5 ~\land \\
+    & &                     & \text{ P}(T(x)=\,?\,) \leq 0.5 ~\}
 \end{align*}
 
 
@@ -241,6 +243,8 @@ $ RP \cap co\text{--}RP = ZPP $
 $ DIP = PV = NP \subseteq PH \subseteq PSPACE $
 
 $ P = NP \Longleftrightarrow PH = P $
+
+$ NP \neq co\text{--}NP \Longrightarrow P \neq NP $
 
 
 
